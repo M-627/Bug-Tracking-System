@@ -275,7 +275,7 @@ public class projects extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Bugs().setVisible(true);
+                new projects().setVisible(true);
             }
         });
     }
