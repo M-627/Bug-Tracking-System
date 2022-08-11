@@ -42,13 +42,18 @@ public class Login extends javax.swing.JFrame {
         jPanel1.setForeground(new java.awt.Color(0, 0, 0));
         jPanel1.setPreferredSize(new java.awt.Dimension(800, 900));
 
+        userField.setBackground(new java.awt.Color(50, 50, 50));
         userField.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
+        userField.setForeground(new java.awt.Color(133, 89, 165));
+        userField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(109, 177, 147)));
         userField.setPreferredSize(new java.awt.Dimension(500, 50));
 
+        passField.setBackground(new java.awt.Color(50, 50, 50));
         passField.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
+        passField.setForeground(new java.awt.Color(133, 89, 165));
+        passField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(109, 177, 147)));
         passField.setPreferredSize(new java.awt.Dimension(500, 50));
 
-        userLabel.setBackground(new java.awt.Color(51, 0, 153));
         userLabel.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         userLabel.setForeground(new java.awt.Color(109, 177, 147));
         userLabel.setText("Username");
