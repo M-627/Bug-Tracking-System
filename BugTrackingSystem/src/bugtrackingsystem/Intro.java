@@ -30,18 +30,19 @@ public class Intro extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         introProgressBar = new javax.swing.JProgressBar();
         percentage = new javax.swing.JLabel();
-        AhmedKhaled = new javax.swing.JLabel();
-        logo = new javax.swing.JLabel();
-        SystemName = new javax.swing.JLabel();
-        MahmoudEhab = new javax.swing.JLabel();
-        MariamMohamed = new javax.swing.JLabel();
-        p1 = new javax.swing.JLabel();
-        p2 = new javax.swing.JLabel();
-        p3 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Bug Tracking System");
         setUndecorated(true);
+        setPreferredSize(new java.awt.Dimension(550, 400));
 
         jPanel1.setBackground(new java.awt.Color(50, 50, 50));
         jPanel1.setMinimumSize(new java.awt.Dimension(0, 0));
@@ -57,43 +58,43 @@ public class Intro extends javax.swing.JFrame {
         percentage.setForeground(new java.awt.Color(109, 177, 147));
         percentage.setText("%");
 
-        AhmedKhaled.setBackground(new java.awt.Color(207, 222, 231));
-        AhmedKhaled.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
-        AhmedKhaled.setForeground(new java.awt.Color(133, 89, 165));
-        AhmedKhaled.setText("Ahmed Khaled");
+        jLabel1.setBackground(new java.awt.Color(207, 222, 231));
+        jLabel1.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(133, 89, 165));
+        jLabel1.setText("Ahmed Khaled");
 
-        logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/logo.png"))); // NOI18N
-        logo.setPreferredSize(new java.awt.Dimension(190, 190));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/images/logo.png"))); // NOI18N
+        jLabel2.setPreferredSize(new java.awt.Dimension(190, 190));
 
-        SystemName.setBackground(new java.awt.Color(207, 222, 231));
-        SystemName.setFont(new java.awt.Font("Comic Sans MS", 1, 24)); // NOI18N
-        SystemName.setForeground(new java.awt.Color(133, 89, 165));
-        SystemName.setText("Bug Tracking System");
+        jLabel4.setBackground(new java.awt.Color(207, 222, 231));
+        jLabel4.setFont(new java.awt.Font("Comic Sans MS", 1, 24)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(133, 89, 165));
+        jLabel4.setText("Bug Tracking System");
 
-        MahmoudEhab.setBackground(new java.awt.Color(207, 222, 231));
-        MahmoudEhab.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
-        MahmoudEhab.setForeground(new java.awt.Color(133, 89, 165));
-        MahmoudEhab.setText("Mahmoud Ehab");
+        jLabel5.setBackground(new java.awt.Color(207, 222, 231));
+        jLabel5.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(133, 89, 165));
+        jLabel5.setText("Mahmoud Ehab");
 
-        MariamMohamed.setBackground(new java.awt.Color(207, 222, 231));
-        MariamMohamed.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
-        MariamMohamed.setForeground(new java.awt.Color(133, 89, 165));
-        MariamMohamed.setText("Mariam Mohamed");
+        jLabel7.setBackground(new java.awt.Color(207, 222, 231));
+        jLabel7.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(133, 89, 165));
+        jLabel7.setText("Mariam Mohamed");
 
-        p1.setBackground(new java.awt.Color(207, 222, 231));
-        p1.setFont(new java.awt.Font("Comic Sans MS", 1, 24)); // NOI18N
-        p1.setForeground(new java.awt.Color(133, 89, 165));
-        p1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/person intro.png"))); // NOI18N
+        jLabel8.setBackground(new java.awt.Color(207, 222, 231));
+        jLabel8.setFont(new java.awt.Font("Comic Sans MS", 1, 24)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(133, 89, 165));
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/images/person intro.png"))); // NOI18N
 
-        p2.setBackground(new java.awt.Color(207, 222, 231));
-        p2.setFont(new java.awt.Font("Comic Sans MS", 1, 24)); // NOI18N
-        p2.setForeground(new java.awt.Color(133, 89, 165));
-        p2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/person intro.png"))); // NOI18N
+        jLabel9.setBackground(new java.awt.Color(207, 222, 231));
+        jLabel9.setFont(new java.awt.Font("Comic Sans MS", 1, 24)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(133, 89, 165));
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/images/person intro.png"))); // NOI18N
 
-        p3.setBackground(new java.awt.Color(207, 222, 231));
-        p3.setFont(new java.awt.Font("Comic Sans MS", 1, 24)); // NOI18N
-        p3.setForeground(new java.awt.Color(133, 89, 165));
-        p3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/person intro.png"))); // NOI18N
+        jLabel10.setBackground(new java.awt.Color(207, 222, 231));
+        jLabel10.setFont(new java.awt.Font("Comic Sans MS", 1, 24)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(133, 89, 165));
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/images/person intro.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -101,7 +102,7 @@ public class Intro extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(SystemName)
+                .addComponent(jLabel4)
                 .addGap(151, 151, 151))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
@@ -110,20 +111,20 @@ public class Intro extends javax.swing.JFrame {
                         .addComponent(introProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 518, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 8, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(p2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(AhmedKhaled, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(36, 36, 36)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(p1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(MahmoudEhab)))
+                                .addComponent(jLabel5)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(p3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(MariamMohamed, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -134,19 +135,19 @@ public class Intro extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(SystemName)
+                .addComponent(jLabel4)
                 .addGap(18, 18, 18)
-                .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(p2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(AhmedKhaled, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(p3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(MariamMohamed, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(p1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(MahmoudEhab, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(percentage)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -191,16 +192,16 @@ public class Intro extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel AhmedKhaled;
-    private javax.swing.JLabel MahmoudEhab;
-    private javax.swing.JLabel MariamMohamed;
-    private javax.swing.JLabel SystemName;
     private javax.swing.JProgressBar introProgressBar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel logo;
-    private javax.swing.JLabel p1;
-    private javax.swing.JLabel p2;
-    private javax.swing.JLabel p3;
     private javax.swing.JLabel percentage;
     // End of variables declaration//GEN-END:variables
 }
