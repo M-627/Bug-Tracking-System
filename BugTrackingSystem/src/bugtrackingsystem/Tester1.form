@@ -50,17 +50,17 @@
               <Group type="102" alignment="0" attributes="0">
                   <Component id="SidePanel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                  <Component id="TopPanel" pref="1026" max="32767" attributes="0"/>
+                  <Component id="jPanel1" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
+              <Component id="SidePanel" max="32767" attributes="0"/>
               <Group type="102" attributes="0">
-                  <Component id="TopPanel" min="-2" max="-2" attributes="0"/>
+                  <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
               </Group>
-              <Component id="SidePanel" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -89,27 +89,27 @@
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="77" max="-2" attributes="0"/>
-                              <Component id="testerLogo4" min="-2" max="-2" attributes="0"/>
+                              <Component id="LogoutLogo" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="testerName4" min="-2" pref="105" max="-2" attributes="0"/>
+                              <Component id="Logout" min="-2" pref="105" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="testerLogo2" min="-2" pref="82" max="-2" attributes="0"/>
+                                      <Component id="ProjectLogo" min="-2" pref="82" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="testerName2" max="32767" attributes="0"/>
+                                      <Component id="Project" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="testerLogo1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="Dashlogo" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="testerName1" min="-2" pref="178" max="-2" attributes="0"/>
+                                      <Component id="DashBoard" min="-2" pref="178" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="testerLogo3" min="-2" pref="82" max="-2" attributes="0"/>
+                                      <Component id="BugLogo" min="-2" pref="82" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="testerName3" min="-2" pref="178" max="-2" attributes="0"/>
+                                      <Component id="Bugs" min="-2" pref="178" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -128,23 +128,23 @@
                       </Group>
                       <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="testerLogo1" alignment="0" max="32767" attributes="0"/>
-                          <Component id="testerName1" alignment="0" min="-2" pref="78" max="-2" attributes="0"/>
+                          <Component id="Dashlogo" alignment="0" max="32767" attributes="0"/>
+                          <Component id="DashBoard" alignment="0" min="-2" pref="78" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="testerLogo2" alignment="0" max="32767" attributes="0"/>
-                          <Component id="testerName2" alignment="0" min="-2" pref="78" max="-2" attributes="0"/>
+                          <Component id="ProjectLogo" alignment="0" max="32767" attributes="0"/>
+                          <Component id="Project" alignment="0" min="-2" pref="78" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="testerLogo3" alignment="0" max="32767" attributes="0"/>
-                          <Component id="testerName3" alignment="0" min="-2" pref="78" max="-2" attributes="0"/>
+                          <Component id="BugLogo" alignment="0" max="32767" attributes="0"/>
+                          <Component id="Bugs" alignment="0" min="-2" pref="78" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="82" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="testerLogo4" min="-2" pref="63" max="-2" attributes="0"/>
-                          <Component id="testerName4" min="-2" pref="51" max="-2" attributes="0"/>
+                          <Component id="LogoutLogo" min="-2" pref="63" max="-2" attributes="0"/>
+                          <Component id="Logout" min="-2" pref="51" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="110" max="32767" attributes="0"/>
                   </Group>
@@ -155,7 +155,7 @@
             <Component class="javax.swing.JLabel" name="testerName">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Times New Roman" size="24" style="0"/>
+                  <Font name="Times New Roman" size="30" style="1"/>
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="a5" green="59" red="96" type="rgb"/>
@@ -170,14 +170,14 @@
                 </Property>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="testerLogo1">
+            <Component class="javax.swing.JLabel" name="Dashlogo">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/bugtrackingsystem/icons/images/dashboard.png"/>
                 </Property>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="testerName1">
+            <Component class="javax.swing.JLabel" name="DashBoard">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Times New Roman" size="30" style="1"/>
@@ -188,14 +188,14 @@
                 <Property name="text" type="java.lang.String" value="Dashboard"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="testerLogo2">
+            <Component class="javax.swing.JLabel" name="ProjectLogo">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/bugtrackingsystem/icons/images/projects.png"/>
                 </Property>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="testerName2">
+            <Component class="javax.swing.JLabel" name="Project">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Times New Roman" size="30" style="1"/>
@@ -206,14 +206,14 @@
                 <Property name="text" type="java.lang.String" value="Projects"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="testerLogo3">
+            <Component class="javax.swing.JLabel" name="BugLogo">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/bugtrackingsystem/icons/images/bugs.png"/>
                 </Property>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="testerName3">
+            <Component class="javax.swing.JLabel" name="Bugs">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Times New Roman" size="30" style="1"/>
@@ -224,14 +224,14 @@
                 <Property name="text" type="java.lang.String" value="Bugs"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="testerLogo4">
+            <Component class="javax.swing.JLabel" name="LogoutLogo">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/bugtrackingsystem/icons/images/logout.png"/>
                 </Property>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="testerName4">
+            <Component class="javax.swing.JLabel" name="Logout">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Times New Roman" size="30" style="1"/>
@@ -244,27 +244,32 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="TopPanel">
+        <Container class="javax.swing.JPanel" name="jPanel1">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="32" green="32" red="32" type="rgb"/>
+            </Property>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[340, 62]"/>
+              <Dimension value="[1026, 60]"/>
             </Property>
           </Properties>
 
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="352" pref="352" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="212" max="-2" attributes="0"/>
                       <Component id="SystemName" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="569" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="16" pref="16" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="SystemName" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="14" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
