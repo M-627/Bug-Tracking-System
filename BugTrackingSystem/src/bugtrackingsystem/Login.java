@@ -31,10 +31,10 @@ public class Login extends javax.swing.JFrame {
         forgotLabel = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         Logo = new javax.swing.JLabel();
-        userLabel1 = new javax.swing.JLabel();
-        userLabel2 = new javax.swing.JLabel();
-        rSMaterialButtonCircle1 = new necesario.RSMaterialButtonCircle();
-        jCTextField1 = new app.bolivia.swing.JCTextField();
+        passLogo = new javax.swing.JLabel();
+        userLogo = new javax.swing.JLabel();
+        LoginButton = new necesario.RSMaterialButtonCircle();
+        UserTextField = new app.bolivia.swing.JCTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -82,35 +82,35 @@ public class Login extends javax.swing.JFrame {
         jLabel1.setText("Enter Your Credentials");
         jLabel1.setPreferredSize(new java.awt.Dimension(500, 50));
 
-        Logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/images/logo login.png"))); // NOI18N
+        Logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/logo login.png"))); // NOI18N
 
-        userLabel1.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        userLabel1.setForeground(new java.awt.Color(109, 177, 147));
-        userLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/images/password.png"))); // NOI18N
-        userLabel1.setPreferredSize(new java.awt.Dimension(210, 30));
+        passLogo.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
+        passLogo.setForeground(new java.awt.Color(109, 177, 147));
+        passLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/password.png"))); // NOI18N
+        passLogo.setPreferredSize(new java.awt.Dimension(210, 30));
 
-        userLabel2.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        userLabel2.setForeground(new java.awt.Color(109, 177, 147));
-        userLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/images/person intro.png"))); // NOI18N
-        userLabel2.setPreferredSize(new java.awt.Dimension(210, 30));
+        userLogo.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
+        userLogo.setForeground(new java.awt.Color(109, 177, 147));
+        userLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/person intro.png"))); // NOI18N
+        userLogo.setPreferredSize(new java.awt.Dimension(210, 30));
 
-        rSMaterialButtonCircle1.setBackground(new java.awt.Color(133, 89, 165));
-        rSMaterialButtonCircle1.setForeground(new java.awt.Color(50, 50, 50));
-        rSMaterialButtonCircle1.setText("Login");
-        rSMaterialButtonCircle1.addActionListener(new java.awt.event.ActionListener() {
+        LoginButton.setBackground(new java.awt.Color(133, 89, 165));
+        LoginButton.setForeground(new java.awt.Color(50, 50, 50));
+        LoginButton.setText("Login");
+        LoginButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rSMaterialButtonCircle1ActionPerformed(evt);
+                LoginButtonActionPerformed(evt);
             }
         });
 
-        jCTextField1.setBackground(new java.awt.Color(50, 50, 50));
-        jCTextField1.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(109, 177, 147)));
-        jCTextField1.setForeground(new java.awt.Color(133, 89, 165));
-        jCTextField1.setPhColor(new java.awt.Color(109, 177, 147));
-        jCTextField1.setPlaceholder("Enter your username...\n");
-        jCTextField1.addActionListener(new java.awt.event.ActionListener() {
+        UserTextField.setBackground(new java.awt.Color(50, 50, 50));
+        UserTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(109, 177, 147)));
+        UserTextField.setForeground(new java.awt.Color(133, 89, 165));
+        UserTextField.setPhColor(new java.awt.Color(109, 177, 147));
+        UserTextField.setPlaceholder("Enter your username...\n");
+        UserTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCTextField1ActionPerformed(evt);
+                UserTextFieldActionPerformed(evt);
             }
         });
 
@@ -123,8 +123,8 @@ public class Login extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(78, 78, 78)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(userLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
-                            .addComponent(userLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                            .addComponent(userLogo, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
+                            .addComponent(passLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(forgotLabel)
@@ -132,13 +132,13 @@ public class Login extends javax.swing.JFrame {
                             .addComponent(userLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(passField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jCTextField1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(239, 239, 239)
-                        .addComponent(Logo))
+                            .addComponent(UserTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(265, 265, 265)
-                        .addComponent(rSMaterialButtonCircle1, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(LoginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(239, 239, 239)
+                        .addComponent(Logo, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -152,18 +152,18 @@ public class Login extends javax.swing.JFrame {
                 .addComponent(userLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(userLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(userLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(UserTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(passLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(userLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(passLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(passField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(forgotLabel)
                 .addGap(18, 18, 18)
-                .addComponent(rSMaterialButtonCircle1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(LoginButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(130, 130, 130))
         );
 
@@ -195,13 +195,13 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_forgotLabelMouseClicked
 
-    private void rSMaterialButtonCircle1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle1ActionPerformed
+    private void LoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_rSMaterialButtonCircle1ActionPerformed
+    }//GEN-LAST:event_LoginButtonActionPerformed
 
-    private void jCTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCTextField1ActionPerformed
+    private void UserTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UserTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCTextField1ActionPerformed
+    }//GEN-LAST:event_UserTextFieldActionPerformed
     public static void main(String args[]) {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -233,16 +233,16 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private necesario.RSMaterialButtonCircle LoginButton;
     private javax.swing.JLabel Logo;
+    private app.bolivia.swing.JCTextField UserTextField;
     private javax.swing.JLabel forgotLabel;
-    private app.bolivia.swing.JCTextField jCTextField1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField passField;
     private javax.swing.JLabel passLabel;
-    private necesario.RSMaterialButtonCircle rSMaterialButtonCircle1;
+    private javax.swing.JLabel passLogo;
     private javax.swing.JLabel userLabel;
-    private javax.swing.JLabel userLabel1;
-    private javax.swing.JLabel userLabel2;
+    private javax.swing.JLabel userLogo;
     // End of variables declaration//GEN-END:variables
 }
