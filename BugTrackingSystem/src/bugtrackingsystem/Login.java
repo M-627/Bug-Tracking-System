@@ -5,6 +5,8 @@ import java.awt.font.TextAttribute;
 import java.util.Map;
 import java.sql.*;
 import bugtrackingsystem.dataConnection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class Login extends javax.swing.JFrame implements dataConnection {
@@ -37,14 +39,14 @@ public class Login extends javax.swing.JFrame implements dataConnection {
     
     //Filling ACTIVITIES table
     PreparedStatement activity;
-    public void activity()
+    public void activity(String description)
     {
         try
         {
             activity = conObj.prepareStatement("INSERT INTO ACTIVITIES VALUES (?, ?, ?, CURRENT_DATE, CURRENT_TIME)");      
             activity.setString(1, CurrentUser.user);
             activity.setString(2, CurrentUser.role);
-            activity.setString(3, "Logged In");
+            activity.setString(3, description);
             activity.executeUpdate();
         }
         catch (SQLException ex)
@@ -234,7 +236,35 @@ public class Login extends javax.swing.JFrame implements dataConnection {
     }//GEN-LAST:event_forgotLabelMouseExited
 
     private void forgotLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forgotLabelMouseClicked
-        // TODO add your handling code here:
+        String frgtnUser = JOptionPane.showInputDialog(rootPane, "Enter your username:");
+        try
+        {
+            getConnected();
+            while (resObj.next())
+            {
+                if (frgtnUser.equals(resObj.getString("USERNAME")))
+                {
+                    String frgtnRole = resObj.getString("ROLE");
+                    new CurrentUser(frgtnUser, frgtnRole);
+                    activity("Requested password reset");
+                }
+            }
+        }
+        catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        finally
+        {
+            try
+            {
+                if(smtObj != null)
+                    smtObj.close();
+            }
+            catch(SQLException e)
+            {
+                System.out.println("Couldn't close query");
+            }
+        }
     }//GEN-LAST:event_forgotLabelMouseClicked
 
     private void LoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButtonActionPerformed
@@ -266,22 +296,22 @@ public class Login extends javax.swing.JFrame implements dataConnection {
                 }
             }
             
-            //Reditection
+            //Redirection
             if (role.equals("A"))
             {
-                activity();
+                activity("Logged in");
                 new Administrator().setVisible(true);
                 this.dispose();
             }
             else if (role.equals("D"))
             {
-                activity();
-                new Dashboard().setVisible(true);
+                activity("Logged in");
+                new DEV_dashboard().setVisible(true);
                 this.dispose();
             }
             else if (role.equals("T"))
             {
-                activity();
+                activity("Logged in");
                 new Tester1().setVisible(true);
                 this.dispose();
             }  
