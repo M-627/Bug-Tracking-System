@@ -5,19 +5,22 @@ import java.awt.font.TextAttribute;
 import java.util.Map;
 import java.sql.*;
 import bugtrackingsystem.dataConnection;
+import javax.swing.JOptionPane;
 
 public class Login extends javax.swing.JFrame implements dataConnection {
 
     Connection conObj = null;
     Statement smtObj = null;
     ResultSet resObj = null;
+    int counter = 0;
     
     public Login() {
         initComponents();
         getConnected();
         this.setLocationRelativeTo(null);
     }
-
+    
+    //Connection Method
     public void getConnected()
     {
         try
@@ -32,6 +35,25 @@ public class Login extends javax.swing.JFrame implements dataConnection {
         }
     }
     
+    //Filling ACTIVITIES table
+    PreparedStatement activity;
+    public void activity()
+    {
+        try
+        {
+            activity = conObj.prepareStatement("INSERT INTO ACTIVITIES VALUES (?, ?, ?, CURRENT_DATE, CURRENT_TIME)");      
+            activity.setString(1, CurrentUser.user);
+            activity.setString(2, CurrentUser.role);
+            activity.setString(3, "Logged In");
+            activity.executeUpdate();
+        }
+        catch (SQLException ex)
+        {
+            System.out.print(ex.getMessage());
+        }
+    }
+    
+    //"Forgot Password?" Font Changer
     Font orgFont;
     private void getFont(java.awt.event.MouseEvent evt)
     {
@@ -238,6 +260,7 @@ public class Login extends javax.swing.JFrame implements dataConnection {
                     {
                         passFound = 1;
                         role = resObj.getString("ROLE");
+                        new CurrentUser(user, role);
                     }
                     break;
                 }
@@ -246,26 +269,71 @@ public class Login extends javax.swing.JFrame implements dataConnection {
             //Reditection
             if (role.equals("A"))
             {
-                
+                activity();
+                new Administrator().setVisible(true);
+                this.dispose();
             }
-            else if (role.equals("A"))
+            else if (role.equals("D"))
             {
-                
+                activity();
+                new Dashboard().setVisible(true);
+                this.dispose();
             }
-            else if (role.equals("A"))
+            else if (role.equals("T"))
             {
-                
+                activity();
+                new Tester1().setVisible(true);
+                this.dispose();
+            }  
+            
+            //Failed login attempts
+            PreparedStatement add;
+            counter++;
+            
+            if (userFound == 0 && passFound == 0)
+            {
+                JOptionPane.showMessageDialog(rootPane, "Incorrect credentials");
+                add = conObj.prepareStatement("INSERT INTO FAILEDLOGINS VALUES (?, ?, CURRENT_DATE, CURRENT_TIME)");
+                add.setString(1, user);
+                add.setString(2, pass);
+                add.executeUpdate();
             }
-            else
+            else if (userFound == 0)
             {
-                
+                JOptionPane.showMessageDialog(rootPane, "Incorrect credentials");
+                add = conObj.prepareStatement("INSERT INTO FAILEDLOGINS VALUES (' ', ?, CURRENT_DATE, CURRENT_TIME)");
+                add.setString(2, pass);
+                add.executeUpdate();
+            }
+            else if (passFound == 0)
+            {
+                JOptionPane.showMessageDialog(rootPane, "Incorrect credentials");
+                add = conObj.prepareStatement("INSERT INTO FAILEDLOGINS VALUES (?, ' ', CURRENT_DATE, CURRENT_TIME)");
+                add.setString(1, user);
+                add.executeUpdate();
+            }
+            if (counter == 5)
+                System.exit(0);
         }
         catch (SQLException ex)
         {
             System.out.println(ex.getMessage());
         }
+        finally
+        {
+            try
+            {
+                if(smtObj != null)
+                    smtObj.close();
+            }
+            catch(SQLException e)
+            {
+                System.out.println("Couldn't close query");
+            }
+        }
     }//GEN-LAST:event_LoginButtonActionPerformed
-    public static void main(String args[]){
+    
+public static void main(String args[]){
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
