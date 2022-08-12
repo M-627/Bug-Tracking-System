@@ -11,6 +11,6 @@ package bugtrackingsystem;
  */
 public interface dataConnection {
     String host = "jdbc:derby://localhost:1527/Bug Tracker System";
-    String uname = "BUG";
+    String uname = "Bug";
     String pass = "12345";
 }

@@ -1,4 +1,5 @@
 
+package bugtrackingsystem;
 import java.awt.Font;
 import java.awt.font.TextAttribute;
 import java.util.Map;
@@ -13,7 +14,7 @@ import java.util.Map;
  *
  * @author ahmed
  */
-public class Bugs extends javax.swing.JFrame {
+public class Bugs extends javax.swing.JFrame{
 
     /**
      * Creates new form Bugs
