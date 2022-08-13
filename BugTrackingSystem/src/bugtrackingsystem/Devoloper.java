@@ -381,7 +381,7 @@ public class Devoloper extends javax.swing.JFrame implements dataConnection {
     private void LogoutLogoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LogoutLogoMouseClicked
         Login y = new Login();
         y.show();
-        dispose();
+       this. dispose();
 // TODO add your handling code here:
     }//GEN-LAST:event_LogoutLogoMouseClicked
 
