@@ -306,7 +306,7 @@ public class Login extends javax.swing.JFrame implements dataConnection {
             else if (role.equals("D"))
             {
                 activity("Logged in");
-                new DEV_dashboard().setVisible(true);
+                new Devoloper().setVisible(true);
                 this.dispose();
             }
             else if (role.equals("T"))

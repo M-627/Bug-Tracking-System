@@ -3,17 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bugtrackingsystem;
 
-import java.awt.Color;
+import bugtrackingsystem.*;
 
 /**
  *
  * @author mariam
  */
-public class DEV_dashboard extends javax.swing.JFrame implements dataConnection {
+public class DEV_projects extends javax.swing.JFrame implements dataConnection {
 
-    public DEV_dashboard() {
+    public DEV_projects() {
         initComponents();
     }
 
@@ -26,6 +25,7 @@ public class DEV_dashboard extends javax.swing.JFrame implements dataConnection 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        backgroundPanel = new javax.swing.JPanel();
         SidePanel = new javax.swing.JPanel();
         testerName = new javax.swing.JLabel();
         testerLogo = new javax.swing.JLabel();
@@ -39,14 +39,13 @@ public class DEV_dashboard extends javax.swing.JFrame implements dataConnection 
         Logout = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         SystemName = new javax.swing.JLabel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel2 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(217, 217, 217));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        backgroundPanel.setBackground(new java.awt.Color(217, 217, 217));
+        backgroundPanel.setPreferredSize(new java.awt.Dimension(1366, 768));
 
         SidePanel.setBackground(new java.awt.Color(50, 50, 50));
         SidePanel.setPreferredSize(new java.awt.Dimension(340, 768));
@@ -57,54 +56,40 @@ public class DEV_dashboard extends javax.swing.JFrame implements dataConnection 
 
         testerLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/person tester.png"))); // NOI18N
 
-        Dashlogo.setBackground(new java.awt.Color(150, 89, 165));
         Dashlogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         Dashlogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/dashboard.png"))); // NOI18N
-        Dashlogo.setOpaque(true);
 
-        DashBoard.setBackground(new java.awt.Color(150, 89, 165));
+        DashBoard.setBackground(new java.awt.Color(59, 59, 59));
         DashBoard.setFont(new java.awt.Font("Times New Roman", 1, 30)); // NOI18N
-        DashBoard.setForeground(new java.awt.Color(50, 50, 50));
+        DashBoard.setForeground(new java.awt.Color(109, 177, 147));
         DashBoard.setText("Dashboard");
         DashBoard.setOpaque(true);
-
-        ProjectLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        ProjectLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/projects.png"))); // NOI18N
-
-        Project.setBackground(new java.awt.Color(50, 50, 50));
-        Project.setFont(new java.awt.Font("Times New Roman", 1, 30)); // NOI18N
-        Project.setForeground(new java.awt.Color(109, 177, 147));
-        Project.setText("Projects");
-        Project.setOpaque(true);
-        Project.addMouseListener(new java.awt.event.MouseAdapter() {
+        DashBoard.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ProjectMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                ProjectMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                ProjectMouseExited(evt);
+                DashBoardMouseClicked(evt);
             }
         });
+
+        ProjectLogo.setBackground(new java.awt.Color(150, 89, 165));
+        ProjectLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ProjectLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/projects.png"))); // NOI18N
+        ProjectLogo.setOpaque(true);
+
+        Project.setBackground(new java.awt.Color(150, 89, 165));
+        Project.setFont(new java.awt.Font("Times New Roman", 1, 30)); // NOI18N
+        Project.setForeground(new java.awt.Color(50, 50, 50));
+        Project.setText("Projects");
+        Project.setOpaque(true);
 
         BugLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         BugLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/bugs.png"))); // NOI18N
 
-        Bugs.setBackground(new java.awt.Color(50, 50, 50));
         Bugs.setFont(new java.awt.Font("Times New Roman", 1, 30)); // NOI18N
         Bugs.setForeground(new java.awt.Color(109, 177, 147));
         Bugs.setText("Bugs");
-        Bugs.setOpaque(true);
         Bugs.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 BugsMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                BugsMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                BugsMouseExited(evt);
             }
         });
 
@@ -117,6 +102,9 @@ public class DEV_dashboard extends javax.swing.JFrame implements dataConnection 
         Logout.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 LogoutMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                LogoutMouseEntered(evt);
             }
         });
 
@@ -173,10 +161,8 @@ public class DEV_dashboard extends javax.swing.JFrame implements dataConnection 
                 .addGroup(SidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(LogoutLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Logout, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(112, Short.MAX_VALUE))
+                .addContainerGap(110, Short.MAX_VALUE))
         );
-
-        getContentPane().add(SidePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 770));
 
         jPanel1.setBackground(new java.awt.Color(50, 50, 50));
         jPanel1.setPreferredSize(new java.awt.Dimension(1026, 60));
@@ -193,7 +179,7 @@ public class DEV_dashboard extends javax.swing.JFrame implements dataConnection 
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(212, 212, 212)
                 .addComponent(SystemName)
-                .addContainerGap(573, Short.MAX_VALUE))
+                .addContainerGap(569, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -203,67 +189,35 @@ public class DEV_dashboard extends javax.swing.JFrame implements dataConnection 
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 0, 1030, -1));
-
-        jTabbedPane1.setBackground(new java.awt.Color(217, 217, 217));
-
-        jPanel2.setBackground(new java.awt.Color(217, 217, 217));
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1025, Short.MAX_VALUE)
+        javax.swing.GroupLayout backgroundPanelLayout = new javax.swing.GroupLayout(backgroundPanel);
+        backgroundPanel.setLayout(backgroundPanelLayout);
+        backgroundPanelLayout.setHorizontalGroup(
+            backgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(backgroundPanelLayout.createSequentialGroup()
+                .addComponent(SidePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 713, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("tab1", jPanel2);
-
-        jPanel3.setBackground(new java.awt.Color(217, 217, 217));
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1025, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 713, Short.MAX_VALUE)
+        backgroundPanelLayout.setVerticalGroup(
+            backgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(SidePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(backgroundPanelLayout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("tab2", jPanel3);
-
-        jPanel4.setBackground(new java.awt.Color(217, 217, 217));
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1025, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 713, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("tab3", jPanel4);
-
-        getContentPane().add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 30, 1030, 740));
+        getContentPane().add(backgroundPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         setSize(new java.awt.Dimension(1384, 815));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void ProjectMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProjectMouseClicked
-DEV_projects y = new DEV_projects();
+    private void DashBoardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DashBoardMouseClicked
+        // TODO add your handling code here:
+        Devoloper y = new Devoloper();
         y.show();
         dispose();
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ProjectMouseClicked
+    }//GEN-LAST:event_DashBoardMouseClicked
 
     private void BugsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BugsMouseClicked
         DEV_bugs y = new DEV_bugs();
@@ -279,31 +233,9 @@ DEV_projects y = new DEV_projects();
         // TODO add your handling code here:
     }//GEN-LAST:event_LogoutMouseClicked
 
-    private void ProjectMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProjectMouseEntered
-        Color haver =Color.decode("#595959");
-       Project.setBackground(haver);
-
+    private void LogoutMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LogoutMouseEntered
         // TODO add your handling code here:
-    }//GEN-LAST:event_ProjectMouseEntered
-
-    private void ProjectMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProjectMouseExited
-        Color haver =Color.decode("#323232");
-       Project.setBackground(haver);
-
-// TODO add your handling code here:
-    }//GEN-LAST:event_ProjectMouseExited
-
-    private void BugsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BugsMouseEntered
-        Color haver =Color.decode("#595959");
-      Bugs.setBackground(haver);
-// TODO add your handling code here:
-    }//GEN-LAST:event_BugsMouseEntered
-
-    private void BugsMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BugsMouseExited
-        Color haver =Color.decode("#323232");
-      Bugs.setBackground(haver);
-// TODO add your handling code here:
-    }//GEN-LAST:event_BugsMouseExited
+    }//GEN-LAST:event_LogoutMouseEntered
 
     /**
      * @param args the command line arguments
@@ -322,14 +254,18 @@ DEV_projects y = new DEV_projects();
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DEV_dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DEV_projects.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DEV_dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DEV_projects.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DEV_dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DEV_projects.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DEV_dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DEV_projects.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -338,7 +274,7 @@ DEV_projects y = new DEV_projects();
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new DEV_dashboard().setVisible(true);
+                new DEV_projects().setVisible(true);
             }
         });
     }
@@ -354,11 +290,8 @@ DEV_projects y = new DEV_projects();
     private javax.swing.JLabel ProjectLogo;
     private javax.swing.JPanel SidePanel;
     private javax.swing.JLabel SystemName;
+    private javax.swing.JPanel backgroundPanel;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel testerLogo;
     private javax.swing.JLabel testerName;
     // End of variables declaration//GEN-END:variables

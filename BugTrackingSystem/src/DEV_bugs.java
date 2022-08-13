@@ -3,15 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bugtrackingsystem;
+
+import bugtrackingsystem.*;
 
 /**
  *
  * @author mariam
  */
-public class DEV_projects extends javax.swing.JFrame implements dataConnection {
+public class DEV_bugs extends javax.swing.JFrame implements dataConnection {
 
-    public DEV_projects() {
+    public DEV_bugs() {
         initComponents();
     }
 
@@ -58,39 +59,37 @@ public class DEV_projects extends javax.swing.JFrame implements dataConnection {
         Dashlogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         Dashlogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/dashboard.png"))); // NOI18N
 
-        DashBoard.setBackground(new java.awt.Color(50, 50, 50));
         DashBoard.setFont(new java.awt.Font("Times New Roman", 1, 30)); // NOI18N
         DashBoard.setForeground(new java.awt.Color(109, 177, 147));
         DashBoard.setText("Dashboard");
-        DashBoard.setOpaque(true);
         DashBoard.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 DashBoardMouseClicked(evt);
             }
         });
 
-        ProjectLogo.setBackground(new java.awt.Color(150, 89, 165));
         ProjectLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         ProjectLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/projects.png"))); // NOI18N
-        ProjectLogo.setOpaque(true);
 
-        Project.setBackground(new java.awt.Color(150, 89, 165));
         Project.setFont(new java.awt.Font("Times New Roman", 1, 30)); // NOI18N
-        Project.setForeground(new java.awt.Color(50, 50, 50));
+        Project.setForeground(new java.awt.Color(109, 177, 147));
         Project.setText("Projects");
-        Project.setOpaque(true);
-
-        BugLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        BugLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/bugs.png"))); // NOI18N
-
-        Bugs.setFont(new java.awt.Font("Times New Roman", 1, 30)); // NOI18N
-        Bugs.setForeground(new java.awt.Color(109, 177, 147));
-        Bugs.setText("Bugs");
-        Bugs.addMouseListener(new java.awt.event.MouseAdapter() {
+        Project.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BugsMouseClicked(evt);
+                ProjectMouseClicked(evt);
             }
         });
+
+        BugLogo.setBackground(new java.awt.Color(150, 89, 165));
+        BugLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        BugLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/bugs.png"))); // NOI18N
+        BugLogo.setOpaque(true);
+
+        Bugs.setBackground(new java.awt.Color(150, 89, 165));
+        Bugs.setFont(new java.awt.Font("Times New Roman", 1, 30)); // NOI18N
+        Bugs.setForeground(new java.awt.Color(50, 50, 50));
+        Bugs.setText("Bugs");
+        Bugs.setOpaque(true);
 
         LogoutLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         LogoutLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/logout.png"))); // NOI18N
@@ -101,9 +100,6 @@ public class DEV_projects extends javax.swing.JFrame implements dataConnection {
         Logout.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 LogoutMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                LogoutMouseEntered(evt);
             }
         });
 
@@ -212,18 +208,18 @@ public class DEV_projects extends javax.swing.JFrame implements dataConnection {
     }// </editor-fold>//GEN-END:initComponents
 
     private void DashBoardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DashBoardMouseClicked
-        // TODO add your handling code here:
-        DEV_dashboard y = new DEV_dashboard();
+       Devoloper y = new Devoloper();
         y.show();
         dispose();
+        // TODO add your handling code here:
     }//GEN-LAST:event_DashBoardMouseClicked
 
-    private void BugsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BugsMouseClicked
-        DEV_bugs y = new DEV_bugs();
+    private void ProjectMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProjectMouseClicked
+        DEV_projects y = new DEV_projects();
         y.show();
         dispose();
         // TODO add your handling code here:
-    }//GEN-LAST:event_BugsMouseClicked
+    }//GEN-LAST:event_ProjectMouseClicked
 
     private void LogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LogoutMouseClicked
         Login y = new Login();
@@ -231,10 +227,6 @@ public class DEV_projects extends javax.swing.JFrame implements dataConnection {
         dispose();
         // TODO add your handling code here:
     }//GEN-LAST:event_LogoutMouseClicked
-
-    private void LogoutMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LogoutMouseEntered
-        // TODO add your handling code here:
-    }//GEN-LAST:event_LogoutMouseEntered
 
     /**
      * @param args the command line arguments
@@ -253,14 +245,18 @@ public class DEV_projects extends javax.swing.JFrame implements dataConnection {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DEV_projects.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DEV_bugs.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DEV_projects.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DEV_bugs.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DEV_projects.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DEV_bugs.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DEV_projects.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DEV_bugs.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -269,7 +265,7 @@ public class DEV_projects extends javax.swing.JFrame implements dataConnection {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new DEV_projects().setVisible(true);
+                new DEV_bugs().setVisible(true);
             }
         });
     }
