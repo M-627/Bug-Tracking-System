@@ -5,6 +5,8 @@
  */
 package bugtrackingsystem;
 
+import java.awt.Color;
+
 /**
  *
  * @author m639a
@@ -16,8 +18,17 @@ public class Administrator extends javax.swing.JFrame {
      */
     public Administrator() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
+    //Color global variables
+    Color black = Color.decode("#323232");
+    Color gray = Color.decode("#3B3B3B");
+    Color green = Color.decode("#6DB193");
+    Color purple = Color.decode("#9659A5");
+    //Global variable to choose tabs
+    int choice = -1;
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -27,48 +38,698 @@ public class Administrator extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
+        sidePanel = new javax.swing.JPanel();
+        profileLabel = new javax.swing.JLabel();
+        usersLabel = new javax.swing.JLabel();
+        activitiesLabel = new javax.swing.JLabel();
+        projectsLabel = new javax.swing.JLabel();
+        bugsLabel = new javax.swing.JLabel();
+        logoutLabel = new javax.swing.JLabel();
+        mainPanel = new javax.swing.JTabbedPane();
+        activitiesPanel = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        omniTable = new javax.swing.JTable();
+        monitorButton = new javax.swing.JLabel();
+        failedButton = new javax.swing.JLabel();
+        searchField = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
+        searchButton = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        usersPanel = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        usersTable = new javax.swing.JTable();
+        projectsPanel = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        projectsTable = new javax.swing.JTable();
+        bugsPanel = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        bugsTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1366, 768));
+        setResizable(false);
         setSize(new java.awt.Dimension(1366, 768));
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 814, Short.MAX_VALUE)
+        sidePanel.setBackground(new java.awt.Color(50, 50, 50));
+        sidePanel.setPreferredSize(new java.awt.Dimension(340, 768));
+
+        profileLabel.setBackground(new java.awt.Color(40, 40, 40));
+        profileLabel.setFont(new java.awt.Font("Times New Roman", 1, 30)); // NOI18N
+        profileLabel.setForeground(new java.awt.Color(133, 89, 165));
+        profileLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        profileLabel.setText("Admin Name");
+        profileLabel.setOpaque(true);
+        profileLabel.setPreferredSize(new java.awt.Dimension(350, 63));
+
+        usersLabel.setBackground(new java.awt.Color(50, 50, 50));
+        usersLabel.setFont(new java.awt.Font("Times New Roman", 1, 27)); // NOI18N
+        usersLabel.setForeground(new java.awt.Color(109, 177, 147));
+        usersLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/person tester.png"))); // NOI18N
+        usersLabel.setText(" Users");
+        usersLabel.setOpaque(true);
+        usersLabel.setPreferredSize(new java.awt.Dimension(280, 75));
+        usersLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                usersLabelMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                usersLabelMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                usersLabelMouseExited(evt);
+            }
+        });
+
+        activitiesLabel.setBackground(new java.awt.Color(133, 89, 165));
+        activitiesLabel.setFont(new java.awt.Font("Times New Roman", 1, 27)); // NOI18N
+        activitiesLabel.setForeground(new java.awt.Color(50, 50, 50));
+        activitiesLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/dashboard.png"))); // NOI18N
+        activitiesLabel.setText("Activities");
+        activitiesLabel.setOpaque(true);
+        activitiesLabel.setPreferredSize(new java.awt.Dimension(280, 75));
+        activitiesLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                activitiesLabelMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                activitiesLabelMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                activitiesLabelMouseExited(evt);
+            }
+        });
+
+        projectsLabel.setBackground(new java.awt.Color(50, 50, 50));
+        projectsLabel.setFont(new java.awt.Font("Times New Roman", 1, 27)); // NOI18N
+        projectsLabel.setForeground(new java.awt.Color(109, 177, 147));
+        projectsLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/projects.png"))); // NOI18N
+        projectsLabel.setText("    Projects");
+        projectsLabel.setOpaque(true);
+        projectsLabel.setPreferredSize(new java.awt.Dimension(280, 75));
+        projectsLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                projectsLabelMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                projectsLabelMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                projectsLabelMouseExited(evt);
+            }
+        });
+
+        bugsLabel.setBackground(new java.awt.Color(50, 50, 50));
+        bugsLabel.setFont(new java.awt.Font("Times New Roman", 1, 27)); // NOI18N
+        bugsLabel.setForeground(new java.awt.Color(109, 177, 147));
+        bugsLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/bugs.png"))); // NOI18N
+        bugsLabel.setText("   Bugs");
+        bugsLabel.setOpaque(true);
+        bugsLabel.setPreferredSize(new java.awt.Dimension(280, 75));
+        bugsLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bugsLabelMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                bugsLabelMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                bugsLabelMouseExited(evt);
+            }
+        });
+
+        logoutLabel.setBackground(new java.awt.Color(50, 50, 50));
+        logoutLabel.setFont(new java.awt.Font("Times New Roman", 1, 27)); // NOI18N
+        logoutLabel.setForeground(new java.awt.Color(109, 177, 147));
+        logoutLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/logout2.png"))); // NOI18N
+        logoutLabel.setText("    Logout");
+        logoutLabel.setOpaque(true);
+        logoutLabel.setPreferredSize(new java.awt.Dimension(280, 75));
+        logoutLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                logoutLabelMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                logoutLabelMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                logoutLabelMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout sidePanelLayout = new javax.swing.GroupLayout(sidePanel);
+        sidePanel.setLayout(sidePanelLayout);
+        sidePanelLayout.setHorizontalGroup(
+            sidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(profileLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, sidePanelLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(sidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(logoutLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bugsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(projectsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(sidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(usersLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(activitiesLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 468, Short.MAX_VALUE)
+        sidePanelLayout.setVerticalGroup(
+            sidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(sidePanelLayout.createSequentialGroup()
+                .addComponent(profileLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(45, 45, 45)
+                .addComponent(activitiesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(45, 45, 45)
+                .addComponent(usersLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(45, 45, 45)
+                .addComponent(projectsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(45, 45, 45)
+                .addComponent(bugsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(75, 75, 75)
+                .addComponent(logoutLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(45, 45, 45))
         );
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        getContentPane().add(sidePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 350, 770));
+
+        mainPanel.setTabPlacement(javax.swing.JTabbedPane.BOTTOM);
+        mainPanel.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        mainPanel.setInheritsPopupMenu(true);
+        mainPanel.setPreferredSize(new java.awt.Dimension(1040, 750));
+
+        activitiesPanel.setBackground(new java.awt.Color(217, 217, 217));
+
+        omniTable.setBackground(new java.awt.Color(50, 50, 50));
+        omniTable.setForeground(new java.awt.Color(217, 217, 217));
+        omniTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        omniTable.setDragEnabled(true);
+        omniTable.setRowHeight(30);
+        omniTable.setRowMargin(6);
+        omniTable.setSelectionBackground(new java.awt.Color(109, 177, 147));
+        omniTable.setSelectionForeground(new java.awt.Color(50, 50, 50));
+        omniTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane2.setViewportView(omniTable);
+
+        monitorButton.setBackground(new java.awt.Color(50, 50, 50));
+        monitorButton.setFont(new java.awt.Font("Times New Roman", 0, 21)); // NOI18N
+        monitorButton.setForeground(new java.awt.Color(133, 89, 165));
+        monitorButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        monitorButton.setText("User Activities");
+        monitorButton.setToolTipText("Change table view to User Activities");
+        monitorButton.setOpaque(true);
+        monitorButton.setPreferredSize(new java.awt.Dimension(170, 35));
+        monitorButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                monitorButtonMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                monitorButtonMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                monitorButtonMouseExited(evt);
+            }
+        });
+
+        failedButton.setBackground(new java.awt.Color(50, 50, 50));
+        failedButton.setFont(new java.awt.Font("Times New Roman", 0, 21)); // NOI18N
+        failedButton.setForeground(new java.awt.Color(133, 89, 165));
+        failedButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        failedButton.setText("Login Attempts");
+        failedButton.setToolTipText("Change table view to Login Attempts");
+        failedButton.setOpaque(true);
+        failedButton.setPreferredSize(new java.awt.Dimension(170, 35));
+        failedButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                failedButtonMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                failedButtonMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                failedButtonMouseExited(evt);
+            }
+        });
+
+        searchField.setBackground(new java.awt.Color(50, 50, 50));
+        searchField.setFont(new java.awt.Font("Times New Roman", 0, 21)); // NOI18N
+        searchField.setForeground(new java.awt.Color(217, 217, 217));
+        searchField.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        searchField.setToolTipText("Enter your search query");
+        searchField.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        searchField.setPreferredSize(new java.awt.Dimension(358, 35));
+
+        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/search.png"))); // NOI18N
+
+        searchButton.setBackground(new java.awt.Color(109, 177, 147));
+        searchButton.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        searchButton.setForeground(new java.awt.Color(50, 50, 50));
+        searchButton.setText("Search");
+        searchButton.setPreferredSize(new java.awt.Dimension(100, 35));
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
+            }
+        });
+
+        jPanel3.setBackground(new java.awt.Color(50, 50, 50));
+        jPanel3.setPreferredSize(new java.awt.Dimension(1035, 75));
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 75, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        javax.swing.GroupLayout activitiesPanelLayout = new javax.swing.GroupLayout(activitiesPanel);
+        activitiesPanel.setLayout(activitiesPanelLayout);
+        activitiesPanelLayout.setHorizontalGroup(
+            activitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(activitiesPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2)
+                .addContainerGap())
+            .addGroup(activitiesPanelLayout.createSequentialGroup()
+                .addGap(196, 196, 196)
+                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addGroup(activitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(activitiesPanelLayout.createSequentialGroup()
+                        .addComponent(monitorButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(failedButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(searchField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(280, Short.MAX_VALUE))
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        activitiesPanelLayout.setVerticalGroup(
+            activitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, activitiesPanelLayout.createSequentialGroup()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addGroup(activitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(activitiesPanelLayout.createSequentialGroup()
+                        .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addGroup(activitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(monitorButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(failedButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 545, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
+
+        mainPanel.addTab("Activities", activitiesPanel);
+
+        usersPanel.setBackground(new java.awt.Color(217, 217, 217));
+
+        usersTable.setBackground(new java.awt.Color(50, 50, 50));
+        usersTable.setForeground(new java.awt.Color(217, 217, 217));
+        usersTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(usersTable);
+
+        javax.swing.GroupLayout usersPanelLayout = new javax.swing.GroupLayout(usersPanel);
+        usersPanel.setLayout(usersPanelLayout);
+        usersPanelLayout.setHorizontalGroup(
+            usersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, usersPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3)
+                .addContainerGap())
+        );
+        usersPanelLayout.setVerticalGroup(
+            usersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, usersPanelLayout.createSequentialGroup()
+                .addContainerGap(214, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 545, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        mainPanel.addTab("Users", usersPanel);
+
+        projectsPanel.setBackground(new java.awt.Color(217, 217, 217));
+
+        projectsTable.setBackground(new java.awt.Color(50, 50, 50));
+        projectsTable.setForeground(new java.awt.Color(217, 217, 217));
+        projectsTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane4.setViewportView(projectsTable);
+
+        javax.swing.GroupLayout projectsPanelLayout = new javax.swing.GroupLayout(projectsPanel);
+        projectsPanel.setLayout(projectsPanelLayout);
+        projectsPanelLayout.setHorizontalGroup(
+            projectsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, projectsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4)
+                .addContainerGap())
+        );
+        projectsPanelLayout.setVerticalGroup(
+            projectsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, projectsPanelLayout.createSequentialGroup()
+                .addContainerGap(214, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 545, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        mainPanel.addTab("Projects", projectsPanel);
+
+        bugsPanel.setBackground(new java.awt.Color(217, 217, 217));
+
+        bugsTable.setBackground(new java.awt.Color(50, 50, 50));
+        bugsTable.setForeground(new java.awt.Color(217, 217, 217));
+        bugsTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane5.setViewportView(bugsTable);
+
+        javax.swing.GroupLayout bugsPanelLayout = new javax.swing.GroupLayout(bugsPanel);
+        bugsPanel.setLayout(bugsPanelLayout);
+        bugsPanelLayout.setHorizontalGroup(
+            bugsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bugsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane5)
+                .addContainerGap())
+        );
+        bugsPanelLayout.setVerticalGroup(
+            bugsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bugsPanelLayout.createSequentialGroup()
+                .addContainerGap(214, Short.MAX_VALUE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 545, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        mainPanel.addTab("Bugs", bugsPanel);
+
+        getContentPane().add(mainPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, -30, 1040, 800));
+        mainPanel.getAccessibleContext().setAccessibleDescription("Activites");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchButtonActionPerformed
+
+    private void activitiesLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_activitiesLabelMouseClicked
+        choice = 0;
+        activitiesLabel.setBackground(purple);
+        activitiesLabel.setForeground(black);
+        mainPanel.setSelectedIndex(choice);
+        usersLabelMouseExited(evt);
+        projectsLabelMouseExited(evt);
+        bugsLabelMouseExited(evt);
+    }//GEN-LAST:event_activitiesLabelMouseClicked
+
+    private void activitiesLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_activitiesLabelMouseEntered
+        if (choice == 0 || choice == -1){}
+        else
+            activitiesLabel.setBackground(gray);
+            
+    }//GEN-LAST:event_activitiesLabelMouseEntered
+
+    private void activitiesLabelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_activitiesLabelMouseExited
+        if (choice == 0 || choice == -1){}
+        else
+        {
+            activitiesLabel.setBackground(black);
+            activitiesLabel.setForeground(green);
+        }
+    }//GEN-LAST:event_activitiesLabelMouseExited
+
+    private void usersLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usersLabelMouseClicked
+        choice = 1;
+        usersLabel.setBackground(purple);
+        usersLabel.setForeground(black);
+        mainPanel.setSelectedIndex(choice);
+        activitiesLabelMouseExited(evt);
+        projectsLabelMouseExited(evt);
+        bugsLabelMouseExited(evt);
+    }//GEN-LAST:event_usersLabelMouseClicked
+
+    private void usersLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usersLabelMouseEntered
+        if (choice == 1){}
+        else
+            usersLabel.setBackground(gray);
+    }//GEN-LAST:event_usersLabelMouseEntered
+
+    private void usersLabelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usersLabelMouseExited
+        if (choice == 1){}
+        else
+        {
+            usersLabel.setBackground(black);
+            usersLabel.setForeground(green);
+        }
+    }//GEN-LAST:event_usersLabelMouseExited
+
+    private void projectsLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_projectsLabelMouseClicked
+        choice = 2;
+        projectsLabel.setBackground(purple);
+        projectsLabel.setForeground(black);
+        mainPanel.setSelectedIndex(choice);
+        usersLabelMouseExited(evt);
+        activitiesLabelMouseExited(evt);
+        bugsLabelMouseExited(evt);
+    }//GEN-LAST:event_projectsLabelMouseClicked
+
+    private void projectsLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_projectsLabelMouseEntered
+        if (choice == 2){}
+        else
+            projectsLabel.setBackground(gray);
+    }//GEN-LAST:event_projectsLabelMouseEntered
+
+    private void projectsLabelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_projectsLabelMouseExited
+        if (choice == 2){}
+        else
+        {
+            projectsLabel.setBackground(black);
+            projectsLabel.setForeground(green);
+        }
+    }//GEN-LAST:event_projectsLabelMouseExited
+
+    private void bugsLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bugsLabelMouseClicked
+        choice = 3;
+        bugsLabel.setBackground(purple);
+        bugsLabel.setForeground(black);
+        mainPanel.setSelectedIndex(choice);
+        usersLabelMouseExited(evt);
+        projectsLabelMouseExited(evt);
+        activitiesLabelMouseExited(evt);
+    }//GEN-LAST:event_bugsLabelMouseClicked
+
+    private void bugsLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bugsLabelMouseEntered
+        if (choice == 3){}
+        else
+            bugsLabel.setBackground(gray);
+    }//GEN-LAST:event_bugsLabelMouseEntered
+
+    private void bugsLabelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bugsLabelMouseExited
+        if (choice == 3){}
+        else
+        {
+            bugsLabel.setBackground(black);
+            bugsLabel.setForeground(green);
+        }
+    }//GEN-LAST:event_bugsLabelMouseExited
+
+    private void logoutLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutLabelMouseClicked
+        new Login().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_logoutLabelMouseClicked
+
+    private void logoutLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutLabelMouseEntered
+        logoutLabel.setBackground(gray);
+    }//GEN-LAST:event_logoutLabelMouseEntered
+
+    private void logoutLabelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutLabelMouseExited
+        logoutLabel.setBackground(black);
+        logoutLabel.setForeground(green);
+    }//GEN-LAST:event_logoutLabelMouseExited
+
+    private void monitorButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_monitorButtonMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_monitorButtonMouseClicked
+
+    private void monitorButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_monitorButtonMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_monitorButtonMouseEntered
+
+    private void monitorButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_monitorButtonMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_monitorButtonMouseExited
+
+    private void failedButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_failedButtonMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_failedButtonMouseClicked
+
+    private void failedButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_failedButtonMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_failedButtonMouseEntered
+
+    private void failedButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_failedButtonMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_failedButtonMouseExited
 
     /**
      * @param args the command line arguments
@@ -106,7 +767,31 @@ public class Administrator extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel4;
+    private javax.swing.JLabel activitiesLabel;
+    private javax.swing.JPanel activitiesPanel;
+    private javax.swing.JLabel bugsLabel;
+    private javax.swing.JPanel bugsPanel;
+    private javax.swing.JTable bugsTable;
+    private javax.swing.JLabel failedButton;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JLabel logoutLabel;
+    private javax.swing.JTabbedPane mainPanel;
+    private javax.swing.JLabel monitorButton;
+    private javax.swing.JTable omniTable;
+    private javax.swing.JLabel profileLabel;
+    private javax.swing.JLabel projectsLabel;
+    private javax.swing.JPanel projectsPanel;
+    private javax.swing.JTable projectsTable;
+    private javax.swing.JButton searchButton;
+    private javax.swing.JTextField searchField;
+    private javax.swing.JPanel sidePanel;
+    private javax.swing.JLabel usersLabel;
+    private javax.swing.JPanel usersPanel;
+    private javax.swing.JTable usersTable;
     // End of variables declaration//GEN-END:variables
 }
