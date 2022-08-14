@@ -145,6 +145,11 @@
               <Image iconType="3" name="/bugtrackingsystem/icons/images/projects.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="        Projects"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+                <EmptyBorder bottom="1" left="10" right="1" top="1"/>
+              </Border>
+            </Property>
             <Property name="opaque" type="boolean" value="true"/>
           </Properties>
           <Events>
@@ -169,6 +174,11 @@
               <Image iconType="3" name="/bugtrackingsystem/icons/images/bugs.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="       Bugs"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+                <EmptyBorder bottom="1" left="10" right="1" top="1"/>
+              </Border>
+            </Property>
             <Property name="opaque" type="boolean" value="true"/>
           </Properties>
           <Events>
@@ -193,6 +203,11 @@
               <Image iconType="3" name="/bugtrackingsystem/icons/images/logout.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="         logout"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+                <EmptyBorder bottom="1" left="20" right="1" top="1"/>
+              </Border>
+            </Property>
             <Property name="opaque" type="boolean" value="true"/>
           </Properties>
           <Events>

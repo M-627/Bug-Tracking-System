@@ -81,6 +81,7 @@ public class Devoloper extends javax.swing.JFrame implements dataConnection {
         ProjectLogo.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         ProjectLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/projects.png"))); // NOI18N
         ProjectLogo.setText("        Projects");
+        ProjectLogo.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 1));
         ProjectLogo.setOpaque(true);
         ProjectLogo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -100,6 +101,7 @@ public class Devoloper extends javax.swing.JFrame implements dataConnection {
         BugLogo.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         BugLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/bugs.png"))); // NOI18N
         BugLogo.setText("       Bugs");
+        BugLogo.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 1));
         BugLogo.setOpaque(true);
         BugLogo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -119,6 +121,7 @@ public class Devoloper extends javax.swing.JFrame implements dataConnection {
         LogoutLogo.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         LogoutLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/logout.png"))); // NOI18N
         LogoutLogo.setText("         logout");
+        LogoutLogo.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 20, 1, 1));
         LogoutLogo.setOpaque(true);
         LogoutLogo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -381,7 +384,7 @@ public class Devoloper extends javax.swing.JFrame implements dataConnection {
     private void LogoutLogoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LogoutLogoMouseClicked
         Login y = new Login();
         y.show();
-       this. dispose();
+        dispose();
 // TODO add your handling code here:
     }//GEN-LAST:event_LogoutLogoMouseClicked
 
@@ -445,21 +448,13 @@ public class Devoloper extends javax.swing.JFrame implements dataConnection {
     private javax.swing.JLabel LogoutLogo;
     private javax.swing.JLabel ProjectLogo;
     private javax.swing.JPanel SidePanel;
-    private javax.swing.JLabel SystemName;
-    private javax.swing.JLabel SystemName1;
-    private javax.swing.JLabel SystemName2;
-    private javax.swing.JLabel SystemName3;
     private javax.swing.JLabel SystemName4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel testerLogo;
