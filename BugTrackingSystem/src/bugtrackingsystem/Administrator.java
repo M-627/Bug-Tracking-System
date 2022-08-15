@@ -5,7 +5,16 @@
  */
 package bugtrackingsystem;
 
+import java.sql.*;
+import net.proteanit.sql.DbUtils;
+import bugtrackingsystem.dataConnection;
+import static bugtrackingsystem.dataConnection.host;
+import static bugtrackingsystem.dataConnection.pass;
+import static bugtrackingsystem.dataConnection.uname;
+import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatIntelliJLaf;
 import java.awt.Color;
+import javax.swing.UIManager;
 
 /**
  *
@@ -18,16 +27,43 @@ public class Administrator extends javax.swing.JFrame {
      */
     public Administrator() {
         initComponents();
+        getConnected();
         this.setLocationRelativeTo(null);
     }
-
+    
+    //DB connection objects
+    Connection conObj = null;
+    Statement smtObj = null;
+    ResultSet resObj = null;
+    
     //Color global variables
     Color black = Color.decode("#323232");
     Color gray = Color.decode("#3B3B3B");
     Color green = Color.decode("#6DB193");
     Color purple = Color.decode("#9659A5");
+    
     //Global variable to choose tabs
     int choice = -1;
+    int table = -1;
+    
+    //Prepared Statement for DB queries
+    PreparedStatement command;
+    
+    public void getConnected()
+    {
+        try
+        {
+            conObj = DriverManager.getConnection(host, uname, pass);
+            smtObj = conObj.createStatement( ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY );
+            resObj = smtObj.executeQuery("SELECT * FROM ACTIVITIES");
+            
+            omniTable.setModel(DbUtils.resultSetToTableModel(resObj));
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -49,8 +85,8 @@ public class Administrator extends javax.swing.JFrame {
         activitiesPanel = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         omniTable = new javax.swing.JTable();
-        monitorButton = new javax.swing.JLabel();
-        failedButton = new javax.swing.JLabel();
+        monitorLabel = new javax.swing.JLabel();
+        failedLabel = new javax.swing.JLabel();
         searchField = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
         searchButton = new javax.swing.JButton();
@@ -260,50 +296,50 @@ public class Administrator extends javax.swing.JFrame {
             }
         ));
         omniTable.setDragEnabled(true);
-        omniTable.setRowHeight(30);
+        omniTable.setRowHeight(40);
         omniTable.setRowMargin(6);
         omniTable.setSelectionBackground(new java.awt.Color(109, 177, 147));
         omniTable.setSelectionForeground(new java.awt.Color(50, 50, 50));
         omniTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane2.setViewportView(omniTable);
 
-        monitorButton.setBackground(new java.awt.Color(50, 50, 50));
-        monitorButton.setFont(new java.awt.Font("Times New Roman", 0, 21)); // NOI18N
-        monitorButton.setForeground(new java.awt.Color(133, 89, 165));
-        monitorButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        monitorButton.setText("User Activities");
-        monitorButton.setToolTipText("Change table view to User Activities");
-        monitorButton.setOpaque(true);
-        monitorButton.setPreferredSize(new java.awt.Dimension(170, 35));
-        monitorButton.addMouseListener(new java.awt.event.MouseAdapter() {
+        monitorLabel.setBackground(new java.awt.Color(133, 89, 165));
+        monitorLabel.setFont(new java.awt.Font("Times New Roman", 0, 21)); // NOI18N
+        monitorLabel.setForeground(new java.awt.Color(50, 50, 50));
+        monitorLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        monitorLabel.setText("User Activities");
+        monitorLabel.setToolTipText("Change table view to User Activities");
+        monitorLabel.setOpaque(true);
+        monitorLabel.setPreferredSize(new java.awt.Dimension(170, 35));
+        monitorLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                monitorButtonMouseClicked(evt);
+                monitorLabelMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                monitorButtonMouseEntered(evt);
+                monitorLabelMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                monitorButtonMouseExited(evt);
+                monitorLabelMouseExited(evt);
             }
         });
 
-        failedButton.setBackground(new java.awt.Color(50, 50, 50));
-        failedButton.setFont(new java.awt.Font("Times New Roman", 0, 21)); // NOI18N
-        failedButton.setForeground(new java.awt.Color(133, 89, 165));
-        failedButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        failedButton.setText("Login Attempts");
-        failedButton.setToolTipText("Change table view to Login Attempts");
-        failedButton.setOpaque(true);
-        failedButton.setPreferredSize(new java.awt.Dimension(170, 35));
-        failedButton.addMouseListener(new java.awt.event.MouseAdapter() {
+        failedLabel.setBackground(new java.awt.Color(50, 50, 50));
+        failedLabel.setFont(new java.awt.Font("Times New Roman", 0, 21)); // NOI18N
+        failedLabel.setForeground(new java.awt.Color(133, 89, 165));
+        failedLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        failedLabel.setText("Login Attempts");
+        failedLabel.setToolTipText("Change table view to Login Attempts");
+        failedLabel.setOpaque(true);
+        failedLabel.setPreferredSize(new java.awt.Dimension(170, 35));
+        failedLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                failedButtonMouseClicked(evt);
+                failedLabelMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                failedButtonMouseEntered(evt);
+                failedLabelMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                failedButtonMouseExited(evt);
+                failedLabelMouseExited(evt);
             }
         });
 
@@ -313,16 +349,16 @@ public class Administrator extends javax.swing.JFrame {
         searchField.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         searchField.setToolTipText("Enter your search query");
         searchField.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        searchField.setPreferredSize(new java.awt.Dimension(358, 35));
+        searchField.setPreferredSize(new java.awt.Dimension(522, 35));
 
         jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/search.png"))); // NOI18N
+        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/search2.png"))); // NOI18N
 
         searchButton.setBackground(new java.awt.Color(109, 177, 147));
         searchButton.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         searchButton.setForeground(new java.awt.Color(50, 50, 50));
         searchButton.setText("Search");
-        searchButton.setPreferredSize(new java.awt.Dimension(100, 35));
+        searchButton.setPreferredSize(new java.awt.Dimension(170, 35));
         searchButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 searchButtonActionPerformed(evt);
@@ -352,34 +388,36 @@ public class Administrator extends javax.swing.JFrame {
                 .addComponent(jScrollPane2)
                 .addContainerGap())
             .addGroup(activitiesPanelLayout.createSequentialGroup()
-                .addGap(196, 196, 196)
+                .addGap(159, 159, 159)
                 .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
-                .addGroup(activitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(activitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(activitiesPanelLayout.createSequentialGroup()
-                        .addComponent(monitorButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(monitorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(failedButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(searchField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(280, Short.MAX_VALUE))
+                        .addComponent(failedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(256, Short.MAX_VALUE))
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         activitiesPanelLayout.setVerticalGroup(
             activitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, activitiesPanelLayout.createSequentialGroup()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addGap(32, 32, 32)
                 .addGroup(activitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(activitiesPanelLayout.createSequentialGroup()
                         .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                         .addGroup(activitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(monitorButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(monitorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(failedButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(failedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(activitiesPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 545, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -707,29 +745,69 @@ public class Administrator extends javax.swing.JFrame {
         logoutLabel.setForeground(green);
     }//GEN-LAST:event_logoutLabelMouseExited
 
-    private void monitorButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_monitorButtonMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_monitorButtonMouseClicked
+    private void monitorLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_monitorLabelMouseClicked
+        table = 0;
+        monitorLabel.setBackground(purple);
+        monitorLabel.setForeground(black);
+        failedLabelMouseExited(evt);
+        try
+        {
+            command = conObj.prepareStatement("SELECT * FROM ACTIVITIES");
+            resObj = command.executeQuery();
+            omniTable.setModel(DbUtils.resultSetToTableModel(resObj));
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_monitorLabelMouseClicked
 
-    private void monitorButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_monitorButtonMouseEntered
-        // TODO add your handling code here:
-    }//GEN-LAST:event_monitorButtonMouseEntered
+    private void monitorLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_monitorLabelMouseEntered
+        if (table == 0 || table == -1){}
+        else
+            monitorLabel.setBackground(gray);
+    }//GEN-LAST:event_monitorLabelMouseEntered
 
-    private void monitorButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_monitorButtonMouseExited
-        // TODO add your handling code here:
-    }//GEN-LAST:event_monitorButtonMouseExited
+    private void monitorLabelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_monitorLabelMouseExited
+        if (table == 0 || table == -1){}
+        else
+        {
+            monitorLabel.setBackground(black);
+            monitorLabel.setForeground(purple);
+        }
+    }//GEN-LAST:event_monitorLabelMouseExited
 
-    private void failedButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_failedButtonMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_failedButtonMouseClicked
+    private void failedLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_failedLabelMouseClicked
+        table = 1;
+        failedLabel.setBackground(purple);
+        failedLabel.setForeground(black);
+        monitorLabelMouseExited(evt);
+        try
+        {
+            command = conObj.prepareStatement("SELECT * FROM FAILEDLOGINS");
+            resObj = command.executeQuery();
+            omniTable.setModel(DbUtils.resultSetToTableModel(resObj));
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_failedLabelMouseClicked
 
-    private void failedButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_failedButtonMouseEntered
-        // TODO add your handling code here:
-    }//GEN-LAST:event_failedButtonMouseEntered
+    private void failedLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_failedLabelMouseEntered
+        if (table == 1){}
+        else
+            failedLabel.setBackground(gray);
+    }//GEN-LAST:event_failedLabelMouseEntered
 
-    private void failedButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_failedButtonMouseExited
-        // TODO add your handling code here:
-    }//GEN-LAST:event_failedButtonMouseExited
+    private void failedLabelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_failedLabelMouseExited
+        if (table == 1){}
+        else
+        {
+            failedLabel.setBackground(black);
+            failedLabel.setForeground(purple);
+        }
+    }//GEN-LAST:event_failedLabelMouseExited
 
     /**
      * @param args the command line arguments
@@ -740,21 +818,13 @@ public class Administrator extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Administrator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Administrator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Administrator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Administrator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        try 
+        {
+                UIManager.setLookAndFeel(new FlatDarkLaf());
+        } 
+        catch (Exception e)
+        {
+            e.printStackTrace();
         }
         //</editor-fold>
 
@@ -772,7 +842,7 @@ public class Administrator extends javax.swing.JFrame {
     private javax.swing.JLabel bugsLabel;
     private javax.swing.JPanel bugsPanel;
     private javax.swing.JTable bugsTable;
-    private javax.swing.JLabel failedButton;
+    private javax.swing.JLabel failedLabel;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
@@ -781,7 +851,7 @@ public class Administrator extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JLabel logoutLabel;
     private javax.swing.JTabbedPane mainPanel;
-    private javax.swing.JLabel monitorButton;
+    private javax.swing.JLabel monitorLabel;
     private javax.swing.JTable omniTable;
     private javax.swing.JLabel profileLabel;
     private javax.swing.JLabel projectsLabel;
