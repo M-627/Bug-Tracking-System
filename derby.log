@@ -1,7 +1,7 @@
-Tue Aug 16 11:14:52 EET 2022 : Apache Derby Network Server - 10.11.1.2 - (1629631) started and ready to accept connections on port 1527
+Tue Aug 16 18:47:03 EET 2022 : Apache Derby Network Server - 10.11.1.2 - (1629631) started and ready to accept connections on port 1527
 ----------------------------------------------------------------
-Tue Aug 16 11:14:55 EET 2022:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-0182-a5ef-304c-000056395d73 
+Tue Aug 16 18:47:04 EET 2022:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-0182-a78d-2d1e-000056395d73 
 on database directory G:\material kolya\level 3\summer\software engineering\project\Bug-Tracking-System\Bug Tracker System with class loader sun.misc.Launcher$AppClassLoader@266474c2 
 Loaded from file:/C:/Program%20Files/Java/jdk1.8.0_162/db/lib/derby.jar
 java.vendor=Oracle Corporation
@@ -13,8 +13,4 @@ os.version=10.0
 derby.system.home=G:\material kolya\level 3\summer\software engineering\project\Bug-Tracking-System
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
-Tue Aug 16 11:30:28 EET 2022: Shutting down Derby engine
-----------------------------------------------------------------
-Tue Aug 16 11:30:28 EET 2022:
-Shutting down instance a816c00e-0182-a5ef-304c-000056395d73 on database directory G:\material kolya\level 3\summer\software engineering\project\Bug-Tracking-System\Bug Tracker System with class loader sun.misc.Launcher$AppClassLoader@266474c2 
-----------------------------------------------------------------
+Tue Aug 16 18:48:18 EET 2022: Shutting down Derby engine

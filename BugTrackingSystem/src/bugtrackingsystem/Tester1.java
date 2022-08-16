@@ -45,7 +45,7 @@ public class Tester1 extends javax.swing.JFrame implements dataConnection {
     
     //Code global variables
     private int BugId = 0; //(used in generating id automatically)
-    
+    private int ProjectId = 0 ; //(used in collecting the id of the project)
     
     public Tester1() {
         initComponents();
@@ -171,6 +171,8 @@ public class Tester1 extends javax.swing.JFrame implements dataConnection {
         DeleteButton = new javax.swing.JButton();
         NameOfAssignee = new app.bolivia.swing.JCTextField();
         BugCreationDate = new com.toedter.calendar.JDateChooser();
+        ProjectID = new javax.swing.JLabel();
+        IDOfProject = new app.bolivia.swing.JCTextField();
         OverView = new javax.swing.JPanel();
         noOfOpenedBugs = new javax.swing.JPanel();
         OP = new javax.swing.JLabel();
@@ -848,6 +850,21 @@ public class Tester1 extends javax.swing.JFrame implements dataConnection {
         BugCreationDate.setBackground(new java.awt.Color(217, 217, 217));
         BugCreationDate.setForeground(new java.awt.Color(150, 89, 165));
 
+        ProjectID.setBackground(new java.awt.Color(217, 217, 217));
+        ProjectID.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        ProjectID.setForeground(new java.awt.Color(150, 89, 165));
+        ProjectID.setText("Project ID:");
+        ProjectID.setPreferredSize(new java.awt.Dimension(160, 40));
+
+        IDOfProject.setBackground(new java.awt.Color(217, 217, 217));
+        IDOfProject.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(150, 89, 165)));
+        IDOfProject.setForeground(new java.awt.Color(109, 177, 147));
+        IDOfProject.setToolTipText("Make your search from here");
+        IDOfProject.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        IDOfProject.setPhColor(new java.awt.Color(150, 89, 165));
+        IDOfProject.setPlaceholder("Project ID.....");
+        IDOfProject.setPreferredSize(new java.awt.Dimension(250, 40));
+
         javax.swing.GroupLayout BugDetailsLayout = new javax.swing.GroupLayout(BugDetails);
         BugDetails.setLayout(BugDetailsLayout);
         BugDetailsLayout.setHorizontalGroup(
@@ -901,10 +918,15 @@ public class Tester1 extends javax.swing.JFrame implements dataConnection {
                                                 .addComponent(Status, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(StatusComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 992, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(BugDetailsLayout.createSequentialGroup()
-                        .addGap(392, 392, 392)
+                        .addGap(387, 387, 387)
                         .addComponent(BugTable, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 992, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(BugDetailsLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(ProjectID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(IDOfProject, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(499, Short.MAX_VALUE))
             .addGroup(BugDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(BugDetailsLayout.createSequentialGroup()
@@ -915,7 +937,11 @@ public class Tester1 extends javax.swing.JFrame implements dataConnection {
         BugDetailsLayout.setVerticalGroup(
             BugDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(BugDetailsLayout.createSequentialGroup()
-                .addGap(102, 102, 102)
+                .addGap(123, 123, 123)
+                .addGroup(BugDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(IDOfProject, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ProjectID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(BugDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(NameOfBug, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BugName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -927,7 +953,7 @@ public class Tester1 extends javax.swing.JFrame implements dataConnection {
                     .addComponent(CreationDate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(AssigneeName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(NameOfAssignee, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(BugCreationDate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(BugCreationDate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(49, 49, 49)
                 .addGroup(BugDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ReporterName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -938,13 +964,13 @@ public class Tester1 extends javax.swing.JFrame implements dataConnection {
                 .addGroup(BugDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Description, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(DescriptionTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(52, 52, 52)
+                .addGap(18, 18, 18)
                 .addGroup(BugDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(AddButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(UpdateButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(DeleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ClearButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(BugTable, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(BugDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1359,6 +1385,7 @@ public class Tester1 extends javax.swing.JFrame implements dataConnection {
     private javax.swing.JLabel Description;
     private app.bolivia.swing.JCTextField DescriptionTextField;
     private javax.swing.JLabel DetailsOfBugs;
+    private app.bolivia.swing.JCTextField IDOfProject;
     private javax.swing.JLabel IPB;
     private javax.swing.JLabel LoGo;
     private javax.swing.JLabel LogoOfSearch;
@@ -1370,6 +1397,7 @@ public class Tester1 extends javax.swing.JFrame implements dataConnection {
     private javax.swing.JPanel OverView;
     private javax.swing.JLabel PN;
     private javax.swing.JLabel ProjectDetails2;
+    private javax.swing.JLabel ProjectID;
     private javax.swing.JLabel ProjectLogo;
     private javax.swing.JLabel ProjectNumber;
     private javax.swing.JLabel ProjectsDetails;
