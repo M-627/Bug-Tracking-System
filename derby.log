@@ -12,3 +12,9 @@ os.arch=amd64
 os.version=10.0
 derby.system.home=G:\material kolya\level 3\summer\software engineering\project\Bug-Tracking-System
 Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Tue Aug 16 11:30:28 EET 2022: Shutting down Derby engine
+----------------------------------------------------------------
+Tue Aug 16 11:30:28 EET 2022:
+Shutting down instance a816c00e-0182-a5ef-304c-000056395d73 on database directory G:\material kolya\level 3\summer\software engineering\project\Bug-Tracking-System\Bug Tracker System with class loader sun.misc.Launcher$AppClassLoader@266474c2 
+----------------------------------------------------------------
