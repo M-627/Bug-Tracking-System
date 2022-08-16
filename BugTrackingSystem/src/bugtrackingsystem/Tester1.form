@@ -1028,8 +1028,10 @@
                                                                   <EmptySpace max="-2" attributes="0"/>
                                                                   <Component id="SeverityComboBox" min="-2" max="-2" attributes="0"/>
                                                               </Group>
-                                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                                                   <Group type="102" alignment="1" attributes="0">
+                                                                      <Component id="BugCreationDate" min="-2" pref="250" max="-2" attributes="0"/>
+                                                                      <EmptySpace max="32767" attributes="0"/>
                                                                       <Component id="AssigneeName" min="-2" max="-2" attributes="0"/>
                                                                       <EmptySpace max="-2" attributes="0"/>
                                                                       <Component id="NameOfAssignee" max="-2" attributes="0"/>
@@ -1077,10 +1079,11 @@
                                           </Group>
                                       </Group>
                                       <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="CreationDate" min="-2" max="-2" attributes="0"/>
-                                          <Component id="AssigneeName" min="-2" max="-2" attributes="0"/>
-                                          <Component id="NameOfAssignee" min="-2" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="CreationDate" alignment="1" max="32767" attributes="0"/>
+                                          <Component id="AssigneeName" alignment="1" max="32767" attributes="0"/>
+                                          <Component id="NameOfAssignee" alignment="1" max="32767" attributes="0"/>
+                                          <Component id="BugCreationDate" alignment="1" max="32767" attributes="0"/>
                                       </Group>
                                       <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="3" attributes="0">
@@ -1537,6 +1540,9 @@
                                 </Property>
                               </Properties>
                               <Events>
+                                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="AddButtonMouseClicked"/>
+                                <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="AddButtonMouseEntered"/>
+                                <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="AddButtonMouseExited"/>
                                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AddButtonActionPerformed"/>
                               </Events>
                             </Component>
@@ -1616,6 +1622,16 @@
                                 <Property name="placeholder" type="java.lang.String" value="Assignee name..."/>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                   <Dimension value="[250, 40]"/>
+                                </Property>
+                              </Properties>
+                            </Component>
+                            <Component class="com.toedter.calendar.JDateChooser" name="BugCreationDate">
+                              <Properties>
+                                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                                  <Color blue="d9" green="d9" red="d9" type="rgb"/>
+                                </Property>
+                                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                                  <Color blue="a5" green="59" red="96" type="rgb"/>
                                 </Property>
                               </Properties>
                             </Component>

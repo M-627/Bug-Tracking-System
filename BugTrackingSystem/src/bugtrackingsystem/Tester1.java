@@ -7,6 +7,14 @@ package bugtrackingsystem;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -20,15 +28,61 @@ import org.jfree.data.general.DefaultPieDataset;
  */
 public class Tester1 extends javax.swing.JFrame implements dataConnection {
 
+    // DB connection objects
+    public Connection con = null;
+    public Statement st = null;
+    public ResultSet rs = null;
+    // prepared statement for queries
+    PreparedStatement command;
+    
+    
+    // Colors  global variables
+    private int choose = 1;
+    Color Black =Color.decode("#323232");
+    Color Green =Color.decode("#6DB193");
+    Color Purple =Color.decode("#9659A5");
+    Color Grey =Color.decode("#3B3B3B");
+    
+    //Code global variables
+    private int BugId = 0; //(used in generating id automatically)
+    
+    
     public Tester1() {
         initComponents();
         showPieChart();
     }
-
+    
+    //generating BugID automatically
+    private void GenerateBugID(){
+        
+        try{
+           st = con.createStatement();
+            rs = st.executeQuery("select Max(ID) from userone.CrimeInfo");
+            rs.next();
+           BugId = rs.getInt(1)+1;
+        }catch(Exception e){
+        e.printStackTrace();
+        }
+    }
+    
+    //check bug text fields
+    public void CheckBug(){
+    if( BugCreationDate.getDate()== null || NameOfBug.getText().isEmpty() || 
+        NameOfAssignee.getText().isEmpty() || DescriptionTextField.getText().isEmpty()){
+        JOptionPane.showMessageDialog(this, "missing information");}
+        }
+    
+    // transfaring the format of crimeDate from java.util.Date into a java.util.sql
+    public String formatDate(java.util.Date Date) {
+        SimpleDateFormat DateFormat = new SimpleDateFormat("YYYY-MM-dd");
+        String NewDate = DateFormat.format(Date);
+        return NewDate;
+    }
+    
     //pie chart code
     public void showPieChart(){
         
-        //create dataset
+        //create dataset (percentage should be changed auto from table to another one)
       DefaultPieDataset barDataset = new DefaultPieDataset( );
       barDataset.setValue( "in progress" , new Double( 20 ) );  
       barDataset.setValue( "to be tested" , new Double( 20 ) );
@@ -36,16 +90,14 @@ public class Tester1 extends javax.swing.JFrame implements dataConnection {
       barDataset.setValue( "open" , new Double( 40 ) ); 
       
       //create chart
-       JFreeChart piechart = ChartFactory.createPieChart("Bug Status",barDataset, false,true,false);//explain
-      
+       JFreeChart piechart = ChartFactory.createPieChart("Bug Status",barDataset, false,true,false);
         PiePlot piePlot =(PiePlot) piechart.getPlot();
       
        //changing pie chart blocks colors
-       piePlot.setSectionPaint("in progress", new Color(150,89,165));
-        piePlot.setSectionPaint("to be tested", new Color(109,177,147));
-        piePlot.setSectionPaint("closed", new Color(217,217,217));
-      piePlot.setSectionPaint("open", new Color(50,50,50));
-       
+        piePlot.setSectionPaint("in progress", new Color(150, 89, 165));
+        piePlot.setSectionPaint("to be tested", new Color(109, 177, 147));
+        piePlot.setSectionPaint("closed", new Color(217, 217, 217));
+        piePlot.setSectionPaint("open", new Color(50, 50, 50));
         piePlot.setBackgroundPaint(Color.white);
         
         //create chartPanel to display chart(graph)
@@ -118,6 +170,7 @@ public class Tester1 extends javax.swing.JFrame implements dataConnection {
         UpdateButton = new javax.swing.JButton();
         DeleteButton = new javax.swing.JButton();
         NameOfAssignee = new app.bolivia.swing.JCTextField();
+        BugCreationDate = new com.toedter.calendar.JDateChooser();
         OverView = new javax.swing.JPanel();
         noOfOpenedBugs = new javax.swing.JPanel();
         OP = new javax.swing.JLabel();
@@ -748,6 +801,17 @@ public class Tester1 extends javax.swing.JFrame implements dataConnection {
         AddButton.setForeground(new java.awt.Color(50, 50, 50));
         AddButton.setText("Add");
         AddButton.setPreferredSize(new java.awt.Dimension(160, 40));
+        AddButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                AddButtonMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                AddButtonMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                AddButtonMouseExited(evt);
+            }
+        });
         AddButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AddButtonActionPerformed(evt);
@@ -780,6 +844,9 @@ public class Tester1 extends javax.swing.JFrame implements dataConnection {
         NameOfAssignee.setPhColor(new java.awt.Color(150, 89, 165));
         NameOfAssignee.setPlaceholder("Assignee name...");
         NameOfAssignee.setPreferredSize(new java.awt.Dimension(250, 40));
+
+        BugCreationDate.setBackground(new java.awt.Color(217, 217, 217));
+        BugCreationDate.setForeground(new java.awt.Color(150, 89, 165));
 
         javax.swing.GroupLayout BugDetailsLayout = new javax.swing.GroupLayout(BugDetails);
         BugDetails.setLayout(BugDetailsLayout);
@@ -821,8 +888,10 @@ public class Tester1 extends javax.swing.JFrame implements dataConnection {
                                             .addComponent(Severity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                             .addComponent(SeverityComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(BugDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(BugDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BugDetailsLayout.createSequentialGroup()
+                                                .addComponent(BugCreationDate, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                 .addComponent(AssigneeName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(NameOfAssignee, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -854,10 +923,11 @@ public class Tester1 extends javax.swing.JFrame implements dataConnection {
                         .addComponent(Status, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(StatusComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(49, 49, 49)
-                .addGroup(BugDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(CreationDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(AssigneeName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(NameOfAssignee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(BugDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(CreationDate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(AssigneeName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(NameOfAssignee, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(BugCreationDate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(49, 49, 49)
                 .addGroup(BugDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ReporterName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1110,124 +1180,92 @@ public class Tester1 extends javax.swing.JFrame implements dataConnection {
         setSize(new java.awt.Dimension(1371, 804));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-       int choose = 1;
+       
     private void DashlogoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DashlogoMouseClicked
         jTabbedPane1.setSelectedIndex(0);
-        Color black =Color.decode("#323232");
-        Color green =Color.decode("#6DB193");
-        Color pink =Color.decode("#9659A5");
-        Dashlogo.setBackground(pink);
-        Dashlogo.setForeground(black);
-        BugLogo.setBackground(black);
-        BugLogo.setForeground(green);
-        ProjectLogo.setBackground(black);
-        ProjectLogo.setForeground(green);
         choose=1;
-        // TODO add your handling code here:
+        Dashlogo.setBackground(Purple);
+        Dashlogo.setForeground(Black);
+        BugLogoMouseExited(evt);
+        ProjectLogoMouseExited(evt);
     }//GEN-LAST:event_DashlogoMouseClicked
 
     private void DashlogoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DashlogoMouseEntered
         if(choose==1){}
         else{
-            Color haver =Color.decode("#3B3B3B");
-            Dashlogo.setBackground(haver);
+            Dashlogo.setBackground(Grey);
         }
-        // TODO add your handling code here:
     }//GEN-LAST:event_DashlogoMouseEntered
 
     private void DashlogoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DashlogoMouseExited
         if (choose==1){}
         else{
-            Color black =Color.decode("#323232");
-            Dashlogo.setBackground(black);
+            Dashlogo.setBackground(Black);
+             Dashlogo.setForeground(Green);
         }
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_DashlogoMouseExited
 
     private void ProjectLogoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProjectLogoMouseClicked
         jTabbedPane1.setSelectedIndex(1);
-        Color black =Color.decode("#323232");
-        Color green =Color.decode("#6DB193");
-        Color pink =Color.decode("#9659A5");
-        Dashlogo.setBackground(black);
-        Dashlogo.setForeground(green);
-        BugLogo.setBackground(black);
-        BugLogo.setForeground(green);
-        ProjectLogo.setBackground(pink);
-        ProjectLogo.setForeground(black);
         choose=2;
-        // TODO add your handling code here:
+        ProjectLogo.setBackground(Purple);
+        ProjectLogo.setForeground(Black);
+        DashlogoMouseExited(evt);
+        BugLogoMouseExited(evt);
     }//GEN-LAST:event_ProjectLogoMouseClicked
 
     private void ProjectLogoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProjectLogoMouseEntered
         if(choose==2){}
         else{
-            Color haver =Color.decode("#3B3B3B");
-            ProjectLogo.setBackground(haver);
+            ProjectLogo.setBackground(Grey);
         }
-        // TODO add your handling code here:
     }//GEN-LAST:event_ProjectLogoMouseEntered
 
     private void ProjectLogoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProjectLogoMouseExited
         if (choose==2){}
         else{
-            Color black =Color.decode("#323232");
-            ProjectLogo.setBackground(black);
+            ProjectLogo.setBackground(Black);
+            ProjectLogo.setForeground(Green);
         }
-        // TODO add your handling code here:
     }//GEN-LAST:event_ProjectLogoMouseExited
 
     private void BugLogoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BugLogoMouseClicked
         jTabbedPane1.setSelectedIndex(2);
-        Color black =Color.decode("#323232");
-        Color green =Color.decode("#6DB193");
-        Color pink =Color.decode("#9659A5");
-        Dashlogo.setBackground(black);
-        Dashlogo.setForeground(green);
-        BugLogo.setBackground(pink);
-        BugLogo.setForeground(black);
-        ProjectLogo.setBackground(black);
-        ProjectLogo.setForeground(green);
         choose=3;
-        // TODO add your handling code here:
+        BugLogo.setBackground(Purple);
+        BugLogo.setForeground(Black);
+        DashlogoMouseExited(evt);
+        ProjectLogoMouseExited(evt);
     }//GEN-LAST:event_BugLogoMouseClicked
 
     private void BugLogoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BugLogoMouseEntered
         if(choose==3){}
         else{
-            Color haver =Color.decode("#3B3B3B");
-            BugLogo.setBackground(haver);
+            BugLogo.setBackground(Grey);
         }
-        // TODO add your handling code here:
     }//GEN-LAST:event_BugLogoMouseEntered
 
     private void BugLogoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BugLogoMouseExited
         if (choose==3){}
         else{
-            Color black =Color.decode("#323232");
-            BugLogo.setBackground(black);
+            BugLogo.setBackground(Black);
+            BugLogo.setForeground(Green);
         }
-        // TODO add your handling code here:
     }//GEN-LAST:event_BugLogoMouseExited
 
     private void LogoutLogoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LogoutLogoMouseClicked
-        Login y = new Login();
-        this. dispose();
-        y.show();
-       
-        // TODO add your handling code here:
+         new Login().setVisible(true);
+         this.dispose();
     }//GEN-LAST:event_LogoutLogoMouseClicked
 
     private void LogoutLogoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LogoutLogoMouseEntered
-        Color haver =Color.decode("#3B3B3B");
-        LogoutLogo.setBackground(haver);
-        // TODO add your handling code here:
+         LogoutLogo.setBackground(Grey);
     }//GEN-LAST:event_LogoutLogoMouseEntered
 
     private void LogoutLogoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LogoutLogoMouseExited
-        Color black =Color.decode("#323232");
-        LogoutLogo.setBackground(black);
-        // TODO add your handling code here:
+          LogoutLogo.setBackground(Black);
+          LogoutLogo.setForeground(Green);
     }//GEN-LAST:event_LogoutLogoMouseExited
 
     private void AddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButtonActionPerformed
@@ -1237,6 +1275,43 @@ public class Tester1 extends javax.swing.JFrame implements dataConnection {
     private void DescriptionTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DescriptionTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_DescriptionTextFieldActionPerformed
+
+    private void AddButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddButtonMouseClicked
+        //chech if there is any empty text fields
+        CheckBug();
+        // generate id automatically
+        GenerateBugID();
+        try {
+        System.out.println("Connecting to database...");
+                con = DriverManager.getConnection(host, uname, pass);
+        System.out.println("inserting data...");
+                command = con.prepareStatement("insert into Bugs values(?,?,?,?,?,?,?,?)");
+                
+                command.setInt(1, BugId);
+                command.setString(2, NameOfBug.getText());
+                command.setString(3, formatDate(BugCreationDate.getDate()));
+                command.setString(4, NameOfReporter.getSelectedItem().toString());
+                command.setString(5, StatusComboBox.getSelectedItem().toString());
+                command.setString(6, NameOfAssignee.getText());
+                command.setString(7, SeverityComboBox.getSelectedItem().toString());
+                command.setString(8, DescriptionTextField.getText());
+                System.out.println("excution process...");
+                
+                int row = command.executeUpdate();
+                JOptionPane.showMessageDialog(this, "information added succesfully");
+        } catch (SQLException e) {
+                System.out.print(e.getMessage());}
+    }//GEN-LAST:event_AddButtonMouseClicked
+
+    private void AddButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddButtonMouseEntered
+            AddButton.setBackground(Purple);
+            AddButton.setForeground(Black);
+    }//GEN-LAST:event_AddButtonMouseEntered
+
+    private void AddButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddButtonMouseExited
+        AddButton.setBackground(Green);
+        AddButton.setForeground(Black);
+    }//GEN-LAST:event_AddButtonMouseExited
 
     /**
      * @param args the command line arguments
@@ -1270,6 +1345,7 @@ public class Tester1 extends javax.swing.JFrame implements dataConnection {
     private javax.swing.JButton AddButton;
     private javax.swing.JLabel AssigneeName;
     private javax.swing.JLabel BN;
+    private com.toedter.calendar.JDateChooser BugCreationDate;
     private javax.swing.JPanel BugDetails;
     private javax.swing.JLabel BugLogo;
     private javax.swing.JLabel BugName;
