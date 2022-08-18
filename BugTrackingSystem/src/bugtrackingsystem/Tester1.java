@@ -5,6 +5,7 @@
  */
 package bugtrackingsystem;
 
+import com.formdev.flatlaf.FlatDarkLaf;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.sql.Connection;

@@ -7,20 +7,20 @@ package bugtrackingsystem;
 
 import java.sql.*;
 import net.proteanit.sql.DbUtils;
-import bugtrackingsystem.dataConnection;
 import static bugtrackingsystem.dataConnection.host;
 import static bugtrackingsystem.dataConnection.pass;
 import static bugtrackingsystem.dataConnection.uname;
 import com.formdev.flatlaf.FlatDarkLaf;
-import com.formdev.flatlaf.FlatIntelliJLaf;
 import java.awt.Color;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.UIManager;
 
 /**
  *
  * @author m639a
  */
-public class Administrator extends javax.swing.JFrame {
+public final class Administrator extends javax.swing.JFrame {
 
     /**
      * Creates new form Administrator
@@ -43,8 +43,8 @@ public class Administrator extends javax.swing.JFrame {
     Color purple = Color.decode("#9659A5");
     
     //Global variable to choose tabs
-    int choice = -1;
-    int table = -1;
+    int choice = 0;
+    int table = 0;
     
     //Prepared Statement for DB queries
     PreparedStatement command;
@@ -61,7 +61,7 @@ public class Administrator extends javax.swing.JFrame {
         }
         catch (SQLException ex)
         {
-            ex.printStackTrace();
+            System.out.println(ex.getMessage());
         }
     }
     
@@ -89,17 +89,25 @@ public class Administrator extends javax.swing.JFrame {
         failedLabel = new javax.swing.JLabel();
         searchField = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
-        searchButton = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         usersPanel = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         usersTable = new javax.swing.JTable();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        userSearch = new javax.swing.JTextField();
         projectsPanel = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         projectsTable = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        projectSearch = new javax.swing.JTextField();
         bugsPanel = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         bugsTable = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        bugSearch = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -112,15 +120,15 @@ public class Administrator extends javax.swing.JFrame {
         profileLabel.setBackground(new java.awt.Color(40, 40, 40));
         profileLabel.setFont(new java.awt.Font("Times New Roman", 1, 30)); // NOI18N
         profileLabel.setForeground(new java.awt.Color(133, 89, 165));
-        profileLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        profileLabel.setText("Admin Name");
+        profileLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/person tester.png"))); // NOI18N
+        profileLabel.setText(" Admin Name");
         profileLabel.setOpaque(true);
         profileLabel.setPreferredSize(new java.awt.Dimension(350, 63));
 
         usersLabel.setBackground(new java.awt.Color(50, 50, 50));
         usersLabel.setFont(new java.awt.Font("Times New Roman", 1, 27)); // NOI18N
         usersLabel.setForeground(new java.awt.Color(109, 177, 147));
-        usersLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/person tester.png"))); // NOI18N
+        usersLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/users.png"))); // NOI18N
         usersLabel.setText(" Users");
         usersLabel.setOpaque(true);
         usersLabel.setPreferredSize(new java.awt.Dimension(280, 75));
@@ -246,46 +254,17 @@ public class Administrator extends javax.swing.JFrame {
 
         getContentPane().add(sidePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 350, 770));
 
-        mainPanel.setTabPlacement(javax.swing.JTabbedPane.BOTTOM);
         mainPanel.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         mainPanel.setInheritsPopupMenu(true);
-        mainPanel.setPreferredSize(new java.awt.Dimension(1040, 750));
+        mainPanel.setPreferredSize(new java.awt.Dimension(1040, 800));
 
         activitiesPanel.setBackground(new java.awt.Color(217, 217, 217));
 
+        omniTable.setAutoCreateRowSorter(true);
         omniTable.setBackground(new java.awt.Color(50, 50, 50));
         omniTable.setForeground(new java.awt.Color(217, 217, 217));
         omniTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
                 {null, null, null, null},
                 {null, null, null, null},
                 {null, null, null, null},
@@ -295,7 +274,8 @@ public class Administrator extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        omniTable.setDragEnabled(true);
+        omniTable.setPreferredSize(new java.awt.Dimension(535, 1320));
+        omniTable.setRequestFocusEnabled(false);
         omniTable.setRowHeight(40);
         omniTable.setRowMargin(6);
         omniTable.setSelectionBackground(new java.awt.Color(109, 177, 147));
@@ -349,21 +329,15 @@ public class Administrator extends javax.swing.JFrame {
         searchField.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         searchField.setToolTipText("Enter your search query");
         searchField.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        searchField.setPreferredSize(new java.awt.Dimension(522, 35));
+        searchField.setPreferredSize(new java.awt.Dimension(520, 35));
+        searchField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchFieldKeyReleased(evt);
+            }
+        });
 
         jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/search2.png"))); // NOI18N
-
-        searchButton.setBackground(new java.awt.Color(109, 177, 147));
-        searchButton.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        searchButton.setForeground(new java.awt.Color(50, 50, 50));
-        searchButton.setText("Search");
-        searchButton.setPreferredSize(new java.awt.Dimension(170, 35));
-        searchButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchButtonActionPerformed(evt);
-            }
-        });
 
         jPanel3.setBackground(new java.awt.Color(50, 50, 50));
         jPanel3.setPreferredSize(new java.awt.Dimension(1035, 75));
@@ -388,18 +362,18 @@ public class Administrator extends javax.swing.JFrame {
                 .addComponent(jScrollPane2)
                 .addContainerGap())
             .addGroup(activitiesPanelLayout.createSequentialGroup()
-                .addGap(159, 159, 159)
+                .addGap(160, 160, 160)
                 .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(activitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(activitiesPanelLayout.createSequentialGroup()
+                        .addGap(108, 108, 108)
                         .addComponent(monitorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(failedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(256, Short.MAX_VALUE))
+                    .addGroup(activitiesPanelLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(268, Short.MAX_VALUE))
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         activitiesPanelLayout.setVerticalGroup(
@@ -410,17 +384,14 @@ public class Administrator extends javax.swing.JFrame {
                 .addGroup(activitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(activitiesPanelLayout.createSequentialGroup()
                         .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(activitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(monitorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(failedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(activitiesPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 545, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 535, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22))
         );
 
         mainPanel.addTab("Activities", activitiesPanel);
@@ -434,42 +405,47 @@ public class Administrator extends javax.swing.JFrame {
                 {null, null, null, null},
                 {null, null, null, null},
                 {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
                 {null, null, null, null}
             },
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        usersTable.setMinimumSize(new java.awt.Dimension(540, 1320));
+        usersTable.setPreferredSize(new java.awt.Dimension(535, 1320));
+        usersTable.setRowHeight(40);
+        usersTable.setRowMargin(6);
+        usersTable.setSelectionBackground(new java.awt.Color(109, 177, 147));
+        usersTable.setSelectionForeground(new java.awt.Color(50, 50, 50));
         jScrollPane3.setViewportView(usersTable);
+
+        jPanel4.setBackground(new java.awt.Color(50, 50, 50));
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 75, Short.MAX_VALUE)
+        );
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/search2.png"))); // NOI18N
+        jLabel1.setText("jLabel1");
+        jLabel1.setPreferredSize(new java.awt.Dimension(75, 70));
+
+        userSearch.setBackground(new java.awt.Color(50, 50, 50));
+        userSearch.setForeground(new java.awt.Color(217, 217, 217));
+        userSearch.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        userSearch.setToolTipText("Enter your search query");
+        userSearch.setPreferredSize(new java.awt.Dimension(520, 35));
+        userSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                userSearchKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout usersPanelLayout = new javax.swing.GroupLayout(usersPanel);
         usersPanel.setLayout(usersPanelLayout);
@@ -477,15 +453,27 @@ public class Administrator extends javax.swing.JFrame {
             usersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, usersPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 1011, Short.MAX_VALUE)
                 .addContainerGap())
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(usersPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(userSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(258, 258, 258))
         );
         usersPanelLayout.setVerticalGroup(
             usersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, usersPanelLayout.createSequentialGroup()
-                .addContainerGap(214, Short.MAX_VALUE)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 545, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(52, 52, 52)
+                .addGroup(usersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(userSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(115, 115, 115))
         );
 
         mainPanel.addTab("Users", usersPanel);
@@ -499,42 +487,46 @@ public class Administrator extends javax.swing.JFrame {
                 {null, null, null, null},
                 {null, null, null, null},
                 {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
                 {null, null, null, null}
             },
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        projectsTable.setPreferredSize(new java.awt.Dimension(535, 1320));
+        projectsTable.setRowHeight(40);
+        projectsTable.setRowMargin(6);
+        projectsTable.setSelectionBackground(new java.awt.Color(109, 177, 147));
+        projectsTable.setSelectionForeground(new java.awt.Color(50, 50, 50));
         jScrollPane4.setViewportView(projectsTable);
+
+        jPanel2.setBackground(new java.awt.Color(50, 50, 50));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 75, Short.MAX_VALUE)
+        );
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/search2.png"))); // NOI18N
+        jLabel2.setText("jLabel2");
+        jLabel2.setPreferredSize(new java.awt.Dimension(75, 70));
+
+        projectSearch.setBackground(new java.awt.Color(50, 50, 50));
+        projectSearch.setForeground(new java.awt.Color(217, 217, 217));
+        projectSearch.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        projectSearch.setToolTipText("Enter your search query");
+        projectSearch.setPreferredSize(new java.awt.Dimension(520, 35));
+        projectSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                projectSearchKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout projectsPanelLayout = new javax.swing.GroupLayout(projectsPanel);
         projectsPanel.setLayout(projectsPanelLayout);
@@ -544,13 +536,25 @@ public class Administrator extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane4)
                 .addContainerGap())
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(projectsPanelLayout.createSequentialGroup()
+                .addContainerGap(170, Short.MAX_VALUE)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(projectSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(258, 258, 258))
         );
         projectsPanelLayout.setVerticalGroup(
             projectsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, projectsPanelLayout.createSequentialGroup()
-                .addContainerGap(214, Short.MAX_VALUE)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 545, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(52, 52, 52)
+                .addGroup(projectsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(projectSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(115, 115, 115))
         );
 
         mainPanel.addTab("Projects", projectsPanel);
@@ -564,42 +568,45 @@ public class Administrator extends javax.swing.JFrame {
                 {null, null, null, null},
                 {null, null, null, null},
                 {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
                 {null, null, null, null}
             },
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        bugsTable.setPreferredSize(new java.awt.Dimension(535, 1320));
+        bugsTable.setRowHeight(40);
+        bugsTable.setRowMargin(6);
+        bugsTable.setSelectionBackground(new java.awt.Color(109, 177, 147));
+        bugsTable.setSelectionForeground(new java.awt.Color(50, 50, 50));
         jScrollPane5.setViewportView(bugsTable);
+
+        jPanel1.setBackground(new java.awt.Color(50, 50, 50));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 75, Short.MAX_VALUE)
+        );
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/search2.png"))); // NOI18N
+        jLabel3.setPreferredSize(new java.awt.Dimension(75, 70));
+
+        bugSearch.setBackground(new java.awt.Color(50, 50, 50));
+        bugSearch.setForeground(new java.awt.Color(217, 217, 217));
+        bugSearch.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        bugSearch.setToolTipText("Enter your search query");
+        bugSearch.setPreferredSize(new java.awt.Dimension(520, 35));
+        bugSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                bugSearchKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout bugsPanelLayout = new javax.swing.GroupLayout(bugsPanel);
         bugsPanel.setLayout(bugsPanelLayout);
@@ -607,28 +614,39 @@ public class Administrator extends javax.swing.JFrame {
             bugsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bugsPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane5)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 1011, Short.MAX_VALUE)
                 .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(bugsPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bugSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(258, 258, 258))
         );
         bugsPanelLayout.setVerticalGroup(
             bugsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bugsPanelLayout.createSequentialGroup()
-                .addContainerGap(214, Short.MAX_VALUE)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 545, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(bugsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(bugsPanelLayout.createSequentialGroup()
+                        .addGap(52, 52, 52)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(bugsPanelLayout.createSequentialGroup()
+                        .addGap(70, 70, 70)
+                        .addComponent(bugSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(115, 115, 115))
         );
 
         mainPanel.addTab("Bugs", bugsPanel);
 
-        getContentPane().add(mainPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, -30, 1040, 800));
+        getContentPane().add(mainPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, -50, 1040, 820));
         mainPanel.getAccessibleContext().setAccessibleDescription("Activites");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_searchButtonActionPerformed
 
     private void activitiesLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_activitiesLabelMouseClicked
         choice = 0;
@@ -664,6 +682,16 @@ public class Administrator extends javax.swing.JFrame {
         activitiesLabelMouseExited(evt);
         projectsLabelMouseExited(evt);
         bugsLabelMouseExited(evt);
+        
+        try 
+        {
+            command = conObj.prepareStatement("SELECT * FROM USERS");
+            resObj = command.executeQuery();
+            usersTable.setModel(DbUtils.resultSetToTableModel(resObj));
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(Administrator.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_usersLabelMouseClicked
 
     private void usersLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usersLabelMouseEntered
@@ -689,6 +717,16 @@ public class Administrator extends javax.swing.JFrame {
         usersLabelMouseExited(evt);
         activitiesLabelMouseExited(evt);
         bugsLabelMouseExited(evt);
+        
+        try 
+        {
+            command = conObj.prepareStatement("SELECT * FROM PROJECTS");
+            resObj = command.executeQuery();
+            projectsTable.setModel(DbUtils.resultSetToTableModel(resObj));
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(Administrator.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_projectsLabelMouseClicked
 
     private void projectsLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_projectsLabelMouseEntered
@@ -714,6 +752,16 @@ public class Administrator extends javax.swing.JFrame {
         usersLabelMouseExited(evt);
         projectsLabelMouseExited(evt);
         activitiesLabelMouseExited(evt);
+        
+        try 
+        {
+            command = conObj.prepareStatement("SELECT * FROM BUGS");
+            resObj = command.executeQuery();
+            bugsTable.setModel(DbUtils.resultSetToTableModel(resObj));
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(Administrator.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_bugsLabelMouseClicked
 
     private void bugsLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bugsLabelMouseEntered
@@ -758,7 +806,7 @@ public class Administrator extends javax.swing.JFrame {
         }
         catch (SQLException ex)
         {
-            ex.printStackTrace();
+            System.out.println(ex.getMessage());
         }
     }//GEN-LAST:event_monitorLabelMouseClicked
 
@@ -790,7 +838,7 @@ public class Administrator extends javax.swing.JFrame {
         }
         catch (SQLException ex)
         {
-            ex.printStackTrace();
+            System.out.println(ex.getMessage());
         }
     }//GEN-LAST:event_failedLabelMouseClicked
 
@@ -809,9 +857,102 @@ public class Administrator extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_failedLabelMouseExited
 
-    /**
-     * @param args the command line arguments
-     */
+    private void searchFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchFieldKeyReleased
+        try
+        {
+            if (searchField.getText().isEmpty())
+            {
+                if (table == 0)
+                    command = conObj.prepareStatement("SELECT * FROM ACTIVITIES");
+                else if (table == 1)
+                    command = conObj.prepareStatement("SELECT * FROM FAILEDLOGINS");
+            }
+            else
+            {
+                if (table == 0)
+                {
+                    command = conObj.prepareStatement("SELECT * FROM ACTIVITIES WHERE USERNAME LIKE ? OR ROLE LIKE ? OR ACTION LIKE ?");
+                    command.setString(1, "%"+searchField.getText()+"%");
+                    command.setString(2, "%"+searchField.getText()+"%");
+                    command.setString(3, "%"+searchField.getText()+"%");
+                }
+                else if (table == 1)
+                {
+                    command = conObj.prepareStatement("SELECT * FROM FAILEDLOGINS WHERE USERNAME LIKE ? OR PASSWORD LIKE ?");
+                    command.setString(1, "%"+searchField.getText()+"%");
+                    command.setString(2, "%"+searchField.getText()+"%");
+                }
+            }
+            resObj = command.executeQuery();
+            omniTable.setModel(DbUtils.resultSetToTableModel(resObj));
+        }
+        catch (SQLException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_searchFieldKeyReleased
+
+    private void userSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_userSearchKeyReleased
+        try
+        {
+            if (userSearch.getText().isEmpty())
+                command = conObj.prepareStatement("SELECT * FROM USERS");
+            else
+            {
+                command = conObj.prepareStatement("SELECT * FROM USERS WHERE USERNAME LIKE ? OR PASSWORD LIKE ? OR ROLE LIKE ?");
+                command.setString(1, "%"+userSearch.getText()+"%");
+                command.setString(2, "%"+userSearch.getText()+"%");
+                command.setString(3, "%"+userSearch.getText()+"%");
+            }
+            resObj = command.executeQuery();
+            usersTable.setModel(DbUtils.resultSetToTableModel(resObj));
+        }
+        catch (SQLException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_userSearchKeyReleased
+
+    private void projectSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_projectSearchKeyReleased
+        try
+        {
+            if (projectSearch.getText().isEmpty())
+                command = conObj.prepareStatement("SELECT * FROM PROJECTS");
+            else
+            {
+                if (projectSearch.getText().matches("[a-zA-Z]+"))
+                {
+                    System.out.println("HELLO");
+                    command = conObj.prepareStatement("SELECT * FROM PROJECTS WHERE PROJECTNAME LIKE ?");
+                    command.setString(1, "%"+projectSearch.getText()+"%");
+                }
+                else if (projectSearch.getText().matches("[0-9]+"))
+                {
+                    System.out.println("HELLO2");
+                    command = conObj.prepareStatement("SELECT * FROM PROJECTS WHERE ID = ?");
+                    command.setInt(1, Integer.parseInt(projectSearch.getText()));
+                }
+                else
+                {
+                    System.out.println("HELLO3");
+                    command = conObj.prepareStatement("SELECT * FROM PROJECTS WHERE PROJECTNAME LIKE ?");
+                    command.setString(1, "%"+projectSearch.getText()+"%");
+                }
+                    
+            }
+            resObj = command.executeQuery();
+            usersTable.setModel(DbUtils.resultSetToTableModel(resObj));
+        }
+        catch (SQLException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_projectSearchKeyReleased
+
+    private void bugSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_bugSearchKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bugSearchKeyReleased
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -829,22 +970,27 @@ public class Administrator extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Administrator().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Administrator().setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel activitiesLabel;
     private javax.swing.JPanel activitiesPanel;
+    private javax.swing.JTextField bugSearch;
     private javax.swing.JLabel bugsLabel;
     private javax.swing.JPanel bugsPanel;
     private javax.swing.JTable bugsTable;
     private javax.swing.JLabel failedLabel;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -854,12 +1000,13 @@ public class Administrator extends javax.swing.JFrame {
     private javax.swing.JLabel monitorLabel;
     private javax.swing.JTable omniTable;
     private javax.swing.JLabel profileLabel;
+    private javax.swing.JTextField projectSearch;
     private javax.swing.JLabel projectsLabel;
     private javax.swing.JPanel projectsPanel;
     private javax.swing.JTable projectsTable;
-    private javax.swing.JButton searchButton;
     private javax.swing.JTextField searchField;
     private javax.swing.JPanel sidePanel;
+    private javax.swing.JTextField userSearch;
     private javax.swing.JLabel usersLabel;
     private javax.swing.JPanel usersPanel;
     private javax.swing.JTable usersTable;
