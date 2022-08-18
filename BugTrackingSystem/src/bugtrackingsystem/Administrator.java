@@ -338,6 +338,7 @@ public final class Administrator extends javax.swing.JFrame {
 
         jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/search2.png"))); // NOI18N
+        jLabel15.setPreferredSize(new java.awt.Dimension(75, 70));
 
         jPanel3.setBackground(new java.awt.Color(50, 50, 50));
         jPanel3.setPreferredSize(new java.awt.Dimension(1035, 75));
@@ -362,7 +363,7 @@ public final class Administrator extends javax.swing.JFrame {
                 .addComponent(jScrollPane2)
                 .addContainerGap())
             .addGroup(activitiesPanelLayout.createSequentialGroup()
-                .addGap(160, 160, 160)
+                .addContainerGap(170, Short.MAX_VALUE)
                 .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(activitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(activitiesPanelLayout.createSequentialGroup()
@@ -373,7 +374,7 @@ public final class Administrator extends javax.swing.JFrame {
                     .addGroup(activitiesPanelLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(268, Short.MAX_VALUE))
+                .addGap(258, 258, 258))
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         activitiesPanelLayout.setVerticalGroup(
@@ -899,10 +900,18 @@ public final class Administrator extends javax.swing.JFrame {
                 command = conObj.prepareStatement("SELECT * FROM USERS");
             else
             {
-                command = conObj.prepareStatement("SELECT * FROM USERS WHERE USERNAME LIKE ? OR PASSWORD LIKE ? OR ROLE LIKE ?");
-                command.setString(1, "%"+userSearch.getText()+"%");
-                command.setString(2, "%"+userSearch.getText()+"%");
-                command.setString(3, "%"+userSearch.getText()+"%");
+                if (userSearch.getText().matches("[0-9]+"))
+                {
+                    command = conObj.prepareStatement("SELECT * FROM USERS WHERE USERID = ?");
+                    command.setInt(1, Integer.parseInt(userSearch.getText()));
+                }
+                else
+                {
+                    command = conObj.prepareStatement("SELECT * FROM USERS WHERE USERNAME LIKE ? OR PASSWORD LIKE ? OR ROLE LIKE ?");
+                    command.setString(1, "%"+userSearch.getText()+"%");
+                    command.setString(2, "%"+userSearch.getText()+"%");
+                    command.setString(3, "%"+userSearch.getText()+"%");
+                }
             }
             resObj = command.executeQuery();
             usersTable.setModel(DbUtils.resultSetToTableModel(resObj));
@@ -920,28 +929,19 @@ public final class Administrator extends javax.swing.JFrame {
                 command = conObj.prepareStatement("SELECT * FROM PROJECTS");
             else
             {
-                if (projectSearch.getText().matches("[a-zA-Z]+"))
+                if (projectSearch.getText().matches("[0-9]+"))
                 {
-                    System.out.println("HELLO");
-                    command = conObj.prepareStatement("SELECT * FROM PROJECTS WHERE PROJECTNAME LIKE ?");
-                    command.setString(1, "%"+projectSearch.getText()+"%");
-                }
-                else if (projectSearch.getText().matches("[0-9]+"))
-                {
-                    System.out.println("HELLO2");
-                    command = conObj.prepareStatement("SELECT * FROM PROJECTS WHERE ID = ?");
+                    command = conObj.prepareStatement("SELECT * FROM PROJECTS WHERE PROJECTID = ?");
                     command.setInt(1, Integer.parseInt(projectSearch.getText()));
                 }
                 else
                 {
-                    System.out.println("HELLO3");
                     command = conObj.prepareStatement("SELECT * FROM PROJECTS WHERE PROJECTNAME LIKE ?");
                     command.setString(1, "%"+projectSearch.getText()+"%");
                 }
-                    
             }
             resObj = command.executeQuery();
-            usersTable.setModel(DbUtils.resultSetToTableModel(resObj));
+            projectsTable.setModel(DbUtils.resultSetToTableModel(resObj));
         }
         catch (SQLException ex)
         {
@@ -950,7 +950,36 @@ public final class Administrator extends javax.swing.JFrame {
     }//GEN-LAST:event_projectSearchKeyReleased
 
     private void bugSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_bugSearchKeyReleased
-        // TODO add your handling code here:
+        try
+        {
+            if (bugSearch.getText().isEmpty())
+            {
+                command = conObj.prepareStatement("SELECT * FROM BUGS");
+            }
+            else
+            {
+                if (bugSearch.getText().matches("[0-9]+"))
+                {
+                    command = conObj.prepareStatement("SELECT * FROM BUGS WHERE BUGID = ? OR PROJECTID = ? OR TESTERID = ? OR DEVELOPERID = ?");
+                    command.setInt(1, Integer.parseInt(bugSearch.getText()));
+                    command.setInt(2, Integer.parseInt(bugSearch.getText()));
+                    command.setInt(3, Integer.parseInt(bugSearch.getText()));
+                    command.setInt(4, Integer.parseInt(bugSearch.getText()));
+                }
+                else
+                {
+                    command = conObj.prepareStatement("SELECT * FROM BUGS WHERE BUGNAME LIKE ? OR DESCRIPTION LIKE ?");
+                    command.setString(1, "%"+bugSearch.getText()+"%");
+                    command.setString(2, "%"+bugSearch.getText()+"%");
+                }
+            }
+            resObj = command.executeQuery();
+            bugsTable.setModel(DbUtils.resultSetToTableModel(resObj));
+        }
+        catch (SQLException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
     }//GEN-LAST:event_bugSearchKeyReleased
 
     public static void main(String args[]) {
@@ -961,7 +990,7 @@ public final class Administrator extends javax.swing.JFrame {
          */
         try 
         {
-                UIManager.setLookAndFeel(new FlatDarkLaf());
+            UIManager.setLookAndFeel(new FlatDarkLaf());
         } 
         catch (Exception e)
         {
