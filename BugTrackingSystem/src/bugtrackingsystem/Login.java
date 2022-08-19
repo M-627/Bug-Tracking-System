@@ -5,9 +5,12 @@ import java.awt.font.TextAttribute;
 import java.util.Map;
 import java.sql.*;
 import bugtrackingsystem.dataConnection;
+import com.formdev.flatlaf.FlatDarkLaf;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 public class Login extends javax.swing.JFrame implements dataConnection {
 
@@ -15,7 +18,7 @@ public class Login extends javax.swing.JFrame implements dataConnection {
     Connection conObj = null;
     Statement smtObj = null;
     ResultSet resObj = null;
-    int counter = 0;
+    int counter2 = 0;
     
     public Login() {
         initComponents();
@@ -235,7 +238,7 @@ public class Login extends javax.swing.JFrame implements dataConnection {
     private void forgotLabelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forgotLabelMouseExited
         evt.getComponent().setFont(orgFont);
     }//GEN-LAST:event_forgotLabelMouseExited
-
+int counter=0;
     private void forgotLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forgotLabelMouseClicked
         String frgtnUser = JOptionPane.showInputDialog(rootPane, "Enter your username:");
         try
@@ -246,7 +249,7 @@ public class Login extends javax.swing.JFrame implements dataConnection {
                 if (frgtnUser.equals(resObj.getString("USERNAME")))
                 {
                     String frgtnRole = resObj.getString("ROLE");
-                    new CurrentUser(frgtnUser, frgtnRole);
+  //                  new CurrentUser(frgtnUser, frgtnRole);
                     activity("Requested password reset");
                 }
             }
@@ -278,6 +281,7 @@ public class Login extends javax.swing.JFrame implements dataConnection {
             String user = userField.getText();
             String pass = passField.getText();
             String role = "";
+            int id=0;
             int userFound = 0;
             int passFound = 0;
             
@@ -291,7 +295,8 @@ public class Login extends javax.swing.JFrame implements dataConnection {
                     {
                         passFound = 1;
                         role = resObj.getString("ROLE");
-                        new CurrentUser(user, role);
+                        id= resObj.getInt("userid");
+                        new CurrentUser(user, role,id);
                     }
                     break;
                 }
@@ -319,7 +324,7 @@ public class Login extends javax.swing.JFrame implements dataConnection {
             
             //Failed login attempts
             PreparedStatement add;
-            counter++;
+            counter2++;
             
             if (userFound == 0 && passFound == 0)
             {
@@ -343,7 +348,7 @@ public class Login extends javax.swing.JFrame implements dataConnection {
                 add.setString(1, user);
                 add.executeUpdate();
             }
-            if (counter == 5)
+            if (counter2 == 5)
                 System.exit(0);
         }
         catch (SQLException ex)
@@ -364,25 +369,16 @@ public class Login extends javax.swing.JFrame implements dataConnection {
         }
     }//GEN-LAST:event_LoginButtonActionPerformed
     
-public static void main(String args[]){
+public static void main(String args[]) throws UnsupportedLookAndFeelException{
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+        try{
+                        UIManager.setLookAndFeel(new FlatDarkLaf());
+
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        catch (Exception ex) {
             java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>

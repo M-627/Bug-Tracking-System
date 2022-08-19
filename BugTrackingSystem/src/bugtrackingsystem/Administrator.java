@@ -275,7 +275,6 @@ public final class Administrator extends javax.swing.JFrame {
             }
         ));
         omniTable.setPreferredSize(new java.awt.Dimension(535, 1320));
-        omniTable.setRequestFocusEnabled(false);
         omniTable.setRowHeight(40);
         omniTable.setRowMargin(6);
         omniTable.setSelectionBackground(new java.awt.Color(109, 177, 147));

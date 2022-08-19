@@ -13,8 +13,10 @@ public class CurrentUser {
 
     public static String user;
     public static String role;
-    public CurrentUser(String uname, String role) {
+    public static int id;
+    public CurrentUser(String uname, String role,int id) {
         CurrentUser.user = uname;
         CurrentUser.role = role;
+        CurrentUser.id = id;
     }
 }

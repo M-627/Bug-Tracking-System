@@ -5,18 +5,56 @@
  */
 package bugtrackingsystem;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.UIManager;
+import java.sql.*;
+import net.proteanit.sql.DbUtils;
+import static bugtrackingsystem.dataConnection.host;
+import static bugtrackingsystem.dataConnection.pass;
+import static bugtrackingsystem.dataConnection.uname;
+import com.formdev.flatlaf.FlatDarkLaf;
 import java.awt.Color;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.UIManager;
 /**
  *
  * @author mariam
  */
+
+  //DB connection objects
+   
 public class Devoloper extends javax.swing.JFrame implements dataConnection {
 
     public Devoloper() {
         initComponents();
-    }
+        getConnected();
+        this.setLocationRelativeTo(null);
 
+    }
+    Connection conObj = null;
+    Statement smtObj = null;
+    ResultSet resObj = null;
+    
+     PreparedStatement command;
+    
+    public void getConnected()
+    {
+        try
+        {
+            conObj = DriverManager.getConnection(host, uname, pass);
+            smtObj = conObj.createStatement( ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY );
+            resObj = smtObj.executeQuery("SELECT USERS.USERNAME, PROJECTS.CREATIONDATE, PROJECTS.PROJECTNAME FROM ASSIGNMENTS RIGHT JOIN PROJECTS ON PROJECTS.PROJECTID = ASSIGNMENTS.PROJECTID RIGHT JOIN USERS ON USERS.USERID = ASSIGNMENTS.USERID");
+            
+            jTable1.setModel(DbUtils.resultSetToTableModel(resObj));
+        }
+        catch (SQLException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -37,9 +75,18 @@ public class Devoloper extends javax.swing.JFrame implements dataConnection {
         SystemName4 = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        noOfProjects = new javax.swing.JPanel();
+        PN = new javax.swing.JLabel();
+        noOfBugs = new javax.swing.JPanel();
+        BN = new javax.swing.JLabel();
+        ProjectNumber = new javax.swing.JLabel();
+        BugNumber = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
 
@@ -197,31 +244,120 @@ public class Devoloper extends javax.swing.JFrame implements dataConnection {
                 .addComponent(SystemName4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 0, -1, -1));
+        getContentPane().add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 0, -1, 60));
 
         jTabbedPane1.setBackground(new java.awt.Color(217, 217, 217));
 
         jPanel2.setBackground(new java.awt.Color(217, 217, 217));
 
-        jLabel2.setFont(new java.awt.Font("Dialog", 0, 30)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(50, 50, 50));
-        jLabel2.setText("Dashboard");
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jTable1.setPreferredSize(new java.awt.Dimension(535, 1320));
+        jScrollPane1.setViewportView(jTable1);
+
+        noOfProjects.setBackground(new java.awt.Color(50, 50, 50));
+        noOfProjects.setBorder(javax.swing.BorderFactory.createMatteBorder(20, 0, 0, 0, new java.awt.Color(133, 89, 165)));
+        noOfProjects.setPreferredSize(new java.awt.Dimension(260, 140));
+
+        PN.setBackground(new java.awt.Color(50, 50, 50));
+        PN.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
+        PN.setForeground(new java.awt.Color(217, 217, 217));
+        PN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/projects.png"))); // NOI18N
+        PN.setText(" 10");
+        PN.setOpaque(true);
+
+        javax.swing.GroupLayout noOfProjectsLayout = new javax.swing.GroupLayout(noOfProjects);
+        noOfProjects.setLayout(noOfProjectsLayout);
+        noOfProjectsLayout.setHorizontalGroup(
+            noOfProjectsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(noOfProjectsLayout.createSequentialGroup()
+                .addGap(88, 88, 88)
+                .addComponent(PN, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(97, Short.MAX_VALUE))
+        );
+        noOfProjectsLayout.setVerticalGroup(
+            noOfProjectsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(noOfProjectsLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(PN)
+                .addContainerGap(33, Short.MAX_VALUE))
+        );
+
+        noOfBugs.setBackground(new java.awt.Color(50, 50, 50));
+        noOfBugs.setBorder(javax.swing.BorderFactory.createMatteBorder(20, 0, 0, 0, new java.awt.Color(109, 177, 147)));
+        noOfBugs.setPreferredSize(new java.awt.Dimension(260, 140));
+
+        BN.setBackground(new java.awt.Color(50, 50, 50));
+        BN.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
+        BN.setForeground(new java.awt.Color(217, 217, 217));
+        BN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/bugs.png"))); // NOI18N
+        BN.setText("10");
+        BN.setOpaque(true);
+
+        javax.swing.GroupLayout noOfBugsLayout = new javax.swing.GroupLayout(noOfBugs);
+        noOfBugs.setLayout(noOfBugsLayout);
+        noOfBugsLayout.setHorizontalGroup(
+            noOfBugsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(noOfBugsLayout.createSequentialGroup()
+                .addGap(117, 117, 117)
+                .addComponent(BN, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(113, Short.MAX_VALUE))
+        );
+        noOfBugsLayout.setVerticalGroup(
+            noOfBugsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(noOfBugsLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(BN)
+                .addContainerGap(37, Short.MAX_VALUE))
+        );
+
+        ProjectNumber.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        ProjectNumber.setForeground(new java.awt.Color(50, 50, 50));
+        ProjectNumber.setText("Number of projects assigned to you");
+
+        BugNumber.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        BugNumber.setForeground(new java.awt.Color(50, 50, 50));
+        BugNumber.setText("Number of bugs assigned to you to be tested:");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(201, 201, 201)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 423, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(401, Short.MAX_VALUE))
+                .addGap(68, 68, 68)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(ProjectNumber, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(noOfProjects, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 240, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(noOfBugs, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BugNumber))
+                .addGap(68, 68, 68))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(42, 42, 42)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(562, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(60, 60, 60)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ProjectNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BugNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(noOfProjects, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(noOfBugs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(70, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("tab1", jPanel2);
@@ -232,21 +368,41 @@ public class Devoloper extends javax.swing.JFrame implements dataConnection {
         jLabel1.setForeground(new java.awt.Color(50, 50, 50));
         jLabel1.setText("projects");
 
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable2);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(308, 308, 308)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(528, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(308, 308, 308)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(71, 71, 71)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 634, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(320, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(82, 82, 82)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(522, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(102, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("tab2", jPanel3);
@@ -271,12 +427,12 @@ public class Devoloper extends javax.swing.JFrame implements dataConnection {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(82, 82, 82)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(522, Short.MAX_VALUE))
+                .addContainerGap(542, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("tab3", jPanel4);
 
-        getContentPane().add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 30, 1030, 740));
+        getContentPane().add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 10, 1030, 760));
 
         setSize(new java.awt.Dimension(1384, 815));
         setLocationRelativeTo(null);
@@ -294,6 +450,17 @@ public class Devoloper extends javax.swing.JFrame implements dataConnection {
     ProjectLogo.setBackground(pink);
     ProjectLogo.setForeground(black);
     choose=2;
+    try
+        {
+           command=conObj.prepareStatement("select projects.projectid, projects.projectname, projects.creationdate , projects.creationtime from assignments inner join projects on assignments.projectid = projects.projectid where assignments.userid=?" );
+           command.setInt(1,CurrentUser.id);
+           resObj=command.executeQuery();
+            jTable2.setModel(DbUtils.resultSetToTableModel(resObj));
+        }
+        catch (SQLException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
 // TODO add your handling code here:
     }//GEN-LAST:event_ProjectLogoMouseClicked
 
@@ -410,21 +577,12 @@ public class Devoloper extends javax.swing.JFrame implements dataConnection {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+            UIManager.setLookAndFeel(new FlatDarkLaf());
+            
             }
-        } catch (ClassNotFoundException ex) {
+        catch (Exception ex) {
             java.util.logging.Logger.getLogger(Devoloper.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Devoloper.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Devoloper.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Devoloper.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
+        } 
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -443,20 +601,29 @@ public class Devoloper extends javax.swing.JFrame implements dataConnection {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel BN;
     private javax.swing.JLabel BugLogo;
+    private javax.swing.JLabel BugNumber;
     private javax.swing.JLabel Dashlogo;
     private javax.swing.JLabel LogoutLogo;
+    private javax.swing.JLabel PN;
     private javax.swing.JLabel ProjectLogo;
+    private javax.swing.JLabel ProjectNumber;
     private javax.swing.JPanel SidePanel;
     private javax.swing.JLabel SystemName4;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JPanel noOfBugs;
+    private javax.swing.JPanel noOfProjects;
     private javax.swing.JLabel testerLogo;
     private javax.swing.JLabel testerName;
     // End of variables declaration//GEN-END:variables
