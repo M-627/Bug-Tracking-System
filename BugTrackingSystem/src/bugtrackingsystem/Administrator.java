@@ -55,7 +55,7 @@ public final class Administrator extends javax.swing.JFrame {
         {
             conObj = DriverManager.getConnection(host, uname, pass);
             smtObj = conObj.createStatement( ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY );
-            resObj = smtObj.executeQuery("SELECT * FROM ACTIVITIES");
+            resObj = smtObj.executeQuery("SELECT USERS.USERNAME, PROJECTS.CREATIONDATE, PROJECTS.PROJECTNAME FROM ASSIGNMENTS RIGHT JOIN PROJECTS ON PROJECTS.PROJECTID = ASSIGNMENTS.PROJECTID RIGHT JOIN USERS ON USERS.USERID = ASSIGNMENTS.USERID");
             
             omniTable.setModel(DbUtils.resultSetToTableModel(resObj));
         }
