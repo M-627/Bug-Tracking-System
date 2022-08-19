@@ -16,7 +16,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import net.proteanit.sql.DbUtils;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -50,7 +54,26 @@ public class Tester1 extends javax.swing.JFrame implements dataConnection {
     
     public Tester1() {
         initComponents();
+        testerLogo.setText(CurrentUser.user);
         showPieChart();
+        getConnected();
+        this.setLocationRelativeTo(null);
+    }
+    
+    public void getConnected()
+    {
+        try
+        {
+            con= DriverManager.getConnection(host, uname, pass);
+            st = con.createStatement( ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY );
+            rs = st.executeQuery("select projects.projectid, projects.projectname, projects.creationdate from assignments inner join projects on assignments.projectid = projects.projectid");
+         
+            pbTable.setModel(DbUtils.resultSetToTableModel(rs));
+        }
+        catch (SQLException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
     }
     
     //generating BugID automatically
@@ -124,20 +147,20 @@ public class Tester1 extends javax.swing.JFrame implements dataConnection {
         dashboard = new javax.swing.JPanel();
         Search1 = new app.bolivia.swing.JCTextField();
         searchLogo = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        rSTableMetro1 = new rojerusan.RSTableMetro();
         noOfProjects = new javax.swing.JPanel();
         PN = new javax.swing.JLabel();
         ProjectNumber = new javax.swing.JLabel();
         noOfBugs = new javax.swing.JPanel();
         BN = new javax.swing.JLabel();
         BugNumber = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        pbTable = new javax.swing.JTable();
         project = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        rSTableMetro2 = new rojerusan.RSTableMetro();
         Search = new app.bolivia.swing.JCTextField();
         SearchLogo = new javax.swing.JLabel();
         ProjectsDetails = new javax.swing.JLabel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        projects = new javax.swing.JTable();
         bug = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTabbedPane2 = new javax.swing.JTabbedPane();
@@ -292,15 +315,14 @@ public class Tester1 extends javax.swing.JFrame implements dataConnection {
         SidePanel.setLayout(SidePanelLayout);
         SidePanelLayout.setHorizontalGroup(
             SidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SidePanelLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(testerLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(SidePanelLayout.createSequentialGroup()
-                .addGroup(SidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(Dashlogo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                    .addComponent(BugLogo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(LogoutLogo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ProjectLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(SidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(testerLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(SidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(Dashlogo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                        .addComponent(BugLogo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(LogoutLogo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(ProjectLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         SidePanelLayout.setVerticalGroup(
@@ -346,39 +368,28 @@ public class Tester1 extends javax.swing.JFrame implements dataConnection {
         Search1.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         Search1.setPhColor(new java.awt.Color(150, 89, 165));
         Search1.setPlaceholder("Search....");
+        Search1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Search1MouseClicked(evt);
+            }
+        });
+        Search1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                Search1KeyReleased(evt);
+            }
+        });
 
         searchLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/search2.png"))); // NOI18N
         searchLogo.setText("jLabel1");
 
-        jScrollPane3.setBackground(new java.awt.Color(222, 222, 222));
-        jScrollPane3.setForeground(new java.awt.Color(50, 50, 50));
-        jScrollPane3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-
-        rSTableMetro1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        rSTableMetro1.setColorBackgoundHead(new java.awt.Color(50, 50, 50));
-        rSTableMetro1.setColorBordeFilas(new java.awt.Color(50, 50, 50));
-        rSTableMetro1.setColorFilasBackgound1(new java.awt.Color(217, 217, 217));
-        rSTableMetro1.setColorFilasBackgound2(new java.awt.Color(217, 217, 217));
-        rSTableMetro1.setColorFilasForeground1(new java.awt.Color(150, 89, 165));
-        rSTableMetro1.setColorFilasForeground2(new java.awt.Color(150, 89, 165));
-        rSTableMetro1.setColorForegroundHead(new java.awt.Color(217, 217, 217));
-        rSTableMetro1.setColorSelBackgound(new java.awt.Color(150, 89, 165));
-        rSTableMetro1.setColorSelForeground(new java.awt.Color(50, 50, 50));
-        jScrollPane3.setViewportView(rSTableMetro1);
-
         noOfProjects.setBackground(new java.awt.Color(50, 50, 50));
         noOfProjects.setBorder(javax.swing.BorderFactory.createMatteBorder(20, 0, 0, 0, new java.awt.Color(133, 89, 165)));
         noOfProjects.setPreferredSize(new java.awt.Dimension(260, 140));
+        noOfProjects.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                noOfProjectsMouseClicked(evt);
+            }
+        });
 
         PN.setBackground(new java.awt.Color(50, 50, 50));
         PN.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
@@ -440,10 +451,33 @@ public class Tester1 extends javax.swing.JFrame implements dataConnection {
         BugNumber.setForeground(new java.awt.Color(50, 50, 50));
         BugNumber.setText("Number of bugs assigned to you to be tested:");
 
+        pbTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(pbTable);
+
         javax.swing.GroupLayout dashboardLayout = new javax.swing.GroupLayout(dashboard);
         dashboard.setLayout(dashboardLayout);
         dashboardLayout.setHorizontalGroup(
             dashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dashboardLayout.createSequentialGroup()
+                .addGap(70, 70, 70)
+                .addGroup(dashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(ProjectNumber, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(noOfProjects, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 251, Short.MAX_VALUE)
+                .addGroup(dashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(BugNumber, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(noOfBugs, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(95, 95, 95))
             .addGroup(dashboardLayout.createSequentialGroup()
                 .addGroup(dashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(dashboardLayout.createSequentialGroup()
@@ -453,18 +487,8 @@ public class Tester1 extends javax.swing.JFrame implements dataConnection {
                         .addComponent(Search1, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(dashboardLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 992, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(61, Short.MAX_VALUE))
-            .addGroup(dashboardLayout.createSequentialGroup()
-                .addGap(70, 70, 70)
-                .addGroup(dashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(ProjectNumber, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(noOfProjects, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(dashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(BugNumber, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(noOfBugs, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(95, 95, 95))
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 1021, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         dashboardLayout.setVerticalGroup(
             dashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -483,40 +507,14 @@ public class Tester1 extends javax.swing.JFrame implements dataConnection {
                 .addGroup(dashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Search1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(searchLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(187, 187, 187))
         );
 
         jTabbedPane1.addTab("tab1", dashboard);
 
         project.setBackground(new java.awt.Color(217, 217, 217));
-
-        jScrollPane2.setBackground(new java.awt.Color(222, 222, 222));
-        jScrollPane2.setForeground(new java.awt.Color(50, 50, 50));
-        jScrollPane2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-
-        rSTableMetro2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        rSTableMetro2.setColorBackgoundHead(new java.awt.Color(50, 50, 50));
-        rSTableMetro2.setColorBordeFilas(new java.awt.Color(50, 50, 50));
-        rSTableMetro2.setColorFilasBackgound1(new java.awt.Color(217, 217, 217));
-        rSTableMetro2.setColorFilasBackgound2(new java.awt.Color(217, 217, 217));
-        rSTableMetro2.setColorFilasForeground1(new java.awt.Color(150, 89, 165));
-        rSTableMetro2.setColorFilasForeground2(new java.awt.Color(150, 89, 165));
-        rSTableMetro2.setColorForegroundHead(new java.awt.Color(217, 217, 217));
-        rSTableMetro2.setColorSelBackgound(new java.awt.Color(150, 89, 165));
-        rSTableMetro2.setColorSelForeground(new java.awt.Color(50, 50, 50));
-        jScrollPane2.setViewportView(rSTableMetro2);
 
         Search.setBackground(new java.awt.Color(217, 217, 217));
         Search.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(150, 89, 165)));
@@ -525,6 +523,11 @@ public class Tester1 extends javax.swing.JFrame implements dataConnection {
         Search.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         Search.setPhColor(new java.awt.Color(150, 89, 165));
         Search.setPlaceholder("Search....");
+        Search.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                SearchKeyReleased(evt);
+            }
+        });
 
         SearchLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/search2.png"))); // NOI18N
         SearchLogo.setText("jLabel1");
@@ -535,27 +538,53 @@ public class Tester1 extends javax.swing.JFrame implements dataConnection {
         ProjectsDetails.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/projects.png"))); // NOI18N
         ProjectsDetails.setText("Project Details:");
 
+        projects.setBackground(new java.awt.Color(50, 50, 50));
+        projects.setForeground(new java.awt.Color(217, 217, 217));
+        projects.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        projects.setIntercellSpacing(new java.awt.Dimension(1, 6));
+        projects.setMaximumSize(new java.awt.Dimension(2147483647, 160));
+        projects.setMinimumSize(new java.awt.Dimension(540, 1031));
+        projects.setRowHeight(40);
+        projects.setRowSelectionAllowed(true);
+        projects.setSelectionBackground(new java.awt.Color(109, 177, 147));
+        projects.setSelectionForeground(new java.awt.Color(50, 50, 50));
+        projects.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                projectsMouseClicked(evt);
+            }
+        });
+        jScrollPane6.setViewportView(projects);
+
         javax.swing.GroupLayout projectLayout = new javax.swing.GroupLayout(project);
         project.setLayout(projectLayout);
         projectLayout.setHorizontalGroup(
             projectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(projectLayout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(337, Short.MAX_VALUE)
+                .addComponent(SearchLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(projectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(projectLayout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 992, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(61, Short.MAX_VALUE))
+                        .addComponent(ProjectsDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, projectLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(SearchLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(projectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(projectLayout.createSequentialGroup()
-                                .addComponent(ProjectsDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap())
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, projectLayout.createSequentialGroup()
-                                .addComponent(Search, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(283, 283, 283))))))
+                        .addComponent(Search, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(283, 283, 283))))
+            .addGroup(projectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(projectLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 1031, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(22, Short.MAX_VALUE)))
         );
         projectLayout.setVerticalGroup(
             projectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -566,9 +595,12 @@ public class Tester1 extends javax.swing.JFrame implements dataConnection {
                     .addComponent(SearchLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(45, 45, 45)
                 .addComponent(ProjectsDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(483, 483, 483))
+                .addGap(635, 635, 635))
+            .addGroup(projectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(projectLayout.createSequentialGroup()
+                    .addGap(220, 220, 220)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(191, Short.MAX_VALUE)))
         );
 
         jTabbedPane1.addTab("tab2", project);
@@ -1236,12 +1268,23 @@ public class Tester1 extends javax.swing.JFrame implements dataConnection {
     }//GEN-LAST:event_DashlogoMouseExited
 
     private void ProjectLogoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProjectLogoMouseClicked
-        jTabbedPane1.setSelectedIndex(1);
+       jTabbedPane1.setSelectedIndex(1);
         choose=2;
         ProjectLogo.setBackground(Purple);
         ProjectLogo.setForeground(Black);
         DashlogoMouseExited(evt);
         BugLogoMouseExited(evt);
+        try
+        {
+            command = con.prepareStatement("select projects.projectid, projects.projectname, projects.creationdate from assignments inner join projects on assignments.projectid = projects.projectid where assignments.userid=?");
+            command.setInt(1,CurrentUser.id);
+            rs = command.executeQuery();
+            projects.setModel(DbUtils.resultSetToTableModel(rs));
+        }
+        catch (SQLException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
     }//GEN-LAST:event_ProjectLogoMouseClicked
 
     private void ProjectLogoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProjectLogoMouseEntered
@@ -1342,6 +1385,51 @@ public class Tester1 extends javax.swing.JFrame implements dataConnection {
         AddButton.setForeground(Black);
     }//GEN-LAST:event_AddButtonMouseExited
 
+    private void Search1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Search1MouseClicked
+        Search1.setText("");
+    }//GEN-LAST:event_Search1MouseClicked
+
+    private void Search1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Search1KeyReleased
+        
+    }//GEN-LAST:event_Search1KeyReleased
+
+    private void noOfProjectsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_noOfProjectsMouseClicked
+        try
+        {
+            command = con.prepareStatement("SELECT PROJECTS.PROJECTID, PROJECTS.PROJECTNAME,PROJECT.CREATIONDATE FROM ASSIGNMENTS INNER JOIN PROJECTS ON ASSIGNMENTS.PROJECTID = PROJECTS.PROJECTID WHERE ASSIGNMENTS.USERID = ?");
+            command.setInt(1,CurrentUser.id);
+            rs = command.executeQuery();
+            pbTable.setModel(DbUtils.resultSetToTableModel(rs));
+        }
+        catch (SQLException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_noOfProjectsMouseClicked
+
+    private void SearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_SearchKeyReleased
+        DefaultTableModel model = (DefaultTableModel) projects.getModel();
+        
+        String Searching = Search.getText();
+        
+        TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel>(model);
+        projects.setRowSorter(tr);
+        tr.setRowFilter(RowFilter.regexFilter(Searching));
+    }//GEN-LAST:event_SearchKeyReleased
+
+    private void projectsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_projectsMouseClicked
+        DefaultTableModel model = (DefaultTableModel) projects.getModel();
+
+        System.out.println("storing the value of row choosen...");
+        int row = projects.getSelectedRow();
+        String id = (model.getValueAt(row, 0).toString());
+        String name = (model.getValueAt(row, 1).toString());
+        String date = (model.getValueAt(row, 2).toString());
+        new CurrentProject(id , name , date);
+        new ProjectDetails().setVisible(true);
+
+    }//GEN-LAST:event_projectsMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1426,10 +1514,10 @@ public class Tester1 extends javax.swing.JFrame implements dataConnection {
     private javax.swing.JLabel bugs4;
     private javax.swing.JPanel dashboard;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JPanel noOfBugs;
@@ -1439,9 +1527,9 @@ public class Tester1 extends javax.swing.JFrame implements dataConnection {
     private javax.swing.JPanel noOfProjects;
     private javax.swing.JPanel noOfToBeTestedBugs;
     private javax.swing.JPanel panelBarChart;
+    private javax.swing.JTable pbTable;
     private javax.swing.JPanel project;
-    private rojerusan.RSTableMetro rSTableMetro1;
-    private rojerusan.RSTableMetro rSTableMetro2;
+    private javax.swing.JTable projects;
     private rojerusan.RSTableMetro rSTableMetro3;
     private rojerusan.RSTableMetro rSTableMetro4;
     private javax.swing.JLabel searchLogo;
