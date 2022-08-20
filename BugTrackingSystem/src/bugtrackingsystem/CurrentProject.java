@@ -10,15 +10,11 @@ package bugtrackingsystem;
  * @author mariam
  */
 public class CurrentProject {
-    public static String projectId;
-    public static String projectIName;
-    public static String projectDate;
+    public static int projectId;
     
 
-    public CurrentProject(String id ,String name ,String date) {
+    public CurrentProject(int id) {
         CurrentProject.projectId = id;
-        CurrentProject.projectIName = name;
-        CurrentProject.projectDate = date;
        }
     }
    

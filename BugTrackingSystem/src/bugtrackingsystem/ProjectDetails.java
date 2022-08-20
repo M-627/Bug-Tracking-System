@@ -43,20 +43,29 @@ public class ProjectDetails extends javax.swing.JFrame implements dataConnection
      */
     public ProjectDetails() {
         initComponents();
-        setUnEditable();
         getConnected();
+        this.setLocationRelativeTo(null);
         
     }
     public void getConnected(){
-        id.setText(CurrentProject.projectId);
-        name.setText(CurrentProject.projectIName);
-        date.setText(CurrentProject.projectDate);
-    }
-    public void setUnEditable(){
-        name.setEditable(false);
-        date.setEditable(false);
-        id.setEditable(false);
-        assigndPeaple.setEditable(false);
+       try
+        {
+            System.out.println("Connecting to database...");
+            con = DriverManager.getConnection(host, uname, pass);
+            st = con.createStatement( ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY );
+            
+            System.out.println("Prepare the query...");
+            command =con.prepareStatement("SELECT PROJECTS.PROJECTNAME ,USERS.USERNAME ,USERS.ROLE FROM ASSIGNMENTS INNER JOIN PROJECTS ON PROJECTS.PROJECTID = ASSIGNMENTS.PROJECTID INNER JOIN USERS ON USERS.USERID = ASSIGNMENTS.USERID WHERE PROJECTS.PROJECTID = ?");
+            command.setInt(1,CurrentProject.projectId);
+            
+            System.out.println("excute the query...");
+            rs = command.executeQuery();
+            Users.setModel(DbUtils.resultSetToTableModel(rs));
+        }
+        catch (SQLException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
     }
 
     /**
@@ -70,80 +79,57 @@ public class ProjectDetails extends javax.swing.JFrame implements dataConnection
 
         jPanel1 = new javax.swing.JPanel();
         ProjectsDetails = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        id = new app.bolivia.swing.JCTextField();
-        name = new app.bolivia.swing.JCTextField();
-        jLabel2 = new javax.swing.JLabel();
-        date = new app.bolivia.swing.JCTextField();
-        jLabel3 = new javax.swing.JLabel();
-        assigndPeaple = new app.bolivia.swing.JCTextField();
-        jLabel4 = new javax.swing.JLabel();
-        button1 = new java.awt.Button();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        Users = new javax.swing.JTable();
+        OK = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(630, 480));
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(217, 217, 217));
-        jPanel1.setPreferredSize(new java.awt.Dimension(630, 480));
+        jPanel1.setPreferredSize(new java.awt.Dimension(630, 462));
 
         ProjectsDetails.setBackground(new java.awt.Color(222, 222, 222));
         ProjectsDetails.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         ProjectsDetails.setForeground(new java.awt.Color(150, 89, 165));
         ProjectsDetails.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/projects.png"))); // NOI18N
-        ProjectsDetails.setText("Project Details:");
+        ProjectsDetails.setText("Assigned peaple to the same project");
 
-        jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(150, 89, 165));
-        jLabel1.setText("Project Id:");
-
-        id.setBackground(new java.awt.Color(217, 217, 217));
-        id.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(150, 89, 165)));
-        id.setForeground(new java.awt.Color(150, 89, 165));
-
-        name.setBackground(new java.awt.Color(217, 217, 217));
-        name.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(150, 89, 165)));
-        name.setForeground(new java.awt.Color(150, 89, 165));
-
-        jLabel2.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(150, 89, 165));
-        jLabel2.setText("Project Name:");
-
-        date.setBackground(new java.awt.Color(217, 217, 217));
-        date.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(150, 89, 165)));
-        date.setForeground(new java.awt.Color(150, 89, 165));
-
-        jLabel3.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(150, 89, 165));
-        jLabel3.setText("Creation Date:");
-
-        assigndPeaple.setBackground(new java.awt.Color(217, 217, 217));
-        assigndPeaple.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(150, 89, 165)));
-        assigndPeaple.setForeground(new java.awt.Color(150, 89, 165));
-        assigndPeaple.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                assigndPeapleActionPerformed(evt);
+        Users.setBackground(new java.awt.Color(50, 50, 50));
+        Users.setForeground(new java.awt.Color(217, 217, 217));
+        Users.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
-        });
+        ));
+        Users.setIntercellSpacing(new java.awt.Dimension(1, 6));
+        Users.setPreferredSize(new java.awt.Dimension(270, 606));
+        Users.setRowHeight(40);
+        Users.setSelectionBackground(new java.awt.Color(109, 177, 147));
+        Users.setSelectionForeground(new java.awt.Color(50, 50, 50));
+        jScrollPane1.setViewportView(Users);
 
-        jLabel4.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(150, 89, 165));
-        jLabel4.setText("Assigned People:");
-
-        button1.setBackground(new java.awt.Color(109, 177, 147));
-        button1.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        button1.setForeground(new java.awt.Color(50, 50, 50));
-        button1.setLabel("Ok");
-        button1.addMouseListener(new java.awt.event.MouseAdapter() {
+        OK.setBackground(new java.awt.Color(109, 177, 147));
+        OK.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        OK.setForeground(new java.awt.Color(50, 50, 50));
+        OK.setText("Ok");
+        OK.setToolTipText("Enter ok to exit this window");
+        OK.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                button1MouseClicked(evt);
+                OKMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                button1MouseEntered(evt);
+                OKMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                button1MouseExited(evt);
+                OKMouseExited(evt);
             }
         });
 
@@ -154,85 +140,58 @@ public class ProjectDetails extends javax.swing.JFrame implements dataConnection
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(id, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(name, javax.swing.GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
-                            .addComponent(date, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(assigndPeaple, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(112, 112, 112)
-                        .addComponent(ProjectsDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(ProjectsDetails)
+                        .addGap(0, 80, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(255, 255, 255)
-                        .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(38, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addComponent(jScrollPane1)))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(OK, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(274, 274, 274))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(ProjectsDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(assigndPeaple, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
-                .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(OK, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void assigndPeapleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_assigndPeapleActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_assigndPeapleActionPerformed
-
-    private void button1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button1MouseEntered
-       button1.setBackground(Purple);
-       button1.setForeground(Black);
-    }//GEN-LAST:event_button1MouseEntered
-
-    private void button1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button1MouseExited
-        button1.setBackground(Green);
-        button1.setForeground(Black);
-    }//GEN-LAST:event_button1MouseExited
-
-    private void button1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button1MouseClicked
+    private void OKMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_OKMouseClicked
         this.dispose();
-    }//GEN-LAST:event_button1MouseClicked
+    }//GEN-LAST:event_OKMouseClicked
+
+    private void OKMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_OKMouseEntered
+        OK.setBackground(Purple);
+        OK.setForeground(Black);
+    }//GEN-LAST:event_OKMouseEntered
+
+    private void OKMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_OKMouseExited
+        OK.setBackground(Green);
+        OK.setForeground(Black);
+    }//GEN-LAST:event_OKMouseExited
 
     /**
      * @param args the command line arguments
@@ -262,16 +221,10 @@ public class ProjectDetails extends javax.swing.JFrame implements dataConnection
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton OK;
     private javax.swing.JLabel ProjectsDetails;
-    private app.bolivia.swing.JCTextField assigndPeaple;
-    private java.awt.Button button1;
-    private app.bolivia.swing.JCTextField date;
-    private app.bolivia.swing.JCTextField id;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JTable Users;
     private javax.swing.JPanel jPanel1;
-    private app.bolivia.swing.JCTextField name;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }
