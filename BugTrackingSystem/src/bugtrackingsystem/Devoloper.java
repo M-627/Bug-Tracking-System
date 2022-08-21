@@ -72,7 +72,6 @@ public class Devoloper extends javax.swing.JFrame implements dataConnection {
         BugLogo = new javax.swing.JLabel();
         LogoutLogo = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
-        SystemName4 = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -223,25 +222,15 @@ public class Devoloper extends javax.swing.JFrame implements dataConnection {
         jPanel8.setBackground(new java.awt.Color(50, 50, 50));
         jPanel8.setPreferredSize(new java.awt.Dimension(1026, 60));
 
-        SystemName4.setBackground(new java.awt.Color(207, 222, 231));
-        SystemName4.setFont(new java.awt.Font("Comic Sans MS", 1, 24)); // NOI18N
-        SystemName4.setForeground(new java.awt.Color(133, 89, 165));
-        SystemName4.setText("Bug Tracking System");
-
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(212, 212, 212)
-                .addComponent(SystemName4)
-                .addContainerGap(569, Short.MAX_VALUE))
+            .addGap(0, 1026, Short.MAX_VALUE)
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(SystemName4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGap(0, 60, Short.MAX_VALUE)
         );
 
         getContentPane().add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 0, -1, 60));
@@ -617,7 +606,6 @@ public class Devoloper extends javax.swing.JFrame implements dataConnection {
     private javax.swing.JLabel ProjectLogo;
     private javax.swing.JLabel ProjectNumber;
     private javax.swing.JPanel SidePanel;
-    private javax.swing.JLabel SystemName4;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
