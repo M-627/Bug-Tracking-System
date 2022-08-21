@@ -84,11 +84,11 @@ public class Devoloper extends javax.swing.JFrame implements dataConnection {
         ProjectNumber = new javax.swing.JLabel();
         BugNumber = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(217, 217, 217));
@@ -250,6 +250,7 @@ public class Devoloper extends javax.swing.JFrame implements dataConnection {
 
         jPanel2.setBackground(new java.awt.Color(217, 217, 217));
 
+        jTable1.setBackground(new java.awt.Color(50, 50, 50));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -262,6 +263,7 @@ public class Devoloper extends javax.swing.JFrame implements dataConnection {
             }
         ));
         jTable1.setPreferredSize(new java.awt.Dimension(535, 1320));
+        jTable1.setRowHeight(35);
         jScrollPane1.setViewportView(jTable1);
 
         noOfProjects.setBackground(new java.awt.Color(50, 50, 50));
@@ -356,18 +358,14 @@ public class Devoloper extends javax.swing.JFrame implements dataConnection {
                     .addComponent(noOfProjects, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(noOfBugs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(70, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("tab1", jPanel2);
 
         jPanel3.setBackground(new java.awt.Color(217, 217, 217));
 
-        jLabel1.setFont(new java.awt.Font("Dialog", 0, 30)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(50, 50, 50));
-        jLabel1.setText("projects");
-
+        jTable2.setBackground(new java.awt.Color(50, 50, 50));
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -379,55 +377,52 @@ public class Devoloper extends javax.swing.JFrame implements dataConnection {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTable2.setRowHeight(35);
         jScrollPane2.setViewportView(jTable2);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(308, 308, 308)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(71, 71, 71)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 634, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(320, Short.MAX_VALUE))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1025, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(82, 82, 82)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(102, Short.MAX_VALUE))
+                .addContainerGap(241, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 492, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jTabbedPane1.addTab("tab2", jPanel3);
 
         jPanel4.setBackground(new java.awt.Color(217, 217, 217));
 
-        jLabel3.setFont(new java.awt.Font("Dialog", 0, 30)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(50, 50, 50));
-        jLabel3.setText("bugs");
+        jTable3.setBackground(new java.awt.Color(50, 50, 50));
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jTable3.setRowHeight(35);
+        jScrollPane3.setViewportView(jTable3);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(308, 308, 308)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(528, Short.MAX_VALUE))
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 1025, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(82, 82, 82)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(542, Short.MAX_VALUE))
+                .addContainerGap(241, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 492, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jTabbedPane1.addTab("tab3", jPanel4);
@@ -452,7 +447,7 @@ public class Devoloper extends javax.swing.JFrame implements dataConnection {
     choose=2;
     try
         {
-           command=conObj.prepareStatement("select projects.projectid, projects.projectname, projects.creationdate , projects.creationtime from assignments inner join projects on assignments.projectid = projects.projectid where assignments.userid=?" );
+           command=conObj.prepareStatement("select projects.projectid, projects.projectname, projects.creationdate , projects.creationtime FROM PROJECTS where projects.projectid=?" );
            command.setInt(1,CurrentUser.id);
            resObj=command.executeQuery();
             jTable2.setModel(DbUtils.resultSetToTableModel(resObj));
@@ -491,6 +486,18 @@ public class Devoloper extends javax.swing.JFrame implements dataConnection {
     ProjectLogo.setBackground(black);
     ProjectLogo.setForeground(green);
     choose=3;
+        try
+        {
+           command=conObj.prepareStatement("select bugs.bugname, bugs.description, bugs.dateassigned , bugs.dateresolved FROM BUGS WHERE DEVELOPERID = ?" );
+           command.setInt(1,CurrentUser.id);
+           resObj=command.executeQuery();
+            jTable3.setModel(DbUtils.resultSetToTableModel(resObj));
+        }
+        catch (SQLException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+    
 // TODO add your handling code here:
     }//GEN-LAST:event_BugLogoMouseClicked
 
@@ -611,17 +618,17 @@ public class Devoloper extends javax.swing.JFrame implements dataConnection {
     private javax.swing.JLabel ProjectNumber;
     private javax.swing.JPanel SidePanel;
     private javax.swing.JLabel SystemName4;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable3;
     private javax.swing.JPanel noOfBugs;
     private javax.swing.JPanel noOfProjects;
     private javax.swing.JLabel testerLogo;
