@@ -46,7 +46,8 @@ public class Devoloper extends javax.swing.JFrame implements dataConnection {
         {
             conObj = DriverManager.getConnection(host, uname, pass);
             smtObj = conObj.createStatement( ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY );
-            resObj = smtObj.executeQuery("SELECT USERS.USERNAME, PROJECTS.CREATIONDATE, PROJECTS.PROJECTNAME FROM ASSIGNMENTS RIGHT JOIN PROJECTS ON PROJECTS.PROJECTID = ASSIGNMENTS.PROJECTID RIGHT JOIN USERS ON USERS.USERID = ASSIGNMENTS.USERID");
+            //resObj = smtObj.executeQuery("SELECT USERS.USERNAME, PROJECTS.PROJECTNAME, PROJECTS.CREATIONDATE FROM ASSIGNMENTS INNER JOIN PROJECTS ON PROJECTS.PROJECTID = ASSIGNMENTS.PROJECTID RIGHT JOIN USERS ON USERS.USERID = ASSIGNMENTS.USERID where projects.projectid=?");
+            resObj = smtObj.executeQuery("SELECT DISTINCT USERS.USERNAME, PROJECTS.PROJECTNAME FROM  ASSIGNMENTS INNER JOIN PROJECTS ON PROJECTS.PROJECTID = ASSIGNMENTS.PROJECTID INNER JOIN USERS ON USERS.USERID = ASSIGNMENTS.USERID INNER JOIN BUGS ON BUGS.PROJECTID=ASSIGNMENTS.PROJECTID");
             
             jTable1.setModel(DbUtils.resultSetToTableModel(resObj));
         }
@@ -436,7 +437,9 @@ public class Devoloper extends javax.swing.JFrame implements dataConnection {
     choose=2;
     try
         {
-           command=conObj.prepareStatement("select projects.projectid, projects.projectname, projects.creationdate , projects.creationtime FROM PROJECTS where projects.projectid=?" );
+             
+           //command=conObj.prepareStatement("select projects.projectid, projects.projectname, projects.creationdate , projects.creationtime FROM PROJECTS where " );
+           command=conObj.prepareStatement("SELECT userid, PROJECTID FROM ASSIGNMENTS AS AHMED WHERE USERID=?"+"SELECT projects.projectname, users.username from AHMED inner join users on users.userid= AHMED.userid INNER JOIN PROJECTS ON PROJECTS.PROJECTID = AHMED.PROJECTID");
            command.setInt(1,CurrentUser.id);
            resObj=command.executeQuery();
             jTable2.setModel(DbUtils.resultSetToTableModel(resObj));
