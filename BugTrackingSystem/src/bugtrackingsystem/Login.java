@@ -249,7 +249,8 @@ int counter=0;
                 if (frgtnUser.equals(resObj.getString("USERNAME")))
                 {
                     String frgtnRole = resObj.getString("ROLE");
-  //                  new CurrentUser(frgtnUser, frgtnRole);
+                    int frgtnID = resObj.getInt("USERID");
+                    new CurrentUser(frgtnUser, frgtnRole, frgtnID);
                     activity("Requested password reset");
                 }
             }

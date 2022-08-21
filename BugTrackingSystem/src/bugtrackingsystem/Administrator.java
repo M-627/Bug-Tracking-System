@@ -55,7 +55,7 @@ public final class Administrator extends javax.swing.JFrame {
         {
             conObj = DriverManager.getConnection(host, uname, pass);
             smtObj = conObj.createStatement( ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY );
-            resObj = smtObj.executeQuery("SELECT USERS.USERNAME, PROJECTS.CREATIONDATE, PROJECTS.PROJECTNAME FROM ASSIGNMENTS RIGHT JOIN PROJECTS ON PROJECTS.PROJECTID = ASSIGNMENTS.PROJECTID RIGHT JOIN USERS ON USERS.USERID = ASSIGNMENTS.USERID");
+            resObj = smtObj.executeQuery("SELECT * FROM ACTIVITIES ORDER BY DATE DESC, TIME DESC");
             
             omniTable.setModel(DbUtils.resultSetToTableModel(resObj));
         }
@@ -96,6 +96,8 @@ public final class Administrator extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         userSearch = new javax.swing.JTextField();
+        addUserButton = new javax.swing.JButton();
+        DeleteButton = new javax.swing.JButton();
         projectsPanel = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         projectsTable = new javax.swing.JTable();
@@ -417,6 +419,11 @@ public final class Administrator extends javax.swing.JFrame {
         usersTable.setRowMargin(6);
         usersTable.setSelectionBackground(new java.awt.Color(109, 177, 147));
         usersTable.setSelectionForeground(new java.awt.Color(50, 50, 50));
+        usersTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                usersTableMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(usersTable);
 
         jPanel4.setBackground(new java.awt.Color(50, 50, 50));
@@ -447,6 +454,23 @@ public final class Administrator extends javax.swing.JFrame {
             }
         });
 
+        addUserButton.setBackground(new java.awt.Color(109, 177, 147));
+        addUserButton.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        addUserButton.setForeground(new java.awt.Color(50, 50, 50));
+        addUserButton.setText("Add User");
+        addUserButton.setPreferredSize(new java.awt.Dimension(250, 45));
+        addUserButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addUserButtonActionPerformed(evt);
+            }
+        });
+
+        DeleteButton.setBackground(new java.awt.Color(109, 177, 147));
+        DeleteButton.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        DeleteButton.setForeground(new java.awt.Color(50, 50, 50));
+        DeleteButton.setText("Delete All");
+        DeleteButton.setPreferredSize(new java.awt.Dimension(250, 45));
+
         javax.swing.GroupLayout usersPanelLayout = new javax.swing.GroupLayout(usersPanel);
         usersPanel.setLayout(usersPanelLayout);
         usersPanelLayout.setHorizontalGroup(
@@ -462,6 +486,12 @@ public final class Administrator extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(userSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(258, 258, 258))
+            .addGroup(usersPanelLayout.createSequentialGroup()
+                .addGap(173, 173, 173)
+                .addComponent(addUserButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(DeleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(173, 173, 173))
         );
         usersPanelLayout.setVerticalGroup(
             usersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -471,9 +501,13 @@ public final class Administrator extends javax.swing.JFrame {
                 .addGroup(usersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(userSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(115, 115, 115))
+                .addGap(30, 30, 30)
+                .addGroup(usersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addUserButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(DeleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(60, 60, 60))
         );
 
         mainPanel.addTab("Users", usersPanel);
@@ -685,7 +719,7 @@ public final class Administrator extends javax.swing.JFrame {
         
         try 
         {
-            command = conObj.prepareStatement("SELECT * FROM USERS");
+            command = conObj.prepareStatement("SELECT * FROM USERS ORDER BY USERID ASC");
             resObj = command.executeQuery();
             usersTable.setModel(DbUtils.resultSetToTableModel(resObj));
         }
@@ -720,7 +754,7 @@ public final class Administrator extends javax.swing.JFrame {
         
         try 
         {
-            command = conObj.prepareStatement("SELECT * FROM PROJECTS");
+            command = conObj.prepareStatement("SELECT * FROM PROJECTS ORDER BY PROJECTID ASC");
             resObj = command.executeQuery();
             projectsTable.setModel(DbUtils.resultSetToTableModel(resObj));
         }
@@ -755,7 +789,7 @@ public final class Administrator extends javax.swing.JFrame {
         
         try 
         {
-            command = conObj.prepareStatement("SELECT * FROM BUGS");
+            command = conObj.prepareStatement("SELECT * FROM BUGS ORDER BY BUGID ASC");
             resObj = command.executeQuery();
             bugsTable.setModel(DbUtils.resultSetToTableModel(resObj));
         }
@@ -832,7 +866,7 @@ public final class Administrator extends javax.swing.JFrame {
         monitorLabelMouseExited(evt);
         try
         {
-            command = conObj.prepareStatement("SELECT * FROM FAILEDLOGINS");
+            command = conObj.prepareStatement("SELECT * FROM FAILEDLOGINS ORDER BY DATE DESC, TIME DESC");
             resObj = command.executeQuery();
             omniTable.setModel(DbUtils.resultSetToTableModel(resObj));
         }
@@ -981,8 +1015,23 @@ public final class Administrator extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_bugSearchKeyReleased
 
+    private void addUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addUserButtonActionPerformed
+        new UserInfo(0).setVisible(true);
+    }//GEN-LAST:event_addUserButtonActionPerformed
+
+    private void usersTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usersTableMouseClicked
+        try
+        {
+            int selectedID = (int) usersTable.getValueAt(usersTable.getSelectedRow(),0);
+            new UserInfo(selectedID).setVisible(true);
+        }
+        catch (Exception ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_usersTableMouseClicked
+
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
@@ -997,15 +1046,16 @@ public final class Administrator extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
             new Administrator().setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton DeleteButton;
     private javax.swing.JLabel activitiesLabel;
     private javax.swing.JPanel activitiesPanel;
+    private javax.swing.JButton addUserButton;
     private javax.swing.JTextField bugSearch;
     private javax.swing.JLabel bugsLabel;
     private javax.swing.JPanel bugsPanel;
