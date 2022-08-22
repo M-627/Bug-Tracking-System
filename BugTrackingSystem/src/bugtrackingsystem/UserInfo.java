@@ -17,8 +17,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.table.TableModel;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -32,7 +34,8 @@ public final class UserInfo extends javax.swing.JFrame {
      * @param choice
      */
     
-    static int choice = 0;
+    int edit = 0;
+    int reply = -1;
     
     public UserInfo(int choice) {
         initComponents();
@@ -43,6 +46,7 @@ public final class UserInfo extends javax.swing.JFrame {
         {
             editButton.setVisible(false);
             deleteButton.setVisible(false);
+            edit = 0;
         }
         else
         {
@@ -78,6 +82,7 @@ public final class UserInfo extends javax.swing.JFrame {
             {
                 System.out.println(ex.getMessage());
             }
+            edit = 1;
         }
     }
     
@@ -307,11 +312,29 @@ public final class UserInfo extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        // TODO add your handling code here:
+        String msg = "Delete "+usernameField.getText()+"?";
+        reply = JOptionPane.showConfirmDialog(null, msg, "Delete", JOptionPane.YES_NO_OPTION);
+        if(reply == JOptionPane.YES_OPTION)
+        {
+            try
+            {
+                command = conObj.prepareStatement("DELETE FROM USERS WHERE USERID = ?");
+                command.setInt(1, Integer.parseInt(idField.getText()));
+                command.executeUpdate();
+                this.dispose();
+                new Info_State(1);
+            }
+            catch (SQLException ex)
+            {
+                System.out.println(ex.getMessage());
+            }
+        }
+        else if (reply == JOptionPane.NO_OPTION)
+            new Info_State(0);
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed

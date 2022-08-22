@@ -14,6 +14,7 @@ import com.formdev.flatlaf.FlatDarkLaf;
 import java.awt.Color;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 /**
@@ -29,6 +30,7 @@ public final class Administrator extends javax.swing.JFrame {
         initComponents();
         getConnected();
         this.setLocationRelativeTo(null);
+        profileLabel.setText(CurrentUser.user);
     }
     
     //DB connection objects
@@ -45,6 +47,7 @@ public final class Administrator extends javax.swing.JFrame {
     //Global variable to choose tabs
     int choice = 0;
     int table = 0;
+    public int infoState = -1;
     
     //Prepared Statement for DB queries
     PreparedStatement command;
@@ -122,8 +125,9 @@ public final class Administrator extends javax.swing.JFrame {
         profileLabel.setBackground(new java.awt.Color(40, 40, 40));
         profileLabel.setFont(new java.awt.Font("Times New Roman", 1, 30)); // NOI18N
         profileLabel.setForeground(new java.awt.Color(133, 89, 165));
+        profileLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         profileLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/person tester.png"))); // NOI18N
-        profileLabel.setText(" Admin Name");
+        profileLabel.setText("Admin");
         profileLabel.setOpaque(true);
         profileLabel.setPreferredSize(new java.awt.Dimension(350, 63));
 
@@ -834,7 +838,7 @@ public final class Administrator extends javax.swing.JFrame {
         failedLabelMouseExited(evt);
         try
         {
-            command = conObj.prepareStatement("SELECT * FROM ACTIVITIES");
+            command = conObj.prepareStatement("SELECT * FROM ACTIVITIES ORDER BY DATE DESC, TIME DESC");
             resObj = command.executeQuery();
             omniTable.setModel(DbUtils.resultSetToTableModel(resObj));
         }
@@ -897,9 +901,9 @@ public final class Administrator extends javax.swing.JFrame {
             if (searchField.getText().isEmpty())
             {
                 if (table == 0)
-                    command = conObj.prepareStatement("SELECT * FROM ACTIVITIES");
+                    command = conObj.prepareStatement("SELECT * FROM ACTIVITIES ORDER BY DATE DESC, TIME DESC");
                 else if (table == 1)
-                    command = conObj.prepareStatement("SELECT * FROM FAILEDLOGINS");
+                    command = conObj.prepareStatement("SELECT * FROM FAILEDLOGINS ORDER BY DATE DESC, TIME DESC");
             }
             else
             {
@@ -930,7 +934,7 @@ public final class Administrator extends javax.swing.JFrame {
         try
         {
             if (userSearch.getText().isEmpty())
-                command = conObj.prepareStatement("SELECT * FROM USERS");
+                command = conObj.prepareStatement("SELECT * FROM USERS ORDER BY USERID ASC");
             else
             {
                 if (userSearch.getText().matches("[0-9]+"))
@@ -959,7 +963,7 @@ public final class Administrator extends javax.swing.JFrame {
         try
         {
             if (projectSearch.getText().isEmpty())
-                command = conObj.prepareStatement("SELECT * FROM PROJECTS");
+                command = conObj.prepareStatement("SELECT * FROM PROJECTS ORDER BY PROJECTID ASC");
             else
             {
                 if (projectSearch.getText().matches("[0-9]+"))
@@ -987,7 +991,7 @@ public final class Administrator extends javax.swing.JFrame {
         {
             if (bugSearch.getText().isEmpty())
             {
-                command = conObj.prepareStatement("SELECT * FROM BUGS");
+                command = conObj.prepareStatement("SELECT * FROM BUGS ORDER BY BUGID ASC");
             }
             else
             {
@@ -1024,6 +1028,13 @@ public final class Administrator extends javax.swing.JFrame {
         {
             int selectedID = (int) usersTable.getValueAt(usersTable.getSelectedRow(),0);
             new UserInfo(selectedID).setVisible(true);
+            System.out.println(Info_State.state);
+            if (Info_State.state == 0)
+            {
+                command = conObj.prepareStatement("SELECT * FROM USERS ORDER BY USERID DESC");
+                resObj = command.executeQuery();
+                usersTable.setModel(DbUtils.resultSetToTableModel(resObj));
+            }
         }
         catch (Exception ex)
         {
