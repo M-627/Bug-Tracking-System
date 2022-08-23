@@ -1026,15 +1026,10 @@ public final class Administrator extends javax.swing.JFrame {
     private void usersTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usersTableMouseClicked
         try
         {
+            
             int selectedID = (int) usersTable.getValueAt(usersTable.getSelectedRow(),0);
-            new UserInfo(selectedID).setVisible(true);
-            System.out.println(Info_State.state);
-            if (Info_State.state == 0)
-            {
-                command = conObj.prepareStatement("SELECT * FROM USERS ORDER BY USERID DESC");
-                resObj = command.executeQuery();
-                usersTable.setModel(DbUtils.resultSetToTableModel(resObj));
-            }
+            UserInfo add = new UserInfo(selectedID);
+            add.setVisible(true);
         }
         catch (Exception ex)
         {

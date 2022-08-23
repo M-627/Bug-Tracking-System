@@ -27,7 +27,7 @@ import net.proteanit.sql.DbUtils;
  *
  * @author m639a
  */
-public final class UserInfo extends javax.swing.JFrame {
+public final class UserInfo extends javax.swing.JFrame{
 
     /**
      * Creates new form UserInfo
@@ -130,6 +130,11 @@ public final class UserInfo extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(50, 50, 50));
         jPanel1.setForeground(new java.awt.Color(217, 217, 217));
@@ -326,19 +331,30 @@ public final class UserInfo extends javax.swing.JFrame {
                 command.setInt(1, Integer.parseInt(idField.getText()));
                 command.executeUpdate();
                 this.dispose();
-                new Info_State(1);
             }
             catch (SQLException ex)
             {
                 System.out.println(ex.getMessage());
             }
         }
-        else if (reply == JOptionPane.NO_OPTION)
-            new Info_State(0);
+        else if (reply == JOptionPane.NO_OPTION){}
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
-        // TODO add your handling code here:
+        if (edit == 0)
+        {
+            try
+            {
+                command = conObj.prepareStatement("INSERT INTO USERS (USERID, USERNAME, PASSWORD, ROLE, CREATIONDATE, CREATIONTIME) VALUES (?,?,?,?,CURRENT_DATE,CURRENT_TIME)");
+                command.setInt(1, Integer.parseInt(idField.getText()));
+                command.setString(2, usernameField.getText());
+                command.setString(3, passwordField.getText());
+            }
+            catch (SQLException ex)
+            {
+                System.out.println(ex.getMessage());
+            }
+        }
     }//GEN-LAST:event_confirmButtonActionPerformed
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
@@ -347,6 +363,10 @@ public final class UserInfo extends javax.swing.JFrame {
         passwordField.setEnabled(true);
         roleBox.setEnabled(true);
     }//GEN-LAST:event_editButtonActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments
