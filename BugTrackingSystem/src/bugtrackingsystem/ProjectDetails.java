@@ -23,7 +23,7 @@ import net.proteanit.sql.DbUtils;
  *
  * @author mariam
  */
-public class ProjectDetails extends javax.swing.JFrame implements dataConnection {
+public class ProjectDetails extends javax.swing.JFrame {
 
     // DB connection objects
     public Connection con = null;

@@ -5,16 +5,9 @@
  */
 package bugtrackingsystem;
 
-import java.sql.*;
 import net.proteanit.sql.DbUtils;
-import static bugtrackingsystem.dataConnection.host;
-import static bugtrackingsystem.dataConnection.pass;
-import static bugtrackingsystem.dataConnection.uname;
 import com.formdev.flatlaf.FlatDarkLaf;
 import java.awt.Color;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 /**
@@ -26,17 +19,17 @@ public final class Administrator extends javax.swing.JFrame {
     /**
      * Creates new form Administrator
      */
-    public Administrator() {
+    public Administrator()
+    {
         initComponents();
-        getConnected();
+        admin.getConnected("SELECT * FROM ACTIVITIES ORDER BY DATE DESC, TIME DESC");
+        omniTable.setModel(DbUtils.resultSetToTableModel(admin.getResObj()));
         this.setLocationRelativeTo(null);
         profileLabel.setText(CurrentUser.user);
     }
     
-    //DB connection objects
-    Connection conObj = null;
-    Statement smtObj = null;
-    ResultSet resObj = null;
+    //Controller
+    AdminController admin = new AdminController();
     
     //Color global variables
     Color black = Color.decode("#323232");
@@ -48,25 +41,6 @@ public final class Administrator extends javax.swing.JFrame {
     int choice = 0;
     int table = 0;
     public int infoState = -1;
-    
-    //Prepared Statement for DB queries
-    PreparedStatement command;
-    
-    public void getConnected()
-    {
-        try
-        {
-            conObj = DriverManager.getConnection(host, uname, pass);
-            smtObj = conObj.createStatement( ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY );
-            resObj = smtObj.executeQuery("SELECT * FROM ACTIVITIES ORDER BY DATE DESC, TIME DESC");
-            
-            omniTable.setModel(DbUtils.resultSetToTableModel(resObj));
-        }
-        catch (SQLException ex)
-        {
-            System.out.println(ex.getMessage());
-        }
-    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -97,6 +71,7 @@ public final class Administrator extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         usersTable = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
+        updateButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         userSearch = new javax.swing.JTextField();
         addUserButton = new javax.swing.JButton();
@@ -432,15 +407,33 @@ public final class Administrator extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(50, 50, 50));
 
+        updateButton.setBackground(new java.awt.Color(133, 89, 165));
+        updateButton.setFont(new java.awt.Font("Times New Roman", 0, 21)); // NOI18N
+        updateButton.setForeground(new java.awt.Color(50, 50, 50));
+        updateButton.setText("Update");
+        updateButton.setToolTipText("Updates table contents");
+        updateButton.setPreferredSize(new java.awt.Dimension(90, 40));
+        updateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 75, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(17, Short.MAX_VALUE)
+                .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
         );
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/search2.png"))); // NOI18N
@@ -473,6 +466,7 @@ public final class Administrator extends javax.swing.JFrame {
         DeleteButton.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         DeleteButton.setForeground(new java.awt.Color(50, 50, 50));
         DeleteButton.setText("Delete All");
+        DeleteButton.setToolTipText("Deletes all users");
         DeleteButton.setPreferredSize(new java.awt.Dimension(250, 45));
 
         javax.swing.GroupLayout usersPanelLayout = new javax.swing.GroupLayout(usersPanel);
@@ -501,11 +495,11 @@ public final class Administrator extends javax.swing.JFrame {
             usersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, usersPanelLayout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(52, 52, 52)
+                .addGap(57, 57, 57)
                 .addGroup(usersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(userSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addGroup(usersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -721,15 +715,8 @@ public final class Administrator extends javax.swing.JFrame {
         projectsLabelMouseExited(evt);
         bugsLabelMouseExited(evt);
         
-        try 
-        {
-            command = conObj.prepareStatement("SELECT * FROM USERS ORDER BY USERID ASC");
-            resObj = command.executeQuery();
-            usersTable.setModel(DbUtils.resultSetToTableModel(resObj));
-        }
-        catch (SQLException ex) {
-            Logger.getLogger(Administrator.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        admin.viewUsers();
+        usersTable.setModel(DbUtils.resultSetToTableModel(admin.getResObj()));
     }//GEN-LAST:event_usersLabelMouseClicked
 
     private void usersLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usersLabelMouseEntered
@@ -756,15 +743,8 @@ public final class Administrator extends javax.swing.JFrame {
         activitiesLabelMouseExited(evt);
         bugsLabelMouseExited(evt);
         
-        try 
-        {
-            command = conObj.prepareStatement("SELECT * FROM PROJECTS ORDER BY PROJECTID ASC");
-            resObj = command.executeQuery();
-            projectsTable.setModel(DbUtils.resultSetToTableModel(resObj));
-        }
-        catch (SQLException ex) {
-            Logger.getLogger(Administrator.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        admin.viewProjects();
+        projectsTable.setModel(DbUtils.resultSetToTableModel(admin.getResObj()));
     }//GEN-LAST:event_projectsLabelMouseClicked
 
     private void projectsLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_projectsLabelMouseEntered
@@ -791,15 +771,8 @@ public final class Administrator extends javax.swing.JFrame {
         projectsLabelMouseExited(evt);
         activitiesLabelMouseExited(evt);
         
-        try 
-        {
-            command = conObj.prepareStatement("SELECT * FROM BUGS ORDER BY BUGID ASC");
-            resObj = command.executeQuery();
-            bugsTable.setModel(DbUtils.resultSetToTableModel(resObj));
-        }
-        catch (SQLException ex) {
-            Logger.getLogger(Administrator.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        admin.viewBugs();
+        bugsTable.setModel(DbUtils.resultSetToTableModel(admin.getResObj()));
     }//GEN-LAST:event_bugsLabelMouseClicked
 
     private void bugsLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bugsLabelMouseEntered
@@ -836,16 +809,9 @@ public final class Administrator extends javax.swing.JFrame {
         monitorLabel.setBackground(purple);
         monitorLabel.setForeground(black);
         failedLabelMouseExited(evt);
-        try
-        {
-            command = conObj.prepareStatement("SELECT * FROM ACTIVITIES ORDER BY DATE DESC, TIME DESC");
-            resObj = command.executeQuery();
-            omniTable.setModel(DbUtils.resultSetToTableModel(resObj));
-        }
-        catch (SQLException ex)
-        {
-            System.out.println(ex.getMessage());
-        }
+        
+        admin.viewActivity();
+        omniTable.setModel(DbUtils.resultSetToTableModel(admin.getResObj()));
     }//GEN-LAST:event_monitorLabelMouseClicked
 
     private void monitorLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_monitorLabelMouseEntered
@@ -868,16 +834,9 @@ public final class Administrator extends javax.swing.JFrame {
         failedLabel.setBackground(purple);
         failedLabel.setForeground(black);
         monitorLabelMouseExited(evt);
-        try
-        {
-            command = conObj.prepareStatement("SELECT * FROM FAILEDLOGINS ORDER BY DATE DESC, TIME DESC");
-            resObj = command.executeQuery();
-            omniTable.setModel(DbUtils.resultSetToTableModel(resObj));
-        }
-        catch (SQLException ex)
-        {
-            System.out.println(ex.getMessage());
-        }
+        
+        admin.viewAttempts();
+        omniTable.setModel(DbUtils.resultSetToTableModel(admin.getResObj()));
     }//GEN-LAST:event_failedLabelMouseClicked
 
     private void failedLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_failedLabelMouseEntered
@@ -896,137 +855,33 @@ public final class Administrator extends javax.swing.JFrame {
     }//GEN-LAST:event_failedLabelMouseExited
 
     private void searchFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchFieldKeyReleased
-        try
-        {
-            if (searchField.getText().isEmpty())
-            {
-                if (table == 0)
-                    command = conObj.prepareStatement("SELECT * FROM ACTIVITIES ORDER BY DATE DESC, TIME DESC");
-                else if (table == 1)
-                    command = conObj.prepareStatement("SELECT * FROM FAILEDLOGINS ORDER BY DATE DESC, TIME DESC");
-            }
-            else
-            {
-                if (table == 0)
-                {
-                    command = conObj.prepareStatement("SELECT * FROM ACTIVITIES WHERE USERNAME LIKE ? OR ROLE LIKE ? OR ACTION LIKE ?");
-                    command.setString(1, "%"+searchField.getText()+"%");
-                    command.setString(2, "%"+searchField.getText()+"%");
-                    command.setString(3, "%"+searchField.getText()+"%");
-                }
-                else if (table == 1)
-                {
-                    command = conObj.prepareStatement("SELECT * FROM FAILEDLOGINS WHERE USERNAME LIKE ? OR PASSWORD LIKE ?");
-                    command.setString(1, "%"+searchField.getText()+"%");
-                    command.setString(2, "%"+searchField.getText()+"%");
-                }
-            }
-            resObj = command.executeQuery();
-            omniTable.setModel(DbUtils.resultSetToTableModel(resObj));
-        }
-        catch (SQLException ex)
-        {
-            System.out.println(ex.getMessage());
-        }
+        admin.searchOmni(table,searchField.getText());
+        omniTable.setModel(DbUtils.resultSetToTableModel(admin.getResObj()));
     }//GEN-LAST:event_searchFieldKeyReleased
 
     private void userSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_userSearchKeyReleased
-        try
-        {
-            if (userSearch.getText().isEmpty())
-                command = conObj.prepareStatement("SELECT * FROM USERS ORDER BY USERID ASC");
-            else
-            {
-                if (userSearch.getText().matches("[0-9]+"))
-                {
-                    command = conObj.prepareStatement("SELECT * FROM USERS WHERE USERID = ?");
-                    command.setInt(1, Integer.parseInt(userSearch.getText()));
-                }
-                else
-                {
-                    command = conObj.prepareStatement("SELECT * FROM USERS WHERE USERNAME LIKE ? OR PASSWORD LIKE ? OR ROLE LIKE ?");
-                    command.setString(1, "%"+userSearch.getText()+"%");
-                    command.setString(2, "%"+userSearch.getText()+"%");
-                    command.setString(3, "%"+userSearch.getText()+"%");
-                }
-            }
-            resObj = command.executeQuery();
-            usersTable.setModel(DbUtils.resultSetToTableModel(resObj));
-        }
-        catch (SQLException ex)
-        {
-            System.out.println(ex.getMessage());
-        }
+        admin.searchUsers(userSearch.getText());
+        usersTable.setModel(DbUtils.resultSetToTableModel(admin.getResObj()));
     }//GEN-LAST:event_userSearchKeyReleased
 
     private void projectSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_projectSearchKeyReleased
-        try
-        {
-            if (projectSearch.getText().isEmpty())
-                command = conObj.prepareStatement("SELECT * FROM PROJECTS ORDER BY PROJECTID ASC");
-            else
-            {
-                if (projectSearch.getText().matches("[0-9]+"))
-                {
-                    command = conObj.prepareStatement("SELECT * FROM PROJECTS WHERE PROJECTID = ?");
-                    command.setInt(1, Integer.parseInt(projectSearch.getText()));
-                }
-                else
-                {
-                    command = conObj.prepareStatement("SELECT * FROM PROJECTS WHERE PROJECTNAME LIKE ?");
-                    command.setString(1, "%"+projectSearch.getText()+"%");
-                }
-            }
-            resObj = command.executeQuery();
-            projectsTable.setModel(DbUtils.resultSetToTableModel(resObj));
-        }
-        catch (SQLException ex)
-        {
-            System.out.println(ex.getMessage());
-        }
+        admin.searchProjects(projectSearch.getText());
+        projectsTable.setModel(DbUtils.resultSetToTableModel(admin.getResObj()));
     }//GEN-LAST:event_projectSearchKeyReleased
 
     private void bugSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_bugSearchKeyReleased
-        try
-        {
-            if (bugSearch.getText().isEmpty())
-            {
-                command = conObj.prepareStatement("SELECT * FROM BUGS ORDER BY BUGID ASC");
-            }
-            else
-            {
-                if (bugSearch.getText().matches("[0-9]+"))
-                {
-                    command = conObj.prepareStatement("SELECT * FROM BUGS WHERE BUGID = ? OR PROJECTID = ? OR TESTERID = ? OR DEVELOPERID = ?");
-                    command.setInt(1, Integer.parseInt(bugSearch.getText()));
-                    command.setInt(2, Integer.parseInt(bugSearch.getText()));
-                    command.setInt(3, Integer.parseInt(bugSearch.getText()));
-                    command.setInt(4, Integer.parseInt(bugSearch.getText()));
-                }
-                else
-                {
-                    command = conObj.prepareStatement("SELECT * FROM BUGS WHERE BUGNAME LIKE ? OR DESCRIPTION LIKE ?");
-                    command.setString(1, "%"+bugSearch.getText()+"%");
-                    command.setString(2, "%"+bugSearch.getText()+"%");
-                }
-            }
-            resObj = command.executeQuery();
-            bugsTable.setModel(DbUtils.resultSetToTableModel(resObj));
-        }
-        catch (SQLException ex)
-        {
-            System.out.println(ex.getMessage());
-        }
+        admin.searchBugs(bugSearch.getText());
+        bugsTable.setModel(DbUtils.resultSetToTableModel(admin.getResObj()));
     }//GEN-LAST:event_bugSearchKeyReleased
 
     private void addUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addUserButtonActionPerformed
-        new UserInfo(0).setVisible(true);
+        UserInfo add = new UserInfo(0);
+        add.setVisible(true);
     }//GEN-LAST:event_addUserButtonActionPerformed
 
     private void usersTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usersTableMouseClicked
         try
-        {
-            
+        {   
             int selectedID = (int) usersTable.getValueAt(usersTable.getSelectedRow(),0);
             UserInfo add = new UserInfo(selectedID);
             add.setVisible(true);
@@ -1036,6 +891,11 @@ public final class Administrator extends javax.swing.JFrame {
             System.out.println(ex.getMessage());
         }
     }//GEN-LAST:event_usersTableMouseClicked
+
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+        admin.viewUsers();
+        usersTable.setModel(DbUtils.resultSetToTableModel(admin.getResObj()));
+    }//GEN-LAST:event_updateButtonActionPerformed
 
     public static void main(String args[]) {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -1090,6 +950,7 @@ public final class Administrator extends javax.swing.JFrame {
     private javax.swing.JTable projectsTable;
     private javax.swing.JTextField searchField;
     private javax.swing.JPanel sidePanel;
+    private javax.swing.JButton updateButton;
     private javax.swing.JTextField userSearch;
     private javax.swing.JLabel usersLabel;
     private javax.swing.JPanel usersPanel;

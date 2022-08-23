@@ -1,5 +1,8 @@
 package bugtrackingsystem;
 
+import static bugtrackingsystem.dataConnection.host;
+import static bugtrackingsystem.dataConnection.pass;
+import static bugtrackingsystem.dataConnection.uname;
 import java.awt.Font;
 import java.awt.font.TextAttribute;
 import java.util.Map;
@@ -12,7 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-public class Login extends javax.swing.JFrame implements dataConnection {
+public class Login extends javax.swing.JFrame {
 
     //DB connection objects
     Connection conObj = null;

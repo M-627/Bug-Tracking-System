@@ -5,6 +5,9 @@
  */
 package bugtrackingsystem;
 
+import static bugtrackingsystem.dataConnection.host;
+import static bugtrackingsystem.dataConnection.pass;
+import static bugtrackingsystem.dataConnection.uname;
 import com.formdev.flatlaf.FlatDarkLaf;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -31,7 +34,7 @@ import org.jfree.data.general.DefaultPieDataset;
  *
  * @author mariam
  */
-public class Tester1 extends javax.swing.JFrame implements dataConnection {
+public class Tester1 extends javax.swing.JFrame {
 
     // DB connection objects
     public Connection con = null;

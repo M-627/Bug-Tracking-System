@@ -26,7 +26,7 @@ import javax.swing.UIManager;
 
   //DB connection objects
    
-public class Devoloper extends javax.swing.JFrame implements dataConnection {
+public class Devoloper extends javax.swing.JFrame {
 
     public Devoloper() {
         initComponents();

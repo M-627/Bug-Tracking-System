@@ -9,6 +9,7 @@ import static bugtrackingsystem.dataConnection.host;
 import static bugtrackingsystem.dataConnection.pass;
 import static bugtrackingsystem.dataConnection.uname;
 import com.formdev.flatlaf.FlatDarkLaf;
+import java.awt.event.ActionEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -85,6 +86,8 @@ public final class UserInfo extends javax.swing.JFrame{
             edit = 1;
         }
     }
+    
+    AdminController info = new AdminController();
     
     //DB connection objects
     Connection conObj = null;
@@ -221,7 +224,7 @@ public final class UserInfo extends javax.swing.JFrame{
 
         roleBox.setBackground(new java.awt.Color(50, 50, 50));
         roleBox.setForeground(new java.awt.Color(217, 217, 217));
-        roleBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-----", "Admin", "Developer", "Tester" }));
+        roleBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Developer", "Tester" }));
 
         editButton.setBackground(new java.awt.Color(109, 177, 147));
         editButton.setFont(new java.awt.Font("Times New Roman", 1, 21)); // NOI18N
@@ -340,21 +343,18 @@ public final class UserInfo extends javax.swing.JFrame{
         else if (reply == JOptionPane.NO_OPTION){}
     }//GEN-LAST:event_deleteButtonActionPerformed
 
+    public void confirm()
+    {
+        ActionEvent evt = null;
+        confirmButtonActionPerformed(evt);
+    }
+    
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
-        if (edit == 0)
-        {
-            try
-            {
-                command = conObj.prepareStatement("INSERT INTO USERS (USERID, USERNAME, PASSWORD, ROLE, CREATIONDATE, CREATIONTIME) VALUES (?,?,?,?,CURRENT_DATE,CURRENT_TIME)");
-                command.setInt(1, Integer.parseInt(idField.getText()));
-                command.setString(2, usernameField.getText());
-                command.setString(3, passwordField.getText());
-            }
-            catch (SQLException ex)
-            {
-                System.out.println(ex.getMessage());
-            }
-        }
+        String id = idField.getText();
+        int role = roleBox.getSelectedIndex();
+        
+        info.addUser(edit, id, usernameField.getText(), passwordField.getText(), role);
+        this.dispose();
     }//GEN-LAST:event_confirmButtonActionPerformed
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
