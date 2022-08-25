@@ -58,8 +58,9 @@ public class Tester1 extends javax.swing.JFrame {
     
     public Tester1() {
         initComponents();
+        //show the name of the tester
         showNameOfTester();
-        ShowBugTable();
+        Tester.ViewBugTable();
     }
     
     //show the name of the tester
@@ -67,24 +68,8 @@ public class Tester1 extends javax.swing.JFrame {
         testerLogo.setText(CurrentUser.user);
     }
     
-     //show Bugstable in dashboard
-    public void ShowBugTable() {
-        try {
-            System.out.println(" connecting to database...");
-            con = DriverManager.getConnection(host, uname, pass);
-            st = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-
-            System.out.println(" prepare the query...");
-            command = con.prepareStatement("SELECT *FROM BUGS WHERE TESTERID = ?");
-            command.setInt(1, CurrentUser.id);
-
-            System.out.println(" excute the query...");
-            rs = command.executeQuery();
-            bugTable.setModel(DbUtils.resultSetToTableModel(rs));
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-    }
+    //controller
+    TesterController Tester = new TesterController();
 
     //show Projecttable in projects panel
     public void ShowProjectsTable() {
