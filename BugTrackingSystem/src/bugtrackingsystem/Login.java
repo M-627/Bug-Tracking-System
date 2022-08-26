@@ -7,10 +7,7 @@ import java.awt.Font;
 import java.awt.font.TextAttribute;
 import java.util.Map;
 import java.sql.*;
-import bugtrackingsystem.dataConnection;
 import com.formdev.flatlaf.FlatDarkLaf;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -387,10 +384,8 @@ public static void main(String args[]) throws UnsupportedLookAndFeelException{
         }
         //</editor-fold>
 
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Login().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Login().setVisible(true);
         });
     }
 
