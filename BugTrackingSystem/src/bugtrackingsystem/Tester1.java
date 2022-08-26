@@ -5,44 +5,21 @@
  */
 package bugtrackingsystem;
 
-import static bugtrackingsystem.dataConnection.host;
-import static bugtrackingsystem.dataConnection.pass;
-import static bugtrackingsystem.dataConnection.uname;
 import com.formdev.flatlaf.FlatDarkLaf;
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.SimpleDateFormat;
-import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import net.proteanit.sql.DbUtils;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PiePlot;
-import org.jfree.data.general.DefaultPieDataset;
 
 /**
  *
  * @author mariam
  */
 public class Tester1 extends javax.swing.JFrame {
-
-    // DB connection objects
-    public Connection con = null;
-    public Statement st = null;
-    public ResultSet rs = null;
-    // prepared statement for queries
-    PreparedStatement command;
-    
     
     // Colors  global variables
     private int choose = 1;
@@ -51,6 +28,8 @@ public class Tester1 extends javax.swing.JFrame {
     Color Purple =Color.decode("#9659A5");
     Color Grey =Color.decode("#3B3B3B");
     
+    //controller
+    TesterController Tester = new TesterController();
     
     //Code global variables
     private int BugId = 0; //(used in generating id automatically)
@@ -58,52 +37,17 @@ public class Tester1 extends javax.swing.JFrame {
     
     public Tester1() {
         initComponents();
-        //show the name of the tester
-        showNameOfTester();
-        Tester.ViewBugTable();
-    }
-    
-    //show the name of the tester
-    public void showNameOfTester() {
+        //view the name of the tester
         testerLogo.setText(CurrentUser.user);
+        
+        //view assigned bugTable in dashboard panel
+        Tester.ViewBugTable();
+        bugTable.setModel(DbUtils.resultSetToTableModel(Tester.getResObj()));
+        
+        //view number of bugs to be tested in the card
+        BN.setText(String.valueOf(Tester.ViewBugCard()));
     }
     
-    //controller
-    TesterController Tester = new TesterController();
-
-    //show Projecttable in projects panel
-    public void ShowProjectsTable() {
-        try {
-            System.out.println(" prepare the query...");
-            command = con.prepareStatement("SELECT PROJECTS.PROJECTID , PROJECTS.PROJECTNAME , PROJECTS.CREATIONDATE FROM ASSIGNMENTS INNER JOIN PROJECTS ON ASSIGNMENTS.PROJECTID = PROJECTS.PROJECTID WHERE ASSIGNMENTS.USERID = ?");
-            command.setInt(1, CurrentUser.id);
-
-            System.out.println(" excute the query...");
-            rs = command.executeQuery();
-            projects.setModel(DbUtils.resultSetToTableModel(rs));
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-
-    }
-    
-    //show Projecttable in bug panel
-    public void ShowProjects() {
-        try {
-            System.out.println(" prepare the query...");
-            command = con.prepareStatement("SELECT PROJECTS.PROJECTID , PROJECTS.PROJECTNAME , PROJECTS.CREATIONDATE FROM ASSIGNMENTS INNER JOIN PROJECTS ON ASSIGNMENTS.PROJECTID = PROJECTS.PROJECTID WHERE ASSIGNMENTS.USERID = ?");
-            command.setInt(1, CurrentUser.id);
-
-            System.out.println(" excute the query...");
-            rs = command.executeQuery();
-            projects1.setModel(DbUtils.resultSetToTableModel(rs));
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-
-    }
-    
-
     // transfaring the format of crimeDate from java.util.Date into a java.util.sql
     public String formatDate(java.util.Date Date) {
         SimpleDateFormat DateFormat = new SimpleDateFormat("YYYY-MM-dd");
@@ -510,9 +454,9 @@ public class Tester1 extends javax.swing.JFrame {
         noOfProjectsLayout.setHorizontalGroup(
             noOfProjectsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(noOfProjectsLayout.createSequentialGroup()
-                .addGap(88, 88, 88)
+                .addGap(82, 82, 82)
                 .addComponent(PN, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(97, Short.MAX_VALUE))
+                .addGap(83, 83, 83))
         );
         noOfProjectsLayout.setVerticalGroup(
             noOfProjectsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -534,9 +478,9 @@ public class Tester1 extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addGroup(projectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(projectLayout.createSequentialGroup()
-                        .addGroup(projectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(ProjectNumber, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(noOfProjects, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(projectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ProjectNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(noOfProjects, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(28, 28, 28)
                         .addComponent(SearchLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -720,8 +664,12 @@ public class Tester1 extends javax.swing.JFrame {
         DashlogoMouseExited(evt);
         BugLogoMouseExited(evt);
         
-        System.out.println(" show projects table...");
-        ShowProjectsTable();
+        System.out.println("View projects table...");
+        Tester.ViewProjectsTable();
+        projects.setModel(DbUtils.resultSetToTableModel(Tester.getResObj()));
+        
+        System.out.println("View number of projects...");
+        PN.setText(String.valueOf(Tester.ViewProjectCard()));
     }//GEN-LAST:event_ProjectLogoMouseClicked
 
     private void ProjectLogoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProjectLogoMouseEntered
@@ -746,7 +694,10 @@ public class Tester1 extends javax.swing.JFrame {
         BugLogo.setForeground(Black);
         DashlogoMouseExited(evt);
         ProjectLogoMouseExited(evt);
-        ShowProjects();
+        
+        System.out.println("View projects table...");
+        Tester.ViewProjectsTable();
+        projects1.setModel(DbUtils.resultSetToTableModel(Tester.getResObj()));
     }//GEN-LAST:event_BugLogoMouseClicked
 
     private void BugLogoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BugLogoMouseEntered
@@ -789,13 +740,11 @@ public class Tester1 extends javax.swing.JFrame {
 
         TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel>(model);
         bugTable.setRowSorter(tr);
-        tr.setRowFilter(RowFilter.regexFilter(Searching));     
+        tr.setRowFilter(RowFilter.regexFilter(Searching));
     }//GEN-LAST:event_Search1KeyReleased
 
     private void noOfProjectsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_noOfProjectsMouseClicked
 
-        System.out.println(" show the table of projects...");
-        ShowProjectsTable();
     }//GEN-LAST:event_noOfProjectsMouseClicked
 
     private void SearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_SearchKeyReleased
@@ -821,8 +770,6 @@ public class Tester1 extends javax.swing.JFrame {
 
     private void noOfBugsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_noOfBugsMouseClicked
 
-        System.out.println(" show the table of bugs...");
-        ShowBugTable();
     }//GEN-LAST:event_noOfBugsMouseClicked
 
     private void PNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PNMouseClicked
