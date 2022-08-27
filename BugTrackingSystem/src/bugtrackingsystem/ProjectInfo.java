@@ -6,6 +6,7 @@
 package bugtrackingsystem;
 
 import com.formdev.flatlaf.FlatDarkLaf;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -37,51 +38,45 @@ public final class ProjectInfo extends javax.swing.JFrame{
         {
             edit = 1;
             confirmButton.setEnabled(false);
-            String[] arr = info.selectUser(choice);
+            addButton.setEnabled(false);
+            removeButton.setEnabled(false);
+            String[] arr = info.selectProject(choice);
             idField.setText(arr[0]);
-            usernameField.setText(arr[1]);
-            passwordField.setText(arr[2]);
-            switch (arr[3])
-            {
-                case "A":
-                    roleBox.setSelectedIndex(0);
-                    break;
-                case "D":
-                    roleBox.setSelectedIndex(1);
-                    break;
-                case "T":
-                    roleBox.setSelectedIndex(2);
-                    break;
-                default:
-                    break;
-            }
+            projectField.setText(arr[1]);
             idField.setEnabled(false);
-            usernameField.setEnabled(false);
-            passwordField.setEnabled(false);
-            roleBox.setEnabled(false);
+            projectField.setEnabled(false);
+            userIDField.setEnabled(false);
         }
     }
     
+    
     AdminController info = new AdminController();
+    ArrayList<String> newUsers = new ArrayList<>();
+    ArrayList<String> newIDs = new ArrayList<>();
+    ArrayList<String> removedUsers = new ArrayList<>();
+    String[] temp = new String[4];
+    
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        passwordLabel = new javax.swing.JLabel();
+        userIDLabel = new javax.swing.JLabel();
         cancelButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
         confirmButton = new javax.swing.JButton();
-        userInfoLabel = new javax.swing.JLabel();
-        usernameLabel = new javax.swing.JLabel();
+        projectInfoLabel = new javax.swing.JLabel();
+        projectLabel = new javax.swing.JLabel();
         idLabel = new javax.swing.JLabel();
-        roleLabel = new javax.swing.JLabel();
+        usersLabel = new javax.swing.JLabel();
         idField = new javax.swing.JTextField();
-        usernameField = new javax.swing.JTextField();
-        passwordField = new javax.swing.JTextField();
-        roleBox = new javax.swing.JComboBox<>();
+        projectField = new javax.swing.JTextField();
+        userIDField = new javax.swing.JTextField();
+        usersBox = new javax.swing.JComboBox<>();
         editButton = new javax.swing.JButton();
+        removeButton = new javax.swing.JButton();
+        addButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -91,12 +86,12 @@ public final class ProjectInfo extends javax.swing.JFrame{
         jPanel1.setToolTipText("");
         jPanel1.setPreferredSize(new java.awt.Dimension(800, 600));
 
-        passwordLabel.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
-        passwordLabel.setForeground(new java.awt.Color(109, 177, 147));
-        passwordLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        passwordLabel.setText("Password");
-        passwordLabel.setToolTipText("");
-        passwordLabel.setPreferredSize(new java.awt.Dimension(150, 45));
+        userIDLabel.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        userIDLabel.setForeground(new java.awt.Color(109, 177, 147));
+        userIDLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        userIDLabel.setText("Assign User");
+        userIDLabel.setToolTipText("");
+        userIDLabel.setPreferredSize(new java.awt.Dimension(150, 45));
 
         cancelButton.setBackground(new java.awt.Color(133, 89, 165));
         cancelButton.setFont(new java.awt.Font("Times New Roman", 1, 21)); // NOI18N
@@ -131,19 +126,19 @@ public final class ProjectInfo extends javax.swing.JFrame{
             }
         });
 
-        userInfoLabel.setFont(new java.awt.Font("Times New Roman", 1, 27)); // NOI18N
-        userInfoLabel.setForeground(new java.awt.Color(133, 89, 165));
-        userInfoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        userInfoLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/UserInfo-Purple-Small.png"))); // NOI18N
-        userInfoLabel.setText("  Project Information");
-        userInfoLabel.setPreferredSize(new java.awt.Dimension(800, 90));
+        projectInfoLabel.setFont(new java.awt.Font("Times New Roman", 1, 27)); // NOI18N
+        projectInfoLabel.setForeground(new java.awt.Color(133, 89, 165));
+        projectInfoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        projectInfoLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/Projects-Purple-Small.png"))); // NOI18N
+        projectInfoLabel.setText("  Project Information");
+        projectInfoLabel.setPreferredSize(new java.awt.Dimension(800, 90));
 
-        usernameLabel.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
-        usernameLabel.setForeground(new java.awt.Color(109, 177, 147));
-        usernameLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        usernameLabel.setText("Project Name");
-        usernameLabel.setToolTipText("");
-        usernameLabel.setPreferredSize(new java.awt.Dimension(150, 45));
+        projectLabel.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        projectLabel.setForeground(new java.awt.Color(109, 177, 147));
+        projectLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        projectLabel.setText("Project Name");
+        projectLabel.setToolTipText("");
+        projectLabel.setPreferredSize(new java.awt.Dimension(150, 45));
 
         idLabel.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         idLabel.setForeground(new java.awt.Color(109, 177, 147));
@@ -151,36 +146,58 @@ public final class ProjectInfo extends javax.swing.JFrame{
         idLabel.setText("ID");
         idLabel.setPreferredSize(new java.awt.Dimension(150, 45));
 
-        roleLabel.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
-        roleLabel.setForeground(new java.awt.Color(109, 177, 147));
-        roleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        roleLabel.setText("Role");
-        roleLabel.setPreferredSize(new java.awt.Dimension(150, 45));
+        usersLabel.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        usersLabel.setForeground(new java.awt.Color(109, 177, 147));
+        usersLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        usersLabel.setText("Assigned Users");
+        usersLabel.setPreferredSize(new java.awt.Dimension(150, 45));
 
         idField.setBackground(new java.awt.Color(50, 50, 50));
         idField.setForeground(new java.awt.Color(217, 217, 217));
         idField.setPreferredSize(new java.awt.Dimension(200, 45));
 
-        usernameField.setBackground(new java.awt.Color(50, 50, 50));
-        usernameField.setForeground(new java.awt.Color(217, 217, 217));
-        usernameField.setPreferredSize(new java.awt.Dimension(200, 45));
+        projectField.setBackground(new java.awt.Color(50, 50, 50));
+        projectField.setForeground(new java.awt.Color(217, 217, 217));
+        projectField.setPreferredSize(new java.awt.Dimension(200, 45));
 
-        passwordField.setBackground(new java.awt.Color(50, 50, 50));
-        passwordField.setForeground(new java.awt.Color(217, 217, 217));
-        passwordField.setPreferredSize(new java.awt.Dimension(200, 45));
+        userIDField.setBackground(new java.awt.Color(50, 50, 50));
+        userIDField.setForeground(new java.awt.Color(217, 217, 217));
+        userIDField.setPreferredSize(new java.awt.Dimension(200, 45));
 
-        roleBox.setBackground(new java.awt.Color(50, 50, 50));
-        roleBox.setForeground(new java.awt.Color(217, 217, 217));
-        roleBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Developer", "Tester" }));
+        usersBox.setBackground(new java.awt.Color(50, 50, 50));
+        usersBox.setForeground(new java.awt.Color(217, 217, 217));
+        usersBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-----" }));
 
         editButton.setBackground(new java.awt.Color(109, 177, 147));
         editButton.setFont(new java.awt.Font("Times New Roman", 1, 21)); // NOI18N
         editButton.setForeground(new java.awt.Color(50, 50, 50));
         editButton.setText("Edit");
-        editButton.setPreferredSize(new java.awt.Dimension(80, 45));
+        editButton.setPreferredSize(new java.awt.Dimension(120, 45));
         editButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editButtonActionPerformed(evt);
+            }
+        });
+
+        removeButton.setBackground(new java.awt.Color(109, 177, 147));
+        removeButton.setFont(new java.awt.Font("Times New Roman", 1, 21)); // NOI18N
+        removeButton.setForeground(new java.awt.Color(50, 50, 50));
+        removeButton.setText("Remove");
+        removeButton.setPreferredSize(new java.awt.Dimension(120, 45));
+        removeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeButtonActionPerformed(evt);
+            }
+        });
+
+        addButton.setBackground(new java.awt.Color(109, 177, 147));
+        addButton.setFont(new java.awt.Font("Times New Roman", 1, 21)); // NOI18N
+        addButton.setForeground(new java.awt.Color(50, 50, 50));
+        addButton.setText("Add");
+        addButton.setPreferredSize(new java.awt.Dimension(120, 45));
+        addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addButtonActionPerformed(evt);
             }
         });
 
@@ -197,32 +214,32 @@ public final class ProjectInfo extends javax.swing.JFrame{
                 .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(90, 90, 90))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(144, 144, 144)
+                .addGap(205, 205, 205)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(userInfoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(61, 61, 61)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(usernameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(idLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(passwordLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(roleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(68, 68, 68)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(usernameField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(passwordField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(idField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(roleBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(64, 64, 64)
-                        .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addComponent(projectLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(idLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(userIDLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(usersLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(68, 68, 68)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(projectField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(userIDField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(idField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(usersBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(44, 44, 44)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(removeButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(projectInfoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(userInfoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(projectInfoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(idLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -231,16 +248,19 @@ public final class ProjectInfo extends javax.swing.JFrame{
                         .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(44, 44, 44)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(usernameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(projectLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(projectField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(40, 40, 40)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(passwordLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(40, 40, 40)
+                    .addComponent(userIDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(userIDField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(37, 37, 37)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(roleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(roleBox))
+                    .addComponent(usersLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(usersBox, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(removeButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(confirmButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -272,7 +292,7 @@ public final class ProjectInfo extends javax.swing.JFrame{
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        int result = info.deleteUser(idField.getText(), usernameField.getText());
+        int result = info.deleteUser(idField.getText(), projectField.getText());
         if (result == 1)
         {
             this.dispose();
@@ -285,21 +305,25 @@ public final class ProjectInfo extends javax.swing.JFrame{
         
         if (edit == 0)
         {
-            if (idField.getText().isEmpty() || usernameField.getText().isEmpty() || passwordField.getText().isEmpty())
-                JOptionPane.showMessageDialog(null, "Please fill all the required fields!");
+            if (idField.getText().isEmpty() || projectField.getText().isEmpty())
+                JOptionPane.showMessageDialog(null, "Please make sure you have specified the ID and name of the project!");
             else
             {
-                result = info.addUser(idField.getText(), usernameField.getText(), passwordField.getText(), roleBox.getSelectedIndex());
+                result = info.addProject(idField.getText(), projectField.getText());
             }
         }
         else
         {
-            if (idField.getText().isEmpty() || usernameField.getText().isEmpty() || passwordField.getText().isEmpty())
-                JOptionPane.showMessageDialog(null, "Please fill all the required fields!");
+            if (idField.getText().isEmpty() || projectField.getText().isEmpty())
+                JOptionPane.showMessageDialog(null, "Please make sure you have specified the ID and name of the project!");
             else
             {
-                result = info.editUser(idField.getText(), usernameField.getText(), passwordField.getText(), roleBox.getSelectedIndex());
+                //result = info.editProject(idField.getText(), projectField.getText());
             }
+        }
+        if (!newUsers.isEmpty())
+        {
+            info.assignUsers(Integer.parseInt(projectField.getText()), newUsers, edit);
         }
         if (result == 1)
         {    
@@ -309,12 +333,56 @@ public final class ProjectInfo extends javax.swing.JFrame{
     }//GEN-LAST:event_confirmButtonActionPerformed
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
-        usernameField.setEnabled(true);
-        passwordField.setEnabled(true);
-        roleBox.setEnabled(true);
+        addButton.setEnabled(true);
         confirmButton.setEnabled(true);
+        projectField.setEnabled(true);
+        removeButton.setEnabled(true);
+        userIDField.setEnabled(true);
         editButton.setEnabled(false);
     }//GEN-LAST:event_editButtonActionPerformed
+
+    private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
+        if (edit == 0)
+        {
+            int rem = usersBox.getSelectedIndex();
+            newUsers.remove(rem - 1);
+            usersBox.removeItemAt(rem);
+        }
+        else if (edit == 1)
+        {
+            
+        }
+    }//GEN-LAST:event_removeButtonActionPerformed
+
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        int count = 0;
+        if (newUsers.isEmpty())
+        {
+            newUsers.add(userIDField.getText());
+            temp = info.selectUser(Integer.parseInt(newUsers.get(count)));
+            count++;
+        }
+        else
+        {
+            for (int i = 0; i < newUsers.size(); i++)
+            {
+                if (!newUsers.get(i).equals( userIDField.getText()))
+                    newUsers.add(userIDField.getText());
+                else
+                    JOptionPane.showMessageDialog(null, "A user can be only added");
+            }
+        }
+        //temp = info.selectUser(Integer.parseInt(newUsers.get(i)));
+        if (!temp[1].equals(" ") || !temp[3].equals("A"))
+        {
+            usersBox.addItem(temp[1]);
+            //i++;
+        }
+        else if (temp[3].equals("A"))
+            JOptionPane.showMessageDialog(null, "This user cannot be assigned a project.");
+        else
+            JOptionPane.showMessageDialog(null, "This user doesn't exist.");
+    }//GEN-LAST:event_addButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -342,6 +410,7 @@ public final class ProjectInfo extends javax.swing.JFrame{
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addButton;
     private javax.swing.JButton cancelButton;
     private javax.swing.JButton confirmButton;
     private javax.swing.JButton deleteButton;
@@ -349,12 +418,13 @@ public final class ProjectInfo extends javax.swing.JFrame{
     private javax.swing.JTextField idField;
     private javax.swing.JLabel idLabel;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField passwordField;
-    private javax.swing.JLabel passwordLabel;
-    private javax.swing.JComboBox<String> roleBox;
-    private javax.swing.JLabel roleLabel;
-    private javax.swing.JLabel userInfoLabel;
-    private javax.swing.JTextField usernameField;
-    private javax.swing.JLabel usernameLabel;
+    private javax.swing.JTextField projectField;
+    private javax.swing.JLabel projectInfoLabel;
+    private javax.swing.JLabel projectLabel;
+    private javax.swing.JButton removeButton;
+    private javax.swing.JTextField userIDField;
+    private javax.swing.JLabel userIDLabel;
+    private javax.swing.JComboBox<String> usersBox;
+    private javax.swing.JLabel usersLabel;
     // End of variables declaration//GEN-END:variables
 }

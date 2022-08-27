@@ -1,7 +1,7 @@
-Fri Aug 26 18:06:33 EET 2022 : Apache Derby Network Server - 10.14.2.0 - (1828579) started and ready to accept connections on port 1527
+Sat Aug 27 17:46:36 EET 2022 : Apache Derby Network Server - 10.14.2.0 - (1828579) started and ready to accept connections on port 1527
 ----------------------------------------------------------------
-Fri Aug 26 18:06:33 EET 2022:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0182-dae7-b0a5-fffff977df84 
+Sat Aug 27 17:46:36 EET 2022:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0182-dffb-c9c9-fffff977df84 
 on database directory C:\Users\m639a\OneDrive\Documents\Personal Documents\Learning\Programming\Java\Java Projects\Bug-Tracking-System\Bug Tracker System with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
 Loaded from file:/C:/Program%20Files/Java/jdk1.8.0_202/lib/derby.jar
 java.vendor=Oracle Corporation
@@ -13,8 +13,8 @@ os.version=10.0
 derby.system.home=C:\Users\m639a\OneDrive\Documents\Personal Documents\Learning\Programming\Java\Java Projects\Bug-Tracking-System
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
-Fri Aug 26 23:57:53 EET 2022: Shutting down Derby engine
+Sun Aug 28 00:07:00 EET 2022: Shutting down Derby engine
 ----------------------------------------------------------------
-Fri Aug 26 23:57:53 EET 2022:
-Shutting down instance a816c00e-0182-dae7-b0a5-fffff977df84 on database directory C:\Users\m639a\OneDrive\Documents\Personal Documents\Learning\Programming\Java\Java Projects\Bug-Tracking-System\Bug Tracker System with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Sun Aug 28 00:07:00 EET 2022:
+Shutting down instance a816c00e-0182-dffb-c9c9-fffff977df84 on database directory C:\Users\m639a\OneDrive\Documents\Personal Documents\Learning\Programming\Java\Java Projects\Bug-Tracking-System\Bug Tracker System with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
 ----------------------------------------------------------------

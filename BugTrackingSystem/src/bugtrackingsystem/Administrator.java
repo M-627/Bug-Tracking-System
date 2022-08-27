@@ -71,17 +71,19 @@ public final class Administrator extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         usersTable = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
-        updateButton = new javax.swing.JButton();
+        updateUsersButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         userSearch = new javax.swing.JTextField();
         addUserButton = new javax.swing.JButton();
-        DeleteButton = new javax.swing.JButton();
+        deleteAllButton = new javax.swing.JButton();
         projectsPanel = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         projectsTable = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
+        updateProjecstButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         projectSearch = new javax.swing.JTextField();
+        addProjectButton = new javax.swing.JButton();
         bugsPanel = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         bugsTable = new javax.swing.JTable();
@@ -407,15 +409,15 @@ public final class Administrator extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(50, 50, 50));
 
-        updateButton.setBackground(new java.awt.Color(133, 89, 165));
-        updateButton.setFont(new java.awt.Font("Times New Roman", 0, 21)); // NOI18N
-        updateButton.setForeground(new java.awt.Color(50, 50, 50));
-        updateButton.setText("Update");
-        updateButton.setToolTipText("Updates table contents");
-        updateButton.setPreferredSize(new java.awt.Dimension(90, 40));
-        updateButton.addActionListener(new java.awt.event.ActionListener() {
+        updateUsersButton.setBackground(new java.awt.Color(133, 89, 165));
+        updateUsersButton.setFont(new java.awt.Font("Times New Roman", 0, 21)); // NOI18N
+        updateUsersButton.setForeground(new java.awt.Color(50, 50, 50));
+        updateUsersButton.setText("Update");
+        updateUsersButton.setToolTipText("Updates table contents");
+        updateUsersButton.setPreferredSize(new java.awt.Dimension(152, 40));
+        updateUsersButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateButtonActionPerformed(evt);
+                updateUsersButtonActionPerformed(evt);
             }
         });
 
@@ -425,14 +427,14 @@ public final class Administrator extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(updateUsersButton, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(17, Short.MAX_VALUE)
-                .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(updateUsersButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18))
         );
 
@@ -462,12 +464,12 @@ public final class Administrator extends javax.swing.JFrame {
             }
         });
 
-        DeleteButton.setBackground(new java.awt.Color(109, 177, 147));
-        DeleteButton.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
-        DeleteButton.setForeground(new java.awt.Color(50, 50, 50));
-        DeleteButton.setText("Delete All");
-        DeleteButton.setToolTipText("Deletes all users");
-        DeleteButton.setPreferredSize(new java.awt.Dimension(250, 45));
+        deleteAllButton.setBackground(new java.awt.Color(109, 177, 147));
+        deleteAllButton.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        deleteAllButton.setForeground(new java.awt.Color(50, 50, 50));
+        deleteAllButton.setText("Delete All");
+        deleteAllButton.setToolTipText("Deletes all users");
+        deleteAllButton.setPreferredSize(new java.awt.Dimension(250, 45));
 
         javax.swing.GroupLayout usersPanelLayout = new javax.swing.GroupLayout(usersPanel);
         usersPanel.setLayout(usersPanelLayout);
@@ -488,7 +490,7 @@ public final class Administrator extends javax.swing.JFrame {
                 .addGap(173, 173, 173)
                 .addComponent(addUserButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(DeleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(deleteAllButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(173, 173, 173))
         );
         usersPanelLayout.setVerticalGroup(
@@ -504,7 +506,7 @@ public final class Administrator extends javax.swing.JFrame {
                 .addGap(30, 30, 30)
                 .addGroup(usersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addUserButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(DeleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(deleteAllButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(60, 60, 60))
         );
 
@@ -530,19 +532,41 @@ public final class Administrator extends javax.swing.JFrame {
         projectsTable.setRowMargin(6);
         projectsTable.setSelectionBackground(new java.awt.Color(109, 177, 147));
         projectsTable.setSelectionForeground(new java.awt.Color(50, 50, 50));
+        projectsTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                projectsTableMouseClicked(evt);
+            }
+        });
         jScrollPane4.setViewportView(projectsTable);
 
         jPanel2.setBackground(new java.awt.Color(50, 50, 50));
+
+        updateProjecstButton.setBackground(new java.awt.Color(133, 89, 165));
+        updateProjecstButton.setFont(new java.awt.Font("Times New Roman", 0, 21)); // NOI18N
+        updateProjecstButton.setForeground(new java.awt.Color(50, 50, 50));
+        updateProjecstButton.setText("Update");
+        updateProjecstButton.setPreferredSize(new java.awt.Dimension(152, 40));
+        updateProjecstButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateProjecstButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(updateProjecstButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 75, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap(17, Short.MAX_VALUE)
+                .addComponent(updateProjecstButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
         );
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/search2.png"))); // NOI18N
@@ -557,6 +581,17 @@ public final class Administrator extends javax.swing.JFrame {
         projectSearch.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 projectSearchKeyReleased(evt);
+            }
+        });
+
+        addProjectButton.setBackground(new java.awt.Color(109, 177, 147));
+        addProjectButton.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        addProjectButton.setForeground(new java.awt.Color(50, 50, 50));
+        addProjectButton.setText("Add Project");
+        addProjectButton.setPreferredSize(new java.awt.Dimension(250, 45));
+        addProjectButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addProjectButtonActionPerformed(evt);
             }
         });
 
@@ -575,18 +610,24 @@ public final class Administrator extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(projectSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(258, 258, 258))
+            .addGroup(projectsPanelLayout.createSequentialGroup()
+                .addGap(393, 393, 393)
+                .addComponent(addProjectButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         projectsPanelLayout.setVerticalGroup(
             projectsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, projectsPanelLayout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(52, 52, 52)
+                .addGap(57, 57, 57)
                 .addGroup(projectsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(projectSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(115, 115, 115))
+                .addGap(30, 30, 30)
+                .addComponent(addProjectButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50))
         );
 
         mainPanel.addTab("Projects", projectsPanel);
@@ -694,7 +735,6 @@ public final class Administrator extends javax.swing.JFrame {
         if (choice == 0 || choice == -1){}
         else
             activitiesLabel.setBackground(gray);
-            
     }//GEN-LAST:event_activitiesLabelMouseEntered
 
     private void activitiesLabelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_activitiesLabelMouseExited
@@ -892,10 +932,33 @@ public final class Administrator extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_usersTableMouseClicked
 
-    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+    private void updateUsersButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateUsersButtonActionPerformed
         admin.viewUsers();
         usersTable.setModel(DbUtils.resultSetToTableModel(admin.getResObj()));
-    }//GEN-LAST:event_updateButtonActionPerformed
+    }//GEN-LAST:event_updateUsersButtonActionPerformed
+
+    private void updateProjecstButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateProjecstButtonActionPerformed
+        admin.viewProjects();
+        projectsTable.setModel(DbUtils.resultSetToTableModel(admin.getResObj()));
+    }//GEN-LAST:event_updateProjecstButtonActionPerformed
+
+    private void addProjectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addProjectButtonActionPerformed
+        ProjectInfo add = new ProjectInfo(0);
+        add.setVisible(true);
+    }//GEN-LAST:event_addProjectButtonActionPerformed
+
+    private void projectsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_projectsTableMouseClicked
+        try
+        {   
+            int selectedID = (int) projectsTable.getValueAt(projectsTable.getSelectedRow(),0);
+            ProjectInfo add = new ProjectInfo(selectedID);
+            add.setVisible(true);
+        }
+        catch (Exception ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_projectsTableMouseClicked
 
     public static void main(String args[]) {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -918,14 +981,15 @@ public final class Administrator extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton DeleteButton;
     private javax.swing.JLabel activitiesLabel;
     private javax.swing.JPanel activitiesPanel;
+    private javax.swing.JButton addProjectButton;
     private javax.swing.JButton addUserButton;
     private javax.swing.JTextField bugSearch;
     private javax.swing.JLabel bugsLabel;
     private javax.swing.JPanel bugsPanel;
     private javax.swing.JTable bugsTable;
+    private javax.swing.JButton deleteAllButton;
     private javax.swing.JLabel failedLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel15;
@@ -950,7 +1014,8 @@ public final class Administrator extends javax.swing.JFrame {
     private javax.swing.JTable projectsTable;
     private javax.swing.JTextField searchField;
     private javax.swing.JPanel sidePanel;
-    private javax.swing.JButton updateButton;
+    private javax.swing.JButton updateProjecstButton;
+    private javax.swing.JButton updateUsersButton;
     private javax.swing.JTextField userSearch;
     private javax.swing.JLabel usersLabel;
     private javax.swing.JPanel usersPanel;

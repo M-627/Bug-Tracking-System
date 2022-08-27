@@ -6,6 +6,7 @@
 package bugtrackingsystem;
 
 import java.sql.*;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -319,6 +320,98 @@ public class AdminController extends dataConnection
         {
             System.out.println(ex.getMessage());
         }
+    }
+    
+    public int addProject(String id, String usr)
+    {
+        try
+        {
+            String box = " ";
+            int found = 0;
+            getConnected("SELECT * FROM PROJECTS");
+            
+            while (resObj.next())
+            {
+                if (resObj.getInt("PROJECTID") == Integer.parseInt(id))
+                {
+                    found = 1;
+                    break;
+                }
+            }
+            
+            if (found == 1)
+            {
+                JOptionPane.showMessageDialog(null, "This ID is unavailable.");
+                return 0;
+            }
+            else
+            {
+                command = conObj.prepareStatement("INSERT INTO PROJECTS VALUES (?, ?, CURRENT_DATE, CURRENT_TIME)");
+                command.setInt(1, Integer.parseInt(id));
+                command.setString(2, usr);
+                command.executeUpdate();
+            }
+        }
+        catch (SQLException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+        return 1;
+    }
+    
+    public void assignUsers(int id, ArrayList<String> users, int edit)
+    {
+        try 
+        {
+            getConnected("SELECT * FROM ASSIGNMENTS");
+            if (edit == 0)
+            {
+                for (int i = 0; i < users.size(); i++)
+                {
+                    command = conObj.prepareStatement("INSERT INTO ASSIGNMENTS VALUES (USERID = ?, PROJECTID = ?)");
+                    command.setInt(1, Integer.parseInt(users.get(i)));
+                    command.setInt(2, id);
+                    command.executeUpdate();
+                }
+            }
+            else if (edit == 1)
+            {
+                for (int i = 0; i < users.size(); i++)
+                {
+                    command = conObj.prepareStatement("UPDATE ASSIGNMENTS SET USERID = ?, PROJECTID = ?");
+                    command.setInt(1, Integer.parseInt(users.get(i)));
+                    command.setInt(2, id);
+                    command.executeUpdate();
+                }
+            }
+        }
+        catch (SQLException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    public String[] selectProject(int id)
+    {
+        String retID = " ";
+        String retUsr = " ";
+        
+        try 
+            {
+                getConnected("SELECT * FROM PROJECTS");
+                command = conObj.prepareStatement("SELECT * FROM PROJECTS WHERE PROJECTID = ?");
+                command.setInt(1, id);
+                resObj = command.executeQuery();
+                resObj.next();
+                
+                retID = Integer.toString(resObj.getInt("PROJECTID"));
+                retUsr = resObj.getString("PROJECTNAME");
+            } 
+        catch (SQLException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+        return new String[] {retID, retUsr};
     }
 // Projects Screen Operations End
 
