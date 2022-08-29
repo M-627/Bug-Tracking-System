@@ -18,7 +18,10 @@ import com.formdev.flatlaf.FlatDarkLaf;
 import java.awt.Color;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.RowFilter;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 /**
  *
  * @author mariam
@@ -29,9 +32,15 @@ import javax.swing.UIManager;
 public class Devoloper extends javax.swing.JFrame {
 
     public Devoloper() {
+        this.counter = 0;
         initComponents();
         getConnected();
         this.setLocationRelativeTo(null);
+
+       DeveloperName.setText(CurrentUser.user);
+        
+       proj_number.setText(String.valueOf(Card(0)));
+       BUG_number.setText(String.valueOf(Card(1)));
 
     }
     Connection conObj = null;
@@ -39,6 +48,8 @@ public class Devoloper extends javax.swing.JFrame {
     ResultSet resObj = null;
     
      PreparedStatement command;
+     
+    
     
     public void getConnected()
     {
@@ -46,10 +57,14 @@ public class Devoloper extends javax.swing.JFrame {
         {
             conObj = DriverManager.getConnection(host, uname, pass);
             smtObj = conObj.createStatement( ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY );
-            //resObj = smtObj.executeQuery("SELECT USERS.USERNAME, PROJECTS.PROJECTNAME, PROJECTS.CREATIONDATE FROM ASSIGNMENTS INNER JOIN PROJECTS ON PROJECTS.PROJECTID = ASSIGNMENTS.PROJECTID RIGHT JOIN USERS ON USERS.USERID = ASSIGNMENTS.USERID where projects.projectid=?");
-            resObj = smtObj.executeQuery("SELECT DISTINCT USERS.USERNAME, PROJECTS.PROJECTNAME FROM  ASSIGNMENTS INNER JOIN PROJECTS ON PROJECTS.PROJECTID = ASSIGNMENTS.PROJECTID INNER JOIN USERS ON USERS.USERID = ASSIGNMENTS.USERID INNER JOIN BUGS ON BUGS.PROJECTID=ASSIGNMENTS.PROJECTID");
+            command=conObj.prepareStatement("select PROJECTS.PROJECTNAME, PROJECTS.CREATIONDATE, BUGS.BUGNAME, BUGS.DATEASSIGNED FROM ASSIGNMENTS INNER JOIN PROJECTS ON PROJECTS.PROJECTID = ASSIGNMENTS.PROJECTID INNER JOIN BUGS ON BUGS.PROJECTID = ASSIGNMENTS.PROJECTID WHERE ASSIGNMENTS.USERID=? " );
+            command.setInt(1,CurrentUser.id);
+            resObj=command.executeQuery();
+//resObj = smtObj.executeQuery("SELECT USERS.USERNAME, PROJECTS.PROJECTNAME, PROJECTS.CREATIONDATE FROM ASSIGNMENTS INNER JOIN PROJECTS ON PROJECTS.PROJECTID = ASSIGNMENTS.PROJECTID RIGHT JOIN USERS ON USERS.USERID = ASSIGNMENTS.USERID where projects.projectid=?");
+            //resObj = smtObj.executeQuery("SELECT DISTINCT USERS.USERNAME, PROJECTS.PROJECTNAME FROM  ASSIGNMENTS INNER JOIN PROJECTS ON PROJECTS.PROJECTID = ASSIGNMENTS.PROJECTID INNER JOIN USERS ON USERS.USERID = ASSIGNMENTS.USERID INNER JOIN BUGS ON BUGS.PROJECTID=ASSIGNMENTS.PROJECTID");
+           // resObj = smtObj.executeQuery("SELECT PROJECTS.PROJECTNAME FROM ASSIGNMENTS INNER JOIN PROJECTS ON PROJECTS.PROJECTID = ASSIGNMENTS.PROJECTID WHERE ASSIGNMENTS.USERID=? ");
             
-            jTable1.setModel(DbUtils.resultSetToTableModel(resObj));
+            Dashboard_table.setModel(DbUtils.resultSetToTableModel(resObj));
         }
         catch (SQLException ex)
         {
@@ -66,7 +81,7 @@ public class Devoloper extends javax.swing.JFrame {
     private void initComponents() {
 
         SidePanel = new javax.swing.JPanel();
-        testerName = new javax.swing.JLabel();
+        DeveloperName = new javax.swing.JLabel();
         testerLogo = new javax.swing.JLabel();
         Dashlogo = new javax.swing.JLabel();
         ProjectLogo = new javax.swing.JLabel();
@@ -76,19 +91,29 @@ public class Devoloper extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        Dashboard_table = new javax.swing.JTable();
         noOfProjects = new javax.swing.JPanel();
-        PN = new javax.swing.JLabel();
-        noOfBugs = new javax.swing.JPanel();
-        BN = new javax.swing.JLabel();
+        proj_number = new javax.swing.JLabel();
         ProjectNumber = new javax.swing.JLabel();
-        BugNumber = new javax.swing.JLabel();
+        noOfBugs1 = new javax.swing.JPanel();
+        BUG_number = new javax.swing.JLabel();
+        BugNumber1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        Projects_table = new javax.swing.JTable();
+        LogoOfSearch = new javax.swing.JLabel();
+        Search2 = new app.bolivia.swing.JCTextField();
+        noOfProjects1 = new javax.swing.JPanel();
+        proj_number_all = new javax.swing.JLabel();
+        ProjectNumber2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        Bugs_table = new javax.swing.JTable();
+        LogoOfSearch1 = new javax.swing.JLabel();
+        Search3 = new app.bolivia.swing.JCTextField();
+        noOfBugs = new javax.swing.JPanel();
+        BUG_number_all = new javax.swing.JLabel();
+        BugNumber = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(217, 217, 217));
@@ -97,9 +122,9 @@ public class Devoloper extends javax.swing.JFrame {
         SidePanel.setBackground(new java.awt.Color(50, 50, 50));
         SidePanel.setPreferredSize(new java.awt.Dimension(340, 768));
 
-        testerName.setFont(new java.awt.Font("Times New Roman", 1, 30)); // NOI18N
-        testerName.setForeground(new java.awt.Color(150, 89, 165));
-        testerName.setText("Devoloper Name");
+        DeveloperName.setFont(new java.awt.Font("Times New Roman", 1, 30)); // NOI18N
+        DeveloperName.setForeground(new java.awt.Color(150, 89, 165));
+        DeveloperName.setText("Devoloper Name");
 
         testerLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/person tester.png"))); // NOI18N
 
@@ -190,7 +215,7 @@ public class Devoloper extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(testerLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(22, 22, 22)
-                .addComponent(testerName, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(DeveloperName, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(47, 47, 47))
             .addGroup(SidePanelLayout.createSequentialGroup()
                 .addGroup(SidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -206,7 +231,7 @@ public class Devoloper extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(SidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(testerLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(testerName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(DeveloperName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(49, 49, 49)
                 .addComponent(Dashlogo, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(70, 70, 70)
@@ -240,8 +265,8 @@ public class Devoloper extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(217, 217, 217));
 
-        jTable1.setBackground(new java.awt.Color(50, 50, 50));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        Dashboard_table.setBackground(new java.awt.Color(50, 50, 50));
+        Dashboard_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -252,20 +277,20 @@ public class Devoloper extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jTable1.setPreferredSize(new java.awt.Dimension(535, 1320));
-        jTable1.setRowHeight(35);
-        jScrollPane1.setViewportView(jTable1);
+        Dashboard_table.setPreferredSize(new java.awt.Dimension(535, 1320));
+        Dashboard_table.setRowHeight(35);
+        jScrollPane1.setViewportView(Dashboard_table);
 
         noOfProjects.setBackground(new java.awt.Color(50, 50, 50));
         noOfProjects.setBorder(javax.swing.BorderFactory.createMatteBorder(20, 0, 0, 0, new java.awt.Color(133, 89, 165)));
         noOfProjects.setPreferredSize(new java.awt.Dimension(260, 140));
 
-        PN.setBackground(new java.awt.Color(50, 50, 50));
-        PN.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
-        PN.setForeground(new java.awt.Color(217, 217, 217));
-        PN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/projects.png"))); // NOI18N
-        PN.setText(" 10");
-        PN.setOpaque(true);
+        proj_number.setBackground(new java.awt.Color(50, 50, 50));
+        proj_number.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
+        proj_number.setForeground(new java.awt.Color(217, 217, 217));
+        proj_number.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/projects.png"))); // NOI18N
+        proj_number.setText(" 10");
+        proj_number.setOpaque(true);
 
         javax.swing.GroupLayout noOfProjectsLayout = new javax.swing.GroupLayout(noOfProjects);
         noOfProjects.setLayout(noOfProjectsLayout);
@@ -273,81 +298,91 @@ public class Devoloper extends javax.swing.JFrame {
             noOfProjectsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(noOfProjectsLayout.createSequentialGroup()
                 .addGap(88, 88, 88)
-                .addComponent(PN, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(proj_number, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(97, Short.MAX_VALUE))
         );
         noOfProjectsLayout.setVerticalGroup(
             noOfProjectsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(noOfProjectsLayout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addComponent(PN)
+                .addComponent(proj_number)
                 .addContainerGap(33, Short.MAX_VALUE))
-        );
-
-        noOfBugs.setBackground(new java.awt.Color(50, 50, 50));
-        noOfBugs.setBorder(javax.swing.BorderFactory.createMatteBorder(20, 0, 0, 0, new java.awt.Color(109, 177, 147)));
-        noOfBugs.setPreferredSize(new java.awt.Dimension(260, 140));
-
-        BN.setBackground(new java.awt.Color(50, 50, 50));
-        BN.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
-        BN.setForeground(new java.awt.Color(217, 217, 217));
-        BN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/bugs.png"))); // NOI18N
-        BN.setText("10");
-        BN.setOpaque(true);
-
-        javax.swing.GroupLayout noOfBugsLayout = new javax.swing.GroupLayout(noOfBugs);
-        noOfBugs.setLayout(noOfBugsLayout);
-        noOfBugsLayout.setHorizontalGroup(
-            noOfBugsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(noOfBugsLayout.createSequentialGroup()
-                .addGap(117, 117, 117)
-                .addComponent(BN, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(113, Short.MAX_VALUE))
-        );
-        noOfBugsLayout.setVerticalGroup(
-            noOfBugsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(noOfBugsLayout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(BN)
-                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         ProjectNumber.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         ProjectNumber.setForeground(new java.awt.Color(50, 50, 50));
         ProjectNumber.setText("Number of projects assigned to you");
 
-        BugNumber.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        BugNumber.setForeground(new java.awt.Color(50, 50, 50));
-        BugNumber.setText("Number of bugs assigned to you to be tested:");
+        noOfBugs1.setBackground(new java.awt.Color(50, 50, 50));
+        noOfBugs1.setBorder(javax.swing.BorderFactory.createMatteBorder(20, 0, 0, 0, new java.awt.Color(109, 177, 147)));
+        noOfBugs1.setPreferredSize(new java.awt.Dimension(260, 140));
+        noOfBugs1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                noOfBugs1MouseClicked(evt);
+            }
+        });
+
+        BUG_number.setBackground(new java.awt.Color(50, 50, 50));
+        BUG_number.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
+        BUG_number.setForeground(new java.awt.Color(217, 217, 217));
+        BUG_number.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/bugs.png"))); // NOI18N
+        BUG_number.setText("10");
+        BUG_number.setOpaque(true);
+        BUG_number.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BUG_numberMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout noOfBugs1Layout = new javax.swing.GroupLayout(noOfBugs1);
+        noOfBugs1.setLayout(noOfBugs1Layout);
+        noOfBugs1Layout.setHorizontalGroup(
+            noOfBugs1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(noOfBugs1Layout.createSequentialGroup()
+                .addGap(83, 83, 83)
+                .addComponent(BUG_number, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        noOfBugs1Layout.setVerticalGroup(
+            noOfBugs1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(noOfBugs1Layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(BUG_number)
+                .addContainerGap(38, Short.MAX_VALUE))
+        );
+
+        BugNumber1.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        BugNumber1.setForeground(new java.awt.Color(50, 50, 50));
+        BugNumber1.setText("Number of bugs assigned to you:-");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(68, 68, 68)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(ProjectNumber, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(noOfProjects, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 240, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(noOfBugs, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BugNumber))
-                .addGap(68, 68, 68))
             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(noOfProjects, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ProjectNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(noOfBugs1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                    .addComponent(BugNumber1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))
+                .addGap(57, 57, 57))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(60, 60, 60)
+                .addGap(54, 54, 54)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ProjectNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BugNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(BugNumber1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(noOfProjects, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(noOfBugs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(noOfBugs1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE))
         );
 
@@ -355,8 +390,8 @@ public class Devoloper extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(217, 217, 217));
 
-        jTable2.setBackground(new java.awt.Color(50, 50, 50));
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        Projects_table.setBackground(new java.awt.Color(50, 50, 50));
+        Projects_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -367,19 +402,93 @@ public class Devoloper extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jTable2.setRowHeight(35);
-        jScrollPane2.setViewportView(jTable2);
+        Projects_table.setRowHeight(35);
+        jScrollPane2.setViewportView(Projects_table);
+
+        LogoOfSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/search2.png"))); // NOI18N
+        LogoOfSearch.setText("jLabel1");
+
+        Search2.setBackground(new java.awt.Color(217, 217, 217));
+        Search2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(150, 89, 165)));
+        Search2.setForeground(new java.awt.Color(109, 177, 147));
+        Search2.setToolTipText("Make your search from here");
+        Search2.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        Search2.setPhColor(new java.awt.Color(150, 89, 165));
+        Search2.setPlaceholder("Search....");
+        Search2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Search2ActionPerformed(evt);
+            }
+        });
+        Search2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                Search2KeyReleased(evt);
+            }
+        });
+
+        noOfProjects1.setBackground(new java.awt.Color(50, 50, 50));
+        noOfProjects1.setBorder(javax.swing.BorderFactory.createMatteBorder(20, 0, 0, 0, new java.awt.Color(133, 89, 165)));
+        noOfProjects1.setPreferredSize(new java.awt.Dimension(260, 140));
+
+        proj_number_all.setBackground(new java.awt.Color(50, 50, 50));
+        proj_number_all.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
+        proj_number_all.setForeground(new java.awt.Color(217, 217, 217));
+        proj_number_all.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/projects.png"))); // NOI18N
+        proj_number_all.setText(" 10");
+        proj_number_all.setOpaque(true);
+
+        javax.swing.GroupLayout noOfProjects1Layout = new javax.swing.GroupLayout(noOfProjects1);
+        noOfProjects1.setLayout(noOfProjects1Layout);
+        noOfProjects1Layout.setHorizontalGroup(
+            noOfProjects1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(noOfProjects1Layout.createSequentialGroup()
+                .addGap(88, 88, 88)
+                .addComponent(proj_number_all, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(95, Short.MAX_VALUE))
+        );
+        noOfProjects1Layout.setVerticalGroup(
+            noOfProjects1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(noOfProjects1Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(proj_number_all)
+                .addContainerGap(33, Short.MAX_VALUE))
+        );
+
+        ProjectNumber2.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        ProjectNumber2.setForeground(new java.awt.Color(50, 50, 50));
+        ProjectNumber2.setText("Number of projects assigned to you");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1025, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(noOfProjects1, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(LogoOfSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Search2, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(143, 143, 143))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(ProjectNumber2)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(241, Short.MAX_VALUE)
+                .addContainerGap(53, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(ProjectNumber2)
+                        .addGap(14, 14, 14)
+                        .addComponent(noOfProjects1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Search2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(LogoOfSearch))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 492, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -387,8 +496,8 @@ public class Devoloper extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(217, 217, 217));
 
-        jTable3.setBackground(new java.awt.Color(50, 50, 50));
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        Bugs_table.setBackground(new java.awt.Color(50, 50, 50));
+        Bugs_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -399,19 +508,106 @@ public class Devoloper extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jTable3.setRowHeight(35);
-        jScrollPane3.setViewportView(jTable3);
+        Bugs_table.setRowHeight(35);
+        Bugs_table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Bugs_tableMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(Bugs_table);
+
+        LogoOfSearch1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/search2.png"))); // NOI18N
+        LogoOfSearch1.setText("jLabel1");
+
+        Search3.setBackground(new java.awt.Color(217, 217, 217));
+        Search3.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(150, 89, 165)));
+        Search3.setForeground(new java.awt.Color(109, 177, 147));
+        Search3.setToolTipText("Make your search from here");
+        Search3.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        Search3.setPhColor(new java.awt.Color(150, 89, 165));
+        Search3.setPlaceholder("Search....");
+        Search3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                Search3KeyReleased(evt);
+            }
+        });
+
+        noOfBugs.setBackground(new java.awt.Color(50, 50, 50));
+        noOfBugs.setBorder(javax.swing.BorderFactory.createMatteBorder(20, 0, 0, 0, new java.awt.Color(109, 177, 147)));
+        noOfBugs.setPreferredSize(new java.awt.Dimension(260, 140));
+        noOfBugs.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                noOfBugsMouseClicked(evt);
+            }
+        });
+
+        BUG_number_all.setBackground(new java.awt.Color(50, 50, 50));
+        BUG_number_all.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
+        BUG_number_all.setForeground(new java.awt.Color(217, 217, 217));
+        BUG_number_all.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/bugs.png"))); // NOI18N
+        BUG_number_all.setText("10");
+        BUG_number_all.setOpaque(true);
+        BUG_number_all.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BUG_number_allMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout noOfBugsLayout = new javax.swing.GroupLayout(noOfBugs);
+        noOfBugs.setLayout(noOfBugsLayout);
+        noOfBugsLayout.setHorizontalGroup(
+            noOfBugsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(noOfBugsLayout.createSequentialGroup()
+                .addGap(83, 83, 83)
+                .addComponent(BUG_number_all, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(98, Short.MAX_VALUE))
+        );
+        noOfBugsLayout.setVerticalGroup(
+            noOfBugsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(noOfBugsLayout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(BUG_number_all)
+                .addContainerGap(38, Short.MAX_VALUE))
+        );
+
+        BugNumber.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        BugNumber.setForeground(new java.awt.Color(50, 50, 50));
+        BugNumber.setText("Number of bugs assigned to you:-");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 1025, Short.MAX_VALUE)
+            .addComponent(jScrollPane3)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(noOfBugs, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 133, Short.MAX_VALUE)
+                        .addComponent(LogoOfSearch1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Search3, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(142, 142, 142))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(BugNumber, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap(241, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(157, 157, 157)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(LogoOfSearch1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Search3, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BugNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(noOfBugs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 492, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -438,16 +634,18 @@ public class Devoloper extends javax.swing.JFrame {
     try
         {
              
-           //command=conObj.prepareStatement("select projects.projectid, projects.projectname, projects.creationdate , projects.creationtime FROM PROJECTS where " );
-           command=conObj.prepareStatement("SELECT userid, PROJECTID FROM ASSIGNMENTS AS AHMED WHERE USERID=?"+"SELECT projects.projectname, users.username from AHMED inner join users on users.userid= AHMED.userid INNER JOIN PROJECTS ON PROJECTS.PROJECTID = AHMED.PROJECTID");
-           command.setInt(1,CurrentUser.id);
+           command=conObj.prepareStatement("select projects.projectid, projects.projectname, projects.creationdate , projects.creationtime FROM ASSIGNMENTS INNER JOIN PROJECTS ON PROJECTS.PROJECTID = ASSIGNMENTS.PROJECTID where ASSIGNMENTS.USERID=?" );
+           //command=conObj.prepareStatement("SELECT userid, PROJECTID FROM ASSIGNMENTS AS AHMED WHERE USERID=?"+"SELECT projects.projectname, users.username from AHMED inner join users on users.userid= AHMED.userid INNER JOIN PROJECTS ON PROJECTS.PROJECTID = AHMED.PROJECTID");
+          command.setInt(1,CurrentUser.id);
            resObj=command.executeQuery();
-            jTable2.setModel(DbUtils.resultSetToTableModel(resObj));
+            Projects_table.setModel(DbUtils.resultSetToTableModel(resObj));
         }
         catch (SQLException ex)
         {
             System.out.println(ex.getMessage());
         }
+           proj_number_all.setText(String.valueOf(Card(0)));
+
 // TODO add your handling code here:
     }//GEN-LAST:event_ProjectLogoMouseClicked
 
@@ -483,13 +681,14 @@ public class Devoloper extends javax.swing.JFrame {
            command=conObj.prepareStatement("select bugs.bugname, bugs.description, bugs.dateassigned , bugs.dateresolved FROM BUGS WHERE DEVELOPERID = ?" );
            command.setInt(1,CurrentUser.id);
            resObj=command.executeQuery();
-            jTable3.setModel(DbUtils.resultSetToTableModel(resObj));
+            Bugs_table.setModel(DbUtils.resultSetToTableModel(resObj));
         }
         catch (SQLException ex)
         {
             System.out.println(ex.getMessage());
         }
-    
+    BUG_number_all.setText(String.valueOf(Card(1)));
+
 // TODO add your handling code here:
     }//GEN-LAST:event_BugLogoMouseClicked
 
@@ -566,6 +765,73 @@ public class Devoloper extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_LogoutLogoMouseExited
 
+    private void Search2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Search2KeyReleased
+        DefaultTableModel model = (DefaultTableModel) Projects_table.getModel();
+
+        String Searching = Search2.getText();
+
+        TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel>(model);
+        Projects_table.setRowSorter(tr);
+        tr.setRowFilter(RowFilter.regexFilter(Searching));
+    }//GEN-LAST:event_Search2KeyReleased
+
+    private void Search3KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Search3KeyReleased
+        DefaultTableModel model = (DefaultTableModel) Bugs_table.getModel();
+
+        String Searching = Search3.getText();
+
+        TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel>(model);
+        Bugs_table.setRowSorter(tr);
+        tr.setRowFilter(RowFilter.regexFilter(Searching));
+    }//GEN-LAST:event_Search3KeyReleased
+
+    private void BUG_number_allMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BUG_number_allMouseClicked
+        noOfBugsMouseClicked(evt);
+    }//GEN-LAST:event_BUG_number_allMouseClicked
+
+    private void noOfBugsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_noOfBugsMouseClicked
+
+    }//GEN-LAST:event_noOfBugsMouseClicked
+
+    private void Search2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Search2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Search2ActionPerformed
+
+    private void BUG_numberMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BUG_numberMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BUG_numberMouseClicked
+
+    private void noOfBugs1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_noOfBugs1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_noOfBugs1MouseClicked
+
+    private void Bugs_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Bugs_tableMouseClicked
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    }//GEN-LAST:event_Bugs_tableMouseClicked
+     int counter=0;
+    public int Card(int A) {
+        counter=0;
+        try {
+            if(A==0){
+            command = conObj.prepareStatement("SELECT * FROM ASSIGNMENTS WHERE USERID =?");
+            command.setInt(1, CurrentUser.id);
+            resObj = command.executeQuery();
+            }
+            else if (A==1){
+            command = conObj.prepareStatement("SELECT * FROM BUGS WHERE DEVELOPERID =?");
+            command.setInt(1, CurrentUser.id);
+            }
+            resObj = command.executeQuery();
+            while (resObj.next()) {
+                counter++;
+            }
+        } catch (SQLException ex) {
+           
+        }
+        return counter;
+        
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -600,14 +866,24 @@ public class Devoloper extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel BN;
+    private javax.swing.JLabel BUG_number;
+    private javax.swing.JLabel BUG_number_all;
     private javax.swing.JLabel BugLogo;
     private javax.swing.JLabel BugNumber;
+    private javax.swing.JLabel BugNumber1;
+    private javax.swing.JTable Bugs_table;
+    private javax.swing.JTable Dashboard_table;
     private javax.swing.JLabel Dashlogo;
+    private javax.swing.JLabel DeveloperName;
+    private javax.swing.JLabel LogoOfSearch;
+    private javax.swing.JLabel LogoOfSearch1;
     private javax.swing.JLabel LogoutLogo;
-    private javax.swing.JLabel PN;
     private javax.swing.JLabel ProjectLogo;
     private javax.swing.JLabel ProjectNumber;
+    private javax.swing.JLabel ProjectNumber2;
+    private javax.swing.JTable Projects_table;
+    private app.bolivia.swing.JCTextField Search2;
+    private app.bolivia.swing.JCTextField Search3;
     private javax.swing.JPanel SidePanel;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -617,12 +893,12 @@ public class Devoloper extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
     private javax.swing.JPanel noOfBugs;
+    private javax.swing.JPanel noOfBugs1;
     private javax.swing.JPanel noOfProjects;
+    private javax.swing.JPanel noOfProjects1;
+    private javax.swing.JLabel proj_number;
+    private javax.swing.JLabel proj_number_all;
     private javax.swing.JLabel testerLogo;
-    private javax.swing.JLabel testerName;
     // End of variables declaration//GEN-END:variables
 }
