@@ -23,6 +23,15 @@ public final class ProjectInfo extends javax.swing.JFrame{
     */
     
     int edit = -1;
+    int count = 0;
+    int delete = 0;
+    
+    ArrayList<String> project = new ArrayList<>();
+    AdminController info = new AdminController();
+    ArrayList<String> newUsers = new ArrayList<>();
+    ArrayList<String> removedUsers = new ArrayList<>();
+    
+    String[] temp = new String[4];
     
     public ProjectInfo(int choice) {
         initComponents();
@@ -30,31 +39,33 @@ public final class ProjectInfo extends javax.swing.JFrame{
         
         if (choice == 0)
         {
+            edit = 0;
+            
             deleteButton.setVisible(false);
             editButton.setVisible(false);
-            edit = 0;
         }
         else
         {
             edit = 1;
+            
+            project = info.selectProject(choice);
+            idField.setText(""+choice+"");
+            projectField.setText(project.get(0));
+            
+            for (int k = 1; k < project.size(); k++)
+            {
+                temp = info.selectUser(Integer.parseInt(project.get(k)));
+                usersBox.addItem(temp[1]);   
+            }
+            
             confirmButton.setEnabled(false);
             addButton.setEnabled(false);
             removeButton.setEnabled(false);
-            String[] arr = info.selectProject(choice);
-            idField.setText(arr[0]);
-            projectField.setText(arr[1]);
             idField.setEnabled(false);
             projectField.setEnabled(false);
             userIDField.setEnabled(false);
         }
     }
-    
-    
-    AdminController info = new AdminController();
-    ArrayList<String> newUsers = new ArrayList<>();
-    ArrayList<String> newIDs = new ArrayList<>();
-    ArrayList<String> removedUsers = new ArrayList<>();
-    String[] temp = new String[4];
     
     
     @SuppressWarnings("unchecked")
@@ -143,7 +154,7 @@ public final class ProjectInfo extends javax.swing.JFrame{
         idLabel.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         idLabel.setForeground(new java.awt.Color(109, 177, 147));
         idLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        idLabel.setText("ID");
+        idLabel.setText("Project ID");
         idLabel.setPreferredSize(new java.awt.Dimension(150, 45));
 
         usersLabel.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
@@ -292,9 +303,11 @@ public final class ProjectInfo extends javax.swing.JFrame{
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        int result = info.deleteUser(idField.getText(), projectField.getText());
-        if (result == 1)
+        int reply = JOptionPane.showConfirmDialog(null, "Delete " + projectField.getText() +"?", "Delete", JOptionPane.YES_NO_OPTION);
+        
+        if (reply == JOptionPane.YES_OPTION)
         {
+            info.deleteProject(Integer.parseInt(idField.getText()));
             this.dispose();
             JOptionPane.showMessageDialog(null, "Please update the table!");
         }
@@ -311,6 +324,8 @@ public final class ProjectInfo extends javax.swing.JFrame{
             {
                 result = info.addProject(idField.getText(), projectField.getText());
             }
+            if (!newUsers.isEmpty())
+                info.usersToProject(Integer.parseInt(idField.getText()), newUsers, 0, -1);
         }
         else
         {
@@ -318,18 +333,18 @@ public final class ProjectInfo extends javax.swing.JFrame{
                 JOptionPane.showMessageDialog(null, "Please make sure you have specified the ID and name of the project!");
             else
             {
-                //result = info.editProject(idField.getText(), projectField.getText());
+                result = info.editProject(idField.getText(), projectField.getText());
             }
-        }
-        if (!newUsers.isEmpty())
-        {
-            info.assignUsers(Integer.parseInt(projectField.getText()), newUsers, edit);
+            if (!newUsers.isEmpty())
+                result = info.usersToProject(Integer.parseInt(idField.getText()), newUsers, 1, -1);
+            if (!removedUsers.isEmpty())
+                result = info.usersToProject(Integer.parseInt(idField.getText()), removedUsers, -1, 1);
         }
         if (result == 1)
         {    
             this.dispose();
             JOptionPane.showMessageDialog(null, "Please update the table!");
-        }        
+        }
     }//GEN-LAST:event_confirmButtonActionPerformed
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
@@ -342,46 +357,97 @@ public final class ProjectInfo extends javax.swing.JFrame{
     }//GEN-LAST:event_editButtonActionPerformed
 
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
-        if (edit == 0)
+        if (edit == 0 && usersBox.getSelectedIndex() != 0)
         {
             int rem = usersBox.getSelectedIndex();
             newUsers.remove(rem - 1);
             usersBox.removeItemAt(rem);
+            count--;
         }
-        else if (edit == 1)
+        else if (edit == 1 && usersBox.getSelectedIndex() != 0)
         {
-            
+            for (int i = 1; i < project.size(); i++)
+            {
+                temp = info.selectUser(Integer.parseInt(project.get(i)));
+                if (usersBox.getItemAt(usersBox.getSelectedIndex()).equals(temp[1]))
+                {
+                    removedUsers.add(project.get(i));
+                    usersBox.removeItemAt(usersBox.getSelectedIndex());
+                    break;
+                }
+            }
+            if (!newUsers.isEmpty())
+            {
+                for (int i = 0; i < newUsers.size(); i++)
+                {
+                    temp = info.selectUser(Integer.parseInt(newUsers.get(i)));
+                    if (usersBox.getItemAt(usersBox.getSelectedIndex()).equals(temp[1]))
+                    {
+                        System.out.println("Here");
+                        newUsers.remove(i);
+                        usersBox.removeItemAt(usersBox.getSelectedIndex());
+                        break;
+                    }
+                }
+            }
         }
     }//GEN-LAST:event_removeButtonActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        int count = 0;
-        if (newUsers.isEmpty())
+        int found = 0;
+        
+        if (!userIDField.getText().isEmpty())
         {
-            newUsers.add(userIDField.getText());
-            temp = info.selectUser(Integer.parseInt(newUsers.get(count)));
-            count++;
-        }
-        else
-        {
-            for (int i = 0; i < newUsers.size(); i++)
+            if (newUsers.isEmpty())
             {
-                if (!newUsers.get(i).equals( userIDField.getText()))
-                    newUsers.add(userIDField.getText());
+                System.out.println("Here 2");
+                temp = info.selectUser(Integer.parseInt(userIDField.getText()));
+                newUsers.add(temp[0]);
+                usersBox.addItem(temp[1]);
+            }
+            else
+            {
+                System.out.println("Here 3");
+                for (int i = 0; i < newUsers.size(); i++)
+                {
+                    if (userIDField.getText().equals(newUsers.get(i)))
+                    {
+                        System.out.println("Here 9");
+                        found = 1;
+                        break;
+                    }
+                }
+                
+                for (int i = 1; i < project.size(); i++)
+                {
+                    if (userIDField.getText().equals(project.get(i)))
+                    {
+                        System.out.println("Here 10");
+                        found = 1;
+                        break;
+                    }
+                }
+                
+                if (found == 0)
+                {
+                    System.out.println("Here 4");
+                    temp = info.selectUser(Integer.parseInt(userIDField.getText()));
+
+                    if (!temp[1].equals(" ") && !temp[3].equals("A"))
+                    {
+                        System.out.println("Here 5");
+                        usersBox.addItem(temp[1]);
+                        newUsers.add(temp[0]);
+                    }
+                    else if (temp[3].equals("A"))
+                        JOptionPane.showMessageDialog(null, "This user cannot be assigned a project.");
+                    else
+                        JOptionPane.showMessageDialog(null, "This user doesn't exist.");
+                }
                 else
-                    JOptionPane.showMessageDialog(null, "A user can be only added");
+                    JOptionPane.showMessageDialog(null, "A user can be added only once.");
             }
         }
-        //temp = info.selectUser(Integer.parseInt(newUsers.get(i)));
-        if (!temp[1].equals(" ") || !temp[3].equals("A"))
-        {
-            usersBox.addItem(temp[1]);
-            //i++;
-        }
-        else if (temp[3].equals("A"))
-            JOptionPane.showMessageDialog(null, "This user cannot be assigned a project.");
-        else
-            JOptionPane.showMessageDialog(null, "This user doesn't exist.");
     }//GEN-LAST:event_addButtonActionPerformed
 
     /**

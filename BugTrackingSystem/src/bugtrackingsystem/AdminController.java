@@ -184,9 +184,9 @@ public class AdminController extends dataConnection
     public int deleteUser(String id, String usr)
     {
         String msg = "Delete "+usr+"?";
-        int reply = -1;
-        reply = JOptionPane.showConfirmDialog(null, msg, "Delete", JOptionPane.YES_NO_OPTION);
-        if(reply == JOptionPane.YES_OPTION)
+        int found = -1;
+        int reply = JOptionPane.showConfirmDialog(null, msg, "Delete", JOptionPane.YES_NO_OPTION);
+        if (reply == JOptionPane.YES_OPTION)
         {
             try
             {
@@ -194,6 +194,30 @@ public class AdminController extends dataConnection
                 command = conObj.prepareStatement("DELETE FROM USERS WHERE USERID = ?");
                 command.setInt(1, Integer.parseInt(id));
                 command.executeUpdate();
+                
+                getConnected("SELECT * FROM ASSIGNMENTS");
+                command = conObj.prepareStatement("DELETE FROM ASSIGNMENTS WHERE USERID = ?");
+                command.setInt(1, Integer.parseInt(id));
+                command.executeUpdate();
+                
+                getConnected("SELECT * FROM BUGS");
+                while (resObj.next())
+                {
+                    if (resObj.getInt("TESTERID") == Integer.parseInt(id))
+                    {
+                        command = conObj.prepareStatement("UPDATE BUGS SET TESTERID = NULL WHERE TESTERID = ?");
+                        command.setInt(1, Integer.parseInt(id));
+                        command.executeUpdate();
+                        break;
+                    }
+                    else if (resObj.getInt("DEVELOPERID") == Integer.parseInt(id))
+                    {
+                        command = conObj.prepareStatement("UPDATE BUGS SET DEVELOPERID = NULL WHERE DEVELOPERID = ?");
+                        command.setInt(1, Integer.parseInt(id));
+                        command.executeUpdate();
+                        break;
+                    }
+                }
             }
             catch (SQLException ex)
             {
@@ -202,6 +226,20 @@ public class AdminController extends dataConnection
             return 1;
         }
         return 0;
+    }
+    
+    public void deleteAll ()
+    {
+        try
+        {
+            getConnected("SELECT * FROM USERS");
+            command = conObj.prepareStatement("DELETE FROM USERS");
+            command.executeUpdate();
+        }
+        catch (SQLException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
     }
     
     public String[] selectUser(int id)
@@ -359,7 +397,7 @@ public class AdminController extends dataConnection
         return 1;
     }
     
-    public void assignUsers(int id, ArrayList<String> users, int edit)
+    public int usersToProject(int id, ArrayList<String> users, int edit, int delete)
     {
         try 
         {
@@ -368,7 +406,7 @@ public class AdminController extends dataConnection
             {
                 for (int i = 0; i < users.size(); i++)
                 {
-                    command = conObj.prepareStatement("INSERT INTO ASSIGNMENTS VALUES (USERID = ?, PROJECTID = ?)");
+                    command = conObj.prepareStatement("INSERT INTO ASSIGNMENTS VALUES (?,?)");
                     command.setInt(1, Integer.parseInt(users.get(i)));
                     command.setInt(2, id);
                     command.executeUpdate();
@@ -378,9 +416,18 @@ public class AdminController extends dataConnection
             {
                 for (int i = 0; i < users.size(); i++)
                 {
-                    command = conObj.prepareStatement("UPDATE ASSIGNMENTS SET USERID = ?, PROJECTID = ?");
+                    command = conObj.prepareStatement("INSERT INTO ASSIGNMENTS VALUES (?,?)");
                     command.setInt(1, Integer.parseInt(users.get(i)));
                     command.setInt(2, id);
+                    command.executeUpdate();
+                }
+            }
+            if (delete == 1)
+            {
+                for (int i = 0; i < users.size(); i++)
+                {
+                    command = conObj.prepareStatement("DELETE FROM ASSIGNMENTS WHERE USERID = ?");
+                    command.setInt(1, Integer.parseInt(users.get(i)));
                     command.executeUpdate();
                 }
             }
@@ -389,13 +436,37 @@ public class AdminController extends dataConnection
         {
             System.out.println(ex.getMessage());
         }
+        return 1;
     }
     
-    public String[] selectProject(int id)
+    public void deleteProject(int id)
     {
-        String retID = " ";
-        String retUsr = " ";
-        
+        try
+        {
+            getConnected("SELECT * FROM ASSIGNMENTS");
+            command = conObj.prepareStatement("DELETE FROM ASSIGNMENTS WHERE PROJECTID = ?");
+            command.setInt(1, id);
+            command.executeUpdate();
+            
+            getConnected("SELECT * FROM PROJECTS");
+            command = conObj.prepareStatement("DELETE FROM PROJECTS WHERE PROJECTID = ?");
+            command.setInt(1, id);
+            command.executeUpdate();
+            
+            getConnected("SELECT * FROM BUGS");
+            command = conObj.prepareStatement("UPDATE BUGS SET PROJECTID = NULL WHERE PROJECTID = ?");
+            command.setInt(1, id);
+            command.executeUpdate();
+        }
+        catch (SQLException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    public ArrayList<String> selectProject(int id)
+    {   
+        ArrayList<String> project = new ArrayList<>();
         try 
             {
                 getConnected("SELECT * FROM PROJECTS");
@@ -404,14 +475,38 @@ public class AdminController extends dataConnection
                 resObj = command.executeQuery();
                 resObj.next();
                 
-                retID = Integer.toString(resObj.getInt("PROJECTID"));
-                retUsr = resObj.getString("PROJECTNAME");
+                project.add(resObj.getString("PROJECTNAME"));
+                
+                getConnected("SELECT * FROM ASSIGNMENTS");
+                command = conObj.prepareStatement("SELECT USERID FROM ASSIGNMENTS WHERE PROJECTID = ?");
+                command.setInt(1, id);
+                resObj = command.executeQuery();
+                
+                while (resObj.next())
+                    project.add(String.valueOf(resObj.getInt("USERID")));
             } 
         catch (SQLException ex)
         {
             System.out.println(ex.getMessage());
         }
-        return new String[] {retID, retUsr};
+        return project;
+    }
+    
+    public int editProject(String id, String project)
+    {
+        try
+        {
+            getConnected("SELECT * FROM PROJECTS");
+            command = conObj.prepareStatement("UPDATE PROJECTS SET PROJECTNAME = ? WHERE PROJECTID = ?");
+            command.setString(1, project);
+            command.setInt(2, Integer.parseInt(id));
+            command.executeUpdate();
+        }
+        catch (SQLException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+        return 1;
     }
 // Projects Screen Operations End
 
@@ -422,7 +517,7 @@ public class AdminController extends dataConnection
     {
         try 
         {
-            command = conObj.prepareStatement("SELECT * FROM BUGS ORDER BY BUGID ASC");
+            command = conObj.prepareStatement("SELECT BUGID, BUGNAME, PROJECTID, TESTERID, DEVELOPERID, DATEASSIGNED, DATERESOLVED, TYBE AS TYPE, SEVERITY, STATUS FROM BUGS ORDER BY BUGID ASC");
             resObj = command.executeQuery();
         }
         catch (SQLException ex) {
@@ -456,6 +551,63 @@ public class AdminController extends dataConnection
                 }
             }
             resObj = command.executeQuery();
+        }
+        catch (SQLException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    public String[] selectBug (String id)
+    {
+        String retName = " ";
+        String retDevID = " ";
+        String retType = " ";
+        String retSeverity = " ";
+        String retDesc = " ";
+        
+        try
+        {
+        getConnected("SELECT * FROM BUGS");
+        command = conObj.prepareStatement("SELECT * FROM BUGS WHERE BUGID = ?");
+        command.setInt(1, Integer.parseInt(id));
+        resObj = command.executeQuery();
+        resObj.next();
+        
+        retName = resObj.getString("BUGNAME");
+        retDevID = String.valueOf(resObj.getInt("DEVELOPERID"));
+        retType = resObj.getString("TYBE");
+        retSeverity = resObj.getString("SEVERITY");
+        retDesc = resObj.getString("DESCRIPTION");
+        
+        System.out.println(retName + retDevID + retType + retSeverity + retDesc);
+        }
+        catch (SQLException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+        
+        return new String[] {retName, retDevID, retType, retSeverity, retDesc};
+    }
+    
+    public void updateBug(String[] bug)
+    {
+        try
+        {
+            getConnected("SELECT * FROM BUGS");
+            command = conObj.prepareStatement("UPDATE BUGS SET TYBE = ?, SEVERITY = ?, DEVELOPERID = ? WHERE BUGID = ?");
+            command.setString(1, bug[1]);
+            command.setString(2, bug[2]);
+            if (bug[3] == null)
+            {
+                command.setString(3, null);
+            }
+            else
+            {
+                command.setString(3, bug[3]);
+            }
+            command.setString(4, bug[0]);
+            command.executeUpdate();
         }
         catch (SQLException ex)
         {

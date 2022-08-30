@@ -148,7 +148,7 @@ public final class UserInfo extends javax.swing.JFrame{
         idLabel.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         idLabel.setForeground(new java.awt.Color(109, 177, 147));
         idLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        idLabel.setText("ID");
+        idLabel.setText("User ID");
         idLabel.setPreferredSize(new java.awt.Dimension(150, 45));
 
         roleLabel.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N

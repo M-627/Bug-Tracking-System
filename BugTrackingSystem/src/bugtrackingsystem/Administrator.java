@@ -8,6 +8,7 @@ package bugtrackingsystem;
 import net.proteanit.sql.DbUtils;
 import com.formdev.flatlaf.FlatDarkLaf;
 import java.awt.Color;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 /**
@@ -40,7 +41,6 @@ public final class Administrator extends javax.swing.JFrame {
     //Global variable to choose tabs
     int choice = 0;
     int table = 0;
-    public int infoState = -1;
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -88,6 +88,7 @@ public final class Administrator extends javax.swing.JFrame {
         jScrollPane5 = new javax.swing.JScrollPane();
         bugsTable = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
+        updateBugssButton = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         bugSearch = new javax.swing.JTextField();
 
@@ -470,6 +471,11 @@ public final class Administrator extends javax.swing.JFrame {
         deleteAllButton.setText("Delete All");
         deleteAllButton.setToolTipText("Deletes all users");
         deleteAllButton.setPreferredSize(new java.awt.Dimension(250, 45));
+        deleteAllButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteAllButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout usersPanelLayout = new javax.swing.GroupLayout(usersPanel);
         usersPanel.setLayout(usersPanelLayout);
@@ -652,19 +658,42 @@ public final class Administrator extends javax.swing.JFrame {
         bugsTable.setRowMargin(6);
         bugsTable.setSelectionBackground(new java.awt.Color(109, 177, 147));
         bugsTable.setSelectionForeground(new java.awt.Color(50, 50, 50));
+        bugsTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bugsTableMouseClicked(evt);
+            }
+        });
         jScrollPane5.setViewportView(bugsTable);
 
         jPanel1.setBackground(new java.awt.Color(50, 50, 50));
+
+        updateBugssButton.setBackground(new java.awt.Color(133, 89, 165));
+        updateBugssButton.setFont(new java.awt.Font("Times New Roman", 0, 21)); // NOI18N
+        updateBugssButton.setForeground(new java.awt.Color(50, 50, 50));
+        updateBugssButton.setText("Update");
+        updateBugssButton.setToolTipText("Updates table contents");
+        updateBugssButton.setPreferredSize(new java.awt.Dimension(152, 40));
+        updateBugssButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateBugssButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(updateBugssButton, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 75, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(17, Short.MAX_VALUE)
+                .addComponent(updateBugssButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
         );
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/search2.png"))); // NOI18N
@@ -703,14 +732,14 @@ public final class Administrator extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(bugsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(bugsPanelLayout.createSequentialGroup()
-                        .addGap(52, 52, 52)
+                        .addGap(57, 57, 57)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(bugsPanelLayout.createSequentialGroup()
-                        .addGap(70, 70, 70)
+                        .addGap(75, 75, 75)
                         .addComponent(bugSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(115, 115, 115))
+                .addContainerGap(161, Short.MAX_VALUE))
         );
 
         mainPanel.addTab("Bugs", bugsPanel);
@@ -729,6 +758,9 @@ public final class Administrator extends javax.swing.JFrame {
         usersLabelMouseExited(evt);
         projectsLabelMouseExited(evt);
         bugsLabelMouseExited(evt);
+        
+        admin.viewActivity();
+        omniTable.setModel(DbUtils.resultSetToTableModel(admin.getResObj()));
     }//GEN-LAST:event_activitiesLabelMouseClicked
 
     private void activitiesLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_activitiesLabelMouseEntered
@@ -960,6 +992,32 @@ public final class Administrator extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_projectsTableMouseClicked
 
+    private void deleteAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteAllButtonActionPerformed
+        int reply = JOptionPane.showConfirmDialog(null, "Delete all users in the system?", "Warning!", JOptionPane.YES_NO_OPTION);
+        if (reply == JOptionPane.YES_OPTION)
+        {
+            admin.deleteAll();
+        }
+    }//GEN-LAST:event_deleteAllButtonActionPerformed
+
+    private void bugsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bugsTableMouseClicked
+        try
+        {   
+            int selectedID = (int) bugsTable.getValueAt(bugsTable.getSelectedRow(),0);
+            BugInfo add = new BugInfo(selectedID);
+            add.setVisible(true);
+        }
+        catch (Exception ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_bugsTableMouseClicked
+
+    private void updateBugssButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBugssButtonActionPerformed
+        admin.viewBugs();
+        bugsTable.setModel(DbUtils.resultSetToTableModel(admin.getResObj()));
+    }//GEN-LAST:event_updateBugssButtonActionPerformed
+
     public static void main(String args[]) {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -1014,6 +1072,7 @@ public final class Administrator extends javax.swing.JFrame {
     private javax.swing.JTable projectsTable;
     private javax.swing.JTextField searchField;
     private javax.swing.JPanel sidePanel;
+    private javax.swing.JButton updateBugssButton;
     private javax.swing.JButton updateProjecstButton;
     private javax.swing.JButton updateUsersButton;
     private javax.swing.JTextField userSearch;
