@@ -24,8 +24,11 @@ public class ProjectDetails extends javax.swing.JFrame implements Colors {
     
     public ProjectDetails() {
         initComponents();
+        //GETCONNECTED
         ProjectInfo.ViewUsersTable();
          Users.setModel(DbUtils.resultSetToTableModel(ProjectInfo.getResObj()));
+         // SET THE JFRAME TO BE IN THE CENTER 
+        this.setLocationRelativeTo(null);
     }
 
     /**

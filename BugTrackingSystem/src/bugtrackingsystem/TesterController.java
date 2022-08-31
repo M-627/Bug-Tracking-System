@@ -5,20 +5,15 @@
  */
 package bugtrackingsystem;
 
-import static bugtrackingsystem.dataConnection.host;
-import static bugtrackingsystem.dataConnection.pass;
-import static bugtrackingsystem.dataConnection.uname;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
+
 import java.sql.SQLException;
+
 
 /**
  *
  * @author mariam
  */
 public class TesterController extends dataConnection {
-    
-   
 
     //VIEW ASSIGNED BUGTABLE IN DASHBOARD --------------------------------------------------------------------------------------
     public void ViewBugTable() {
@@ -197,7 +192,7 @@ public class TesterController extends dataConnection {
         }
         return counter2;
     }
-    
+
     //SEARCH IN ASSIGNED PROJECTS IN PRJECTS PANEL --------------------------------------------------------------------------------
     public void searchProjects(String search) {
         try {
@@ -213,8 +208,8 @@ public class TesterController extends dataConnection {
                     command = conObj.prepareStatement("SELECT PROJECTS.PROJECTID , PROJECTS.PROJECTNAME , PROJECTS.CREATIONDATE FROM ASSIGNMENTS INNER JOIN PROJECTS ON ASSIGNMENTS.PROJECTID = PROJECTS.PROJECTID WHERE ASSIGNMENTS.USERID = ?  AND ASSIGNMENTS.PROJECTID = ? ORDER BY PROJECTID ASC");
                     command.setInt(1, CurrentUser.id);
                     command.setInt(2, Integer.parseInt(search));
-                }else{
-                System.out.println(" prepare the query...");
+                } else {
+                    System.out.println(" prepare the query...");
 
                     command = conObj.prepareStatement("SELECT PROJECTS.PROJECTID , PROJECTS.PROJECTNAME , PROJECTS.CREATIONDATE FROM ASSIGNMENTS INNER JOIN PROJECTS ON ASSIGNMENTS.PROJECTID = PROJECTS.PROJECTID WHERE ASSIGNMENTS.USERID = ?  AND PROJECTS.PROJECTNAME LIKE ? ORDER BY PROJECTID ASC");
                     command.setInt(1, CurrentUser.id);
@@ -228,7 +223,7 @@ public class TesterController extends dataConnection {
             System.out.println(ex.getMessage());
         }
     }
-    
+
     //VIEW USERSTABLE  ----------------------------------------------------------------------------------------------------------------------
     public void ViewUsersTable() {
         try {
@@ -246,43 +241,206 @@ public class TesterController extends dataConnection {
         }
     }
 
-***************************************
-    //------------------------------------------------------BUGTRIAL CODES-----------------------------------------------------------------------------------------
-    //View BugTable for specific project
-    public void ViewBugTable2() {
+    //VIEW BUGTABLE FOR SPECIFIC PROJECT -----------------------------------------------------------------------------------------------------
+    public void ViewProjectBugsTable() {
         try {
-            System.out.println(" connecting to database...");
-            
-            conObj = DriverManager.getConnection(host, uname, pass);
-            smtObj = conObj.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            getConnected("SELECT * FROM BUGS");
 
             System.out.println(" prepare the query...");
-            command = conObj.prepareStatement("SELECT *FROM BUGS WHERE PROJECtID = ?");
+
+            command = conObj.prepareStatement("SELECT * FROM BUGS WHERE PROJECTID = ?");
             command.setInt(1, CurrentProject.projectId);
 
             System.out.println(" excute the query...");
+
+            resObj = command.executeQuery();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    //SEARCH IN BUGTABLE PANEL (BUGDETAILS) --------------------------------------------------------------------------------
+    public void searchBugDetails(String search) {
+        try {
+            if (search.isEmpty()) {
+                System.out.println(" prepare the query...");
+
+                command = conObj.prepareStatement("SELECT * FROM BUGS WHERE PROJECTID = ?");
+                command.setInt(1, CurrentProject.projectId);
+            } else {
+                if (search.matches("[0-9]+")) {
+                    System.out.println(" prepare the query...");
+
+                    command = conObj.prepareStatement("SELECT * FROM BUGS WHERE PROJECTID = ? AND BUGID = ?");
+                    command.setInt(1, CurrentProject.projectId);
+                    command.setInt(2, Integer.parseInt(search));
+                } else {
+                    System.out.println(" prepare the query...");
+
+                    command = conObj.prepareStatement("SELECT *FROM BUGS WHERE PROJECtID = ? AND (BUGNAME LIKE ? OR SEVERITY LIKE ? OR TYPE LIKE ? OR STATUS LIKE ?)");
+                    command.setInt(1, CurrentProject.projectId);
+                    command.setString(2, "%" + search + "%");
+                    command.setString(3, "%" + search + "%");
+                    command.setString(4, "%" + search + "%");
+                    command.setString(5, "%" + search + "%");
+                }
+            }
+            System.out.println(" excute the query...");
+
             resObj = command.executeQuery();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
     }
     
-    //generate BugId
+    //GENERATE BUGID AUTOMATICALLY
     public int GenerateBugID() {
         int BugId = 0;
         try {
-            System.out.println(" connecting to database...");
-            conObj = DriverManager.getConnection(host, uname, pass);
-            smtObj= conObj.createStatement();
+            getConnected("SELECT * FROM BUGS");
+
+            System.out.println(" prepare the query...");
+
+            command = conObj.prepareStatement("SELECT Max(BUGID) FROM BUGS");
 
             System.out.println(" excute the query...");
-            resObj = smtObj.executeQuery("SELECT Max(BUGID) FROM BUGS");
+
+            resObj = command.executeQuery();
             resObj.next();
-           BugId = resObj.getInt(1) + 1;
+
+            BugId = resObj.getInt(1) + 1;
             System.out.println(" BugId = " + BugId);
-            } catch (Exception e) {
+
+            System.out.println(" BugId = " + BugId);
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return BugId; 
+        return BugId;
+    }
+
+//SELECT BUG FROM DASHBOARD --------------------------------------------------------------------------------
+    public String[] selectedBug(int id) {
+        String retName = " ";
+        String retPID = " ";
+        String retTID = " ";
+        String retDID = " ";
+        String retDescription = " ";
+        String retStatus = " ";
+        String retSeverity = " ";
+        String retType = " ";
+        String retTNAME = "";
+         String retDNAME = "";
+        
+        
+        try {
+            getConnected("SELECT * FROM BUGS");
+
+            System.out.println(" prepare the query...");
+
+            command = conObj.prepareStatement("SELECT * FROM BUGS WHERE BUGID = ?");
+            command.setInt(1, id);
+
+            System.out.println(" excute the query...");
+
+            resObj = command.executeQuery();
+            resObj.next();
+
+            
+            retName = resObj.getString("BUGNAME");
+            System.out.println(retName);
+            
+            retPID = Integer.toString(resObj.getInt("PROJECTID"));
+            System.out.println(retPID);
+            
+            retTID = Integer.toString(resObj.getInt("TESTERID"));
+            System.out.println(retTID);
+            
+            retDID = Integer.toString(resObj.getInt("DEVELOPERID"));
+            System.out.println(retDID);
+            
+            retDescription = resObj.getString("DESCRIPTION");
+            System.out.println(retDescription);
+            
+            retStatus = resObj.getString("STATUS");
+            System.out.println(retStatus);
+            
+            retSeverity = resObj.getString("SEVERITY");
+            System.out.println(retSeverity);
+            
+            retType = resObj.getString("TYBE");
+            System.out.println(retType);
+            
+            //RETURN TESTERNAME
+            System.out.println(" prepare the query...");
+
+            command = conObj.prepareStatement("SELECT * FROM USERS WHERE USERID = ?");
+            command.setInt(1, Integer.parseInt(retTID));
+            
+            System.out.println(" excute the query...");
+
+            resObj = command.executeQuery();
+            resObj.next();
+            retTNAME = resObj.getString("USERNAME");
+            
+            //RETURN DEVELOPERNAME
+            System.out.println(" prepare the query...");
+
+            command = conObj.prepareStatement("SELECT * FROM USERS WHERE USERID = ?");
+            command.setInt(1, Integer.parseInt(retDID));
+            
+            System.out.println(" excute the query...");
+
+            resObj = command.executeQuery();
+            resObj.next();
+            retDNAME = resObj.getString("USERNAME");
+            
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return new String[]{retName, retPID, retTNAME,retTID, retDNAME, retDescription, retStatus, retSeverity, retType};
+    }
+    
+    //GET DEVELOPERID
+    public int getDeveloper(String name) {
+        int retID = 0;
+        try {
+            getConnected("SELECT * FROM USERS");
+            command = conObj.prepareStatement("SELECT * FROM USERS WHERE USERNAME = ?");
+            command.setString(1, name);
+
+            System.out.println(" excute the query...");
+
+            resObj = command.executeQuery();
+            resObj.next();
+            retID = resObj.getInt("USERID");
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return retID;
+
+    }
+        
+    // ADD OR UPDATE BUGINFO
+    public int addBug(int id, String Name, String projectID, String TesterId, int DeveloperID, String Description, String status, String Severity, String Type) {
+        try {
+            getConnected("SELECT * FROM BUGS");
+
+            command = conObj.prepareStatement("INSERT INTO BUGS INSERT INTO BUGS SET BUGID = ?, BUGNAME = ?, PROJECTID = ?, TESTERID = ?, DEVELOPERID = ?, DESCRIPTION = ?, STSTUS = ?,SEVERITY = ?, TYBE = ?, CREATIONDATE = CURRENT_DATE");
+            command.setInt(1, id);
+            command.setString(2, Name);
+            command.setInt(3, Integer.parseInt(projectID));
+            command.setInt(4, Integer.parseInt(TesterId));
+            command.setInt(5, DeveloperID);
+            command.setString(6, Description);
+            command.setString(7, status);
+            command.setString(8, Severity);
+            command.setString(9, Type);
+
+            command.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return 1;
     }
 }

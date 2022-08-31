@@ -8,12 +8,8 @@ package bugtrackingsystem;
 import com.formdev.flatlaf.FlatDarkLaf;
 import java.awt.Font;
 import java.awt.font.TextAttribute;
-import java.text.SimpleDateFormat;
 import java.util.Map;
-import javax.swing.RowFilter;
 import javax.swing.UIManager;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -26,26 +22,26 @@ public class Tester extends javax.swing.JFrame implements Colors {
     TesterController Tester = new TesterController();
 
     //SOURCE CODE GLOBAL VARIABLES
-    private int choose = 1;    // USED IN SPECIFY WHICH PANEL SHOULD BE VIEWD --------------------------------------
-    private int BugId = 0; //(used in generating id automatically)
+    private int choose = 1;    // USED IN SPECIFY WHICH PANEL SHOULD BE VIEWD 
+   
 
     public Tester() {
         initComponents();
-        //VIEW NAME OF THE TESTER -----------------------------------------------------------
+        //VIEW NAME OF THE TESTER 
         testerLogo.setText(CurrentUser.user);
 
-        //VIEW ASSIGNED BUGTABLE IN DASHBOARD ------------------------------------------------
+        //VIEW ASSIGNED BUGTABLE IN DASHBOARD 
         Tester.ViewBugTable();
         bugTable.setModel(DbUtils.resultSetToTableModel(Tester.getResObj()));
 
-        //VIEW BUG CARD -----------------------------------------------------------------------
+        //VIEW BUG CARD 
         BN.setText(String.valueOf(Tester.ViewBugCard()));
 
-        // SET THE JFRAME TO BE IN THE CENTER ---------------------------------------------------
+        // SET THE JFRAME TO BE IN THE CENTER 
         this.setLocationRelativeTo(null);
     }
     
-     //"Relad table" FONT CHANGER ---------------------------------------------------------------
+     //"Relad table" FONT CHANGER 
     Font orgFont;
     private void getFont(java.awt.event.MouseEvent evt)
     {
@@ -55,15 +51,6 @@ public class Tester extends javax.swing.JFrame implements Colors {
         evt.getComponent().setFont(orgFont.deriveFont(attributes));
     }
     
-    
-    
-    
-    // transfaring the format of crimeDate from java.util.Date into a java.util.sql
-    public String formatDate(java.util.Date Date) {
-        SimpleDateFormat DateFormat = new SimpleDateFormat("YYYY-MM-dd");
-        String NewDate = DateFormat.format(Date);
-        return NewDate;
-    }
     
     
     @SuppressWarnings("unchecked")
@@ -840,23 +827,24 @@ public class Tester extends javax.swing.JFrame implements Colors {
     }//GEN-LAST:event_SearchMouseClicked
 
     private void projects1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_projects1MouseClicked
-        DefaultTableModel model = (DefaultTableModel) projects1.getModel();
-
-        System.out.println("storing the value of row choosen...");
-        int row = projects1.getSelectedRow();
-        int id = (Integer.parseInt(model.getValueAt(row, 0).toString()));
-        new CurrentProject(id);
-        new BugTrial().setVisible(true);
+         try
+        {   
+            System.out.println("storing the value of row choosen...");
+            
+            int selectedID = (int) projects1.getValueAt(projects1.getSelectedRow(),0);
+            CurrentProject Project = new CurrentProject((selectedID));
+            BugTrial add = new BugTrial();
+            add.setVisible(true);
+        }
+        catch (Exception ex)
+        {
+            System.out.println(ex.getMessage());
+        }
     }//GEN-LAST:event_projects1MouseClicked
 
     private void Search2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Search2KeyReleased
-        DefaultTableModel model = (DefaultTableModel) projects1.getModel();
-
-        String Searching = Search2.getText();
-
-        TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel>(model);
-        projects1.setRowSorter(tr);
-        tr.setRowFilter(RowFilter.regexFilter(Searching));   
+        Tester.searchProjects(Search2.getText());
+        projects1.setModel(DbUtils.resultSetToTableModel(Tester.getResObj()));
     }//GEN-LAST:event_Search2KeyReleased
 
     private void bugTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bugTableMouseClicked
