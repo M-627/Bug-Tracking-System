@@ -319,7 +319,7 @@ int counter=0;
             else if (role.equals("T"))
             {
                 activity("Logged in");
-                new Tester1().setVisible(true);
+                new Tester().setVisible(true);
                 this.dispose();
             }  
             

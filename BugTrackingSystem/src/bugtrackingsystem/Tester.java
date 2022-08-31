@@ -6,9 +6,10 @@
 package bugtrackingsystem;
 
 import com.formdev.flatlaf.FlatDarkLaf;
-import java.awt.Color;
-import java.sql.SQLException;
+import java.awt.Font;
+import java.awt.font.TextAttribute;
 import java.text.SimpleDateFormat;
+import java.util.Map;
 import javax.swing.RowFilter;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
@@ -19,34 +20,44 @@ import net.proteanit.sql.DbUtils;
  *
  * @author mariam
  */
-public class Tester1 extends javax.swing.JFrame {
+public class Tester extends javax.swing.JFrame implements Colors {
     
-    // Colors  global variables
-    private int choose = 1;
-    Color Black =Color.decode("#323232");
-    Color Green =Color.decode("#6DB193");
-    Color Purple =Color.decode("#9659A5");
-    Color Grey =Color.decode("#3B3B3B");
-    
-    //controller
+    //CONTROLLER
     TesterController Tester = new TesterController();
-    
-    //Code global variables
+
+    //SOURCE CODE GLOBAL VARIABLES
+    private int choose = 1;    // USED IN SPECIFY WHICH PANEL SHOULD BE VIEWD --------------------------------------
     private int BugId = 0; //(used in generating id automatically)
-    private int ProjectId = 0 ; //(used in collecting the id of the project)
-    
-    public Tester1() {
+    private int ProjectId = 0; //(used in collecting the id of the project)
+
+    public Tester() {
         initComponents();
-        //view the name of the tester
+        //VIEW NAME OF THE TESTER -----------------------------------------------------------
         testerLogo.setText(CurrentUser.user);
-        
-        //view assigned bugTable in dashboard panel
+
+        //VIEW ASSIGNED BUGTABLE IN DASHBOARD ------------------------------------------------
         Tester.ViewBugTable();
         bugTable.setModel(DbUtils.resultSetToTableModel(Tester.getResObj()));
-        
-        //view number of bugs to be tested in the card
+
+        //VIEW BUG CARD -----------------------------------------------------------------------
         BN.setText(String.valueOf(Tester.ViewBugCard()));
+
+        // SET THE JFRAME TO BE IN THE CENTER ---------------------------------------------------
+        this.setLocationRelativeTo(null);
     }
+    
+     //"Relad table" FONT CHANGER
+    Font orgFont;
+    private void getFont(java.awt.event.MouseEvent evt)
+    {
+        orgFont = evt.getComponent().getFont();
+        Map attributes = orgFont.getAttributes();
+        attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+        evt.getComponent().setFont(orgFont.deriveFont(attributes));
+    }
+    
+    
+    
     
     // transfaring the format of crimeDate from java.util.Date into a java.util.sql
     public String formatDate(java.util.Date Date) {
@@ -77,6 +88,7 @@ public class Tester1 extends javax.swing.JFrame {
         BugNumber = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         bugTable = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
         project = new javax.swing.JPanel();
         Search = new app.bolivia.swing.JCTextField();
         SearchLogo = new javax.swing.JLabel();
@@ -282,7 +294,7 @@ public class Tester1 extends javax.swing.JFrame {
         BN.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
         BN.setForeground(new java.awt.Color(217, 217, 217));
         BN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/bugs.png"))); // NOI18N
-        BN.setText("10");
+        BN.setText("0");
         BN.setOpaque(true);
         BN.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -329,7 +341,28 @@ public class Tester1 extends javax.swing.JFrame {
         bugTable.setRowHeight(40);
         bugTable.setSelectionBackground(new java.awt.Color(109, 177, 147));
         bugTable.setSelectionForeground(new java.awt.Color(50, 50, 50));
+        bugTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bugTableMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(bugTable);
+
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(150, 89, 165));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/reload-small.png"))); // NOI18N
+        jLabel1.setText("Reload Table:");
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jLabel1MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jLabel1MouseExited(evt);
+            }
+        });
 
         javax.swing.GroupLayout dashboardLayout = new javax.swing.GroupLayout(dashboard);
         dashboard.setLayout(dashboardLayout);
@@ -348,9 +381,11 @@ public class Tester1 extends javax.swing.JFrame {
                         .addComponent(Search1, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(dashboardLayout.createSequentialGroup()
                         .addGap(35, 35, 35)
-                        .addGroup(dashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(BugNumber, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(noOfBugs, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(dashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addGroup(dashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(BugNumber, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(noOfBugs, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         dashboardLayout.setVerticalGroup(
@@ -364,7 +399,9 @@ public class Tester1 extends javax.swing.JFrame {
                 .addGroup(dashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Search1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(searchLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(34, 34, 34)
+                .addGap(13, 13, 13)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(267, 267, 267))
         );
@@ -734,13 +771,8 @@ public class Tester1 extends javax.swing.JFrame {
     }//GEN-LAST:event_Search1MouseClicked
 
     private void Search1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Search1KeyReleased
-        DefaultTableModel model = (DefaultTableModel) bugTable.getModel();
-
-        String Searching = Search1.getText();
-
-        TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel>(model);
-        bugTable.setRowSorter(tr);
-        tr.setRowFilter(RowFilter.regexFilter(Searching));
+        Tester.searchBugs(Search1.getText());
+         bugTable.setModel(DbUtils.resultSetToTableModel(Tester.getResObj()));
     }//GEN-LAST:event_Search1KeyReleased
 
     private void noOfProjectsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_noOfProjectsMouseClicked
@@ -808,6 +840,37 @@ public class Tester1 extends javax.swing.JFrame {
         tr.setRowFilter(RowFilter.regexFilter(Searching));   
     }//GEN-LAST:event_Search2KeyReleased
 
+    private void bugTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bugTableMouseClicked
+        try
+        {   
+            int selectedID = (int) bugTable.getValueAt(bugTable.getSelectedRow(),0);
+            CurrentBug Bug = new CurrentBug((selectedID));
+            BugInformation add = new BugInformation(selectedID);
+            add.setVisible(true);
+        }
+        catch (Exception ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_bugTableMouseClicked
+
+    private void jLabel1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseEntered
+        getFont(evt);
+    }//GEN-LAST:event_jLabel1MouseEntered
+
+    private void jLabel1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseExited
+         evt.getComponent().setFont(orgFont);
+    }//GEN-LAST:event_jLabel1MouseExited
+
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        //VIEW ASSIGNED BUGTABLE IN DASHBOARD
+        Tester.ViewBugTable();
+        bugTable.setModel(DbUtils.resultSetToTableModel(Tester.getResObj()));
+
+        //VIEW BUG CARD
+        BN.setText(String.valueOf(Tester.ViewBugCard()));
+    }//GEN-LAST:event_jLabel1MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -831,7 +894,7 @@ public class Tester1 extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Tester1().setVisible(true);
+                new Tester().setVisible(true);
             }
         });
     }
@@ -858,6 +921,7 @@ public class Tester1 extends javax.swing.JFrame {
     private javax.swing.JPanel bug;
     private javax.swing.JTable bugTable;
     private javax.swing.JPanel dashboard;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
