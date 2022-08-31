@@ -28,7 +28,6 @@ public class Tester extends javax.swing.JFrame implements Colors {
     //SOURCE CODE GLOBAL VARIABLES
     private int choose = 1;    // USED IN SPECIFY WHICH PANEL SHOULD BE VIEWD --------------------------------------
     private int BugId = 0; //(used in generating id automatically)
-    private int ProjectId = 0; //(used in collecting the id of the project)
 
     public Tester() {
         initComponents();
@@ -46,7 +45,7 @@ public class Tester extends javax.swing.JFrame implements Colors {
         this.setLocationRelativeTo(null);
     }
     
-     //"Relad table" FONT CHANGER
+     //"Relad table" FONT CHANGER ---------------------------------------------------------------
     Font orgFont;
     private void getFont(java.awt.event.MouseEvent evt)
     {
@@ -88,13 +87,13 @@ public class Tester extends javax.swing.JFrame implements Colors {
         BugNumber = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         bugTable = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
+        ReloadLabel = new javax.swing.JLabel();
         project = new javax.swing.JPanel();
         Search = new app.bolivia.swing.JCTextField();
         SearchLogo = new javax.swing.JLabel();
         jScrollPane6 = new javax.swing.JScrollPane();
         projects = new javax.swing.JTable();
-        ProjectsDetails1 = new javax.swing.JLabel();
+        ProjectsDetails = new javax.swing.JLabel();
         noOfProjects = new javax.swing.JPanel();
         PN = new javax.swing.JLabel();
         ProjectNumber = new javax.swing.JLabel();
@@ -121,12 +120,14 @@ public class Tester extends javax.swing.JFrame implements Colors {
 
         testerLogo.setBackground(new java.awt.Color(40, 40, 40));
         testerLogo.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
-        testerLogo.setForeground(new java.awt.Color(150, 89, 165));
+        testerLogo.setForeground(new java.awt.Color(133, 89, 165));
+        testerLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         testerLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/person tester.png"))); // NOI18N
-        testerLogo.setText("Tester Name");
+        testerLogo.setText("Tester");
         testerLogo.setOpaque(true);
+        testerLogo.setPreferredSize(new java.awt.Dimension(300, 60));
 
-        Dashlogo.setBackground(new java.awt.Color(150, 89, 165));
+        Dashlogo.setBackground(new java.awt.Color(133, 89, 165));
         Dashlogo.setFont(new java.awt.Font("Times New Roman", 1, 30)); // NOI18N
         Dashlogo.setForeground(new java.awt.Color(50, 50, 50));
         Dashlogo.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -211,18 +212,18 @@ public class Tester extends javax.swing.JFrame implements Colors {
             SidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(SidePanelLayout.createSequentialGroup()
                 .addGroup(SidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(testerLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(testerLogo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(SidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(BugLogo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(LogoutLogo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(ProjectLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(Dashlogo, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(Dashlogo, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
+                        .addComponent(LogoutLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         SidePanelLayout.setVerticalGroup(
             SidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(SidePanelLayout.createSequentialGroup()
-                .addComponent(testerLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(testerLogo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(112, 112, 112)
                 .addComponent(Dashlogo, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(83, 83, 83)
@@ -256,11 +257,11 @@ public class Tester extends javax.swing.JFrame implements Colors {
         dashboard.setBackground(new java.awt.Color(217, 217, 217));
 
         Search1.setBackground(new java.awt.Color(217, 217, 217));
-        Search1.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(150, 89, 165)));
+        Search1.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(133, 89, 165)));
         Search1.setForeground(new java.awt.Color(109, 177, 147));
         Search1.setToolTipText("Make your search from here");
         Search1.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        Search1.setPhColor(new java.awt.Color(150, 89, 165));
+        Search1.setPhColor(new java.awt.Color(133, 89, 165));
         Search1.setPlaceholder("Search....");
         Search1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -283,6 +284,7 @@ public class Tester extends javax.swing.JFrame implements Colors {
 
         noOfBugs.setBackground(new java.awt.Color(50, 50, 50));
         noOfBugs.setBorder(javax.swing.BorderFactory.createMatteBorder(20, 0, 0, 0, new java.awt.Color(109, 177, 147)));
+        noOfBugs.setToolTipText("Number of bugs assigned to you to be tested");
         noOfBugs.setPreferredSize(new java.awt.Dimension(260, 140));
         noOfBugs.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -293,8 +295,10 @@ public class Tester extends javax.swing.JFrame implements Colors {
         BN.setBackground(new java.awt.Color(50, 50, 50));
         BN.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
         BN.setForeground(new java.awt.Color(217, 217, 217));
+        BN.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         BN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/bugs.png"))); // NOI18N
         BN.setText("0");
+        BN.setToolTipText("Number of bugs assigned to you to be tested");
         BN.setOpaque(true);
         BN.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -321,7 +325,8 @@ public class Tester extends javax.swing.JFrame implements Colors {
 
         BugNumber.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         BugNumber.setForeground(new java.awt.Color(50, 50, 50));
-        BugNumber.setText("Number of bugs assigned to you to be tested:");
+        BugNumber.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        BugNumber.setText("Number of bugs assigned to you to be tested");
 
         bugTable.setBackground(new java.awt.Color(50, 50, 50));
         bugTable.setForeground(new java.awt.Color(217, 217, 217));
@@ -348,19 +353,20 @@ public class Tester extends javax.swing.JFrame implements Colors {
         });
         jScrollPane3.setViewportView(bugTable);
 
-        jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(150, 89, 165));
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/reload-small.png"))); // NOI18N
-        jLabel1.setText("Reload Table:");
-        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+        ReloadLabel.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        ReloadLabel.setForeground(new java.awt.Color(133, 89, 165));
+        ReloadLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ReloadLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/reload-small.png"))); // NOI18N
+        ReloadLabel.setText("Reload Table:");
+        ReloadLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel1MouseClicked(evt);
+                ReloadLabelMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jLabel1MouseEntered(evt);
+                ReloadLabelMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                jLabel1MouseExited(evt);
+                ReloadLabelMouseExited(evt);
             }
         });
 
@@ -382,7 +388,7 @@ public class Tester extends javax.swing.JFrame implements Colors {
                     .addGroup(dashboardLayout.createSequentialGroup()
                         .addGap(35, 35, 35)
                         .addGroup(dashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
+                            .addComponent(ReloadLabel)
                             .addGroup(dashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(BugNumber, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(noOfBugs, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)))))
@@ -400,7 +406,7 @@ public class Tester extends javax.swing.JFrame implements Colors {
                     .addComponent(Search1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(searchLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(13, 13, 13)
-                .addComponent(jLabel1)
+                .addComponent(ReloadLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(267, 267, 267))
@@ -411,11 +417,11 @@ public class Tester extends javax.swing.JFrame implements Colors {
         project.setBackground(new java.awt.Color(217, 217, 217));
 
         Search.setBackground(new java.awt.Color(217, 217, 217));
-        Search.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(150, 89, 165)));
+        Search.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(133, 89, 165)));
         Search.setForeground(new java.awt.Color(109, 177, 147));
         Search.setToolTipText("Make your search from here");
         Search.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        Search.setPhColor(new java.awt.Color(150, 89, 165));
+        Search.setPhColor(new java.awt.Color(133, 89, 165));
         Search.setPlaceholder("Search....");
         Search.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -459,14 +465,16 @@ public class Tester extends javax.swing.JFrame implements Colors {
         });
         jScrollPane6.setViewportView(projects);
 
-        ProjectsDetails1.setBackground(new java.awt.Color(222, 222, 222));
-        ProjectsDetails1.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
-        ProjectsDetails1.setForeground(new java.awt.Color(150, 89, 165));
-        ProjectsDetails1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/projects.png"))); // NOI18N
-        ProjectsDetails1.setText("Project Details:");
+        ProjectsDetails.setBackground(new java.awt.Color(222, 222, 222));
+        ProjectsDetails.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        ProjectsDetails.setForeground(new java.awt.Color(133, 89, 165));
+        ProjectsDetails.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ProjectsDetails.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/projects.png"))); // NOI18N
+        ProjectsDetails.setText("Project Details");
 
         noOfProjects.setBackground(new java.awt.Color(50, 50, 50));
         noOfProjects.setBorder(javax.swing.BorderFactory.createMatteBorder(20, 0, 0, 0, new java.awt.Color(133, 89, 165)));
+        noOfProjects.setToolTipText("Number of projects assigned to you");
         noOfProjects.setPreferredSize(new java.awt.Dimension(260, 140));
         noOfProjects.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -477,8 +485,10 @@ public class Tester extends javax.swing.JFrame implements Colors {
         PN.setBackground(new java.awt.Color(50, 50, 50));
         PN.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
         PN.setForeground(new java.awt.Color(217, 217, 217));
+        PN.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         PN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/projects.png"))); // NOI18N
-        PN.setText(" 10");
+        PN.setText("0");
+        PN.setToolTipText("Number of projects assigned to you");
         PN.setOpaque(true);
         PN.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -505,7 +515,9 @@ public class Tester extends javax.swing.JFrame implements Colors {
 
         ProjectNumber.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         ProjectNumber.setForeground(new java.awt.Color(50, 50, 50));
+        ProjectNumber.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         ProjectNumber.setText("Number of projects assigned to you");
+        ProjectNumber.setPreferredSize(new java.awt.Dimension(276, 23));
 
         javax.swing.GroupLayout projectLayout = new javax.swing.GroupLayout(project);
         project.setLayout(projectLayout);
@@ -515,10 +527,10 @@ public class Tester extends javax.swing.JFrame implements Colors {
                 .addGap(20, 20, 20)
                 .addGroup(projectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(projectLayout.createSequentialGroup()
-                        .addGroup(projectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(ProjectNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(noOfProjects, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(28, 28, 28)
+                        .addGroup(projectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(noOfProjects, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ProjectNumber, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(50, 50, 50)
                         .addComponent(SearchLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Search, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -526,26 +538,26 @@ public class Tester extends javax.swing.JFrame implements Colors {
                 .addContainerGap(27, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, projectLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(ProjectsDetails1, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ProjectsDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(409, 409, 409))
         );
         projectLayout.setVerticalGroup(
             projectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(projectLayout.createSequentialGroup()
-                .addGap(46, 46, 46)
-                .addComponent(ProjectNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(projectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(projectLayout.createSequentialGroup()
+                        .addGap(46, 46, 46)
+                        .addComponent(ProjectNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(noOfProjects, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(70, 70, 70))
                     .addGroup(projectLayout.createSequentialGroup()
-                        .addGap(144, 144, 144)
+                        .addGap(213, 213, 213)
                         .addGroup(projectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(Search, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(SearchLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ProjectsDetails1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ProjectsDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(56, 56, 56))
@@ -567,6 +579,11 @@ public class Tester extends javax.swing.JFrame implements Colors {
         Search2.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         Search2.setPhColor(new java.awt.Color(150, 89, 165));
         Search2.setPlaceholder("Search....");
+        Search2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Search2ActionPerformed(evt);
+            }
+        });
         Search2.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 Search2KeyReleased(evt);
@@ -702,10 +719,12 @@ public class Tester extends javax.swing.JFrame implements Colors {
         BugLogoMouseExited(evt);
         
         System.out.println("View projects table...");
+        
         Tester.ViewProjectsTable();
         projects.setModel(DbUtils.resultSetToTableModel(Tester.getResObj()));
         
         System.out.println("View number of projects...");
+        
         PN.setText(String.valueOf(Tester.ViewProjectCard()));
     }//GEN-LAST:event_ProjectLogoMouseClicked
 
@@ -772,7 +791,7 @@ public class Tester extends javax.swing.JFrame implements Colors {
 
     private void Search1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Search1KeyReleased
         Tester.searchBugs(Search1.getText());
-         bugTable.setModel(DbUtils.resultSetToTableModel(Tester.getResObj()));
+        bugTable.setModel(DbUtils.resultSetToTableModel(Tester.getResObj()));
     }//GEN-LAST:event_Search1KeyReleased
 
     private void noOfProjectsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_noOfProjectsMouseClicked
@@ -780,24 +799,24 @@ public class Tester extends javax.swing.JFrame implements Colors {
     }//GEN-LAST:event_noOfProjectsMouseClicked
 
     private void SearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_SearchKeyReleased
-        DefaultTableModel model = (DefaultTableModel) projects.getModel();
-        
-        String Searching = Search.getText();
-        
-        TableRowSorter<DefaultTableModel> tr = new TableRowSorter<DefaultTableModel>(model);
-        projects.setRowSorter(tr);
-        tr.setRowFilter(RowFilter.regexFilter(Searching));
+        Tester.searchProjects(Search.getText());
+        projects.setModel(DbUtils.resultSetToTableModel(Tester.getResObj()));
     }//GEN-LAST:event_SearchKeyReleased
 
     private void projectsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_projectsMouseClicked
-        DefaultTableModel model = (DefaultTableModel) projects.getModel();
-
-        System.out.println("storing the value of row choosen...");
-        int row = projects.getSelectedRow();
-        int id = (Integer.parseInt(model.getValueAt(row, 0).toString()));
-        new CurrentProject(id);
-        new ProjectDetails().setVisible(true);
-
+         try
+        {   
+            System.out.println("storing the value of row choosen...");
+            
+            int selectedID = (int) projects.getValueAt(projects.getSelectedRow(),0);
+            CurrentProject Project = new CurrentProject((selectedID));
+            ProjectDetails add = new ProjectDetails();
+            add.setVisible(true);
+        }
+        catch (Exception ex)
+        {
+            System.out.println(ex.getMessage());
+        }
     }//GEN-LAST:event_projectsMouseClicked
 
     private void noOfBugsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_noOfBugsMouseClicked
@@ -843,6 +862,8 @@ public class Tester extends javax.swing.JFrame implements Colors {
     private void bugTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bugTableMouseClicked
         try
         {   
+            System.out.println("storing the value of row choosen...");
+            
             int selectedID = (int) bugTable.getValueAt(bugTable.getSelectedRow(),0);
             CurrentBug Bug = new CurrentBug((selectedID));
             BugInformation add = new BugInformation(selectedID);
@@ -854,22 +875,26 @@ public class Tester extends javax.swing.JFrame implements Colors {
         }
     }//GEN-LAST:event_bugTableMouseClicked
 
-    private void jLabel1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseEntered
+    private void ReloadLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ReloadLabelMouseEntered
         getFont(evt);
-    }//GEN-LAST:event_jLabel1MouseEntered
+    }//GEN-LAST:event_ReloadLabelMouseEntered
 
-    private void jLabel1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseExited
+    private void ReloadLabelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ReloadLabelMouseExited
          evt.getComponent().setFont(orgFont);
-    }//GEN-LAST:event_jLabel1MouseExited
+    }//GEN-LAST:event_ReloadLabelMouseExited
 
-    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+    private void ReloadLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ReloadLabelMouseClicked
         //VIEW ASSIGNED BUGTABLE IN DASHBOARD
         Tester.ViewBugTable();
         bugTable.setModel(DbUtils.resultSetToTableModel(Tester.getResObj()));
 
         //VIEW BUG CARD
         BN.setText(String.valueOf(Tester.ViewBugCard()));
-    }//GEN-LAST:event_jLabel1MouseClicked
+    }//GEN-LAST:event_ReloadLabelMouseClicked
+
+    private void Search2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Search2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Search2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -910,8 +935,9 @@ public class Tester extends javax.swing.JFrame implements Colors {
     private javax.swing.JLabel ProjectDetails2;
     private javax.swing.JLabel ProjectLogo;
     private javax.swing.JLabel ProjectNumber;
-    private javax.swing.JLabel ProjectsDetails1;
+    private javax.swing.JLabel ProjectsDetails;
     private javax.swing.JPanel ProjectsPanel;
+    private javax.swing.JLabel ReloadLabel;
     private app.bolivia.swing.JCTextField Search;
     private app.bolivia.swing.JCTextField Search1;
     private app.bolivia.swing.JCTextField Search2;
@@ -921,7 +947,6 @@ public class Tester extends javax.swing.JFrame implements Colors {
     private javax.swing.JPanel bug;
     private javax.swing.JTable bugTable;
     private javax.swing.JPanel dashboard;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;

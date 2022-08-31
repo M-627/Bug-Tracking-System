@@ -19,9 +19,6 @@ import java.sql.SQLException;
 public class TesterController extends dataConnection {
     
    
-   
-    // counter to count number of assigned projects
-    private int counter2 = 0;
 
     //VIEW ASSIGNED BUGTABLE IN DASHBOARD --------------------------------------------------------------------------------------
     public void ViewBugTable() {
@@ -67,25 +64,25 @@ public class TesterController extends dataConnection {
         }
         return counter;
     }
-    
+
     //SEARCH IN ASSIGNED BUGS IN DASHBOARD --------------------------------------------------------------------------------
     public void searchBugs(String search) {
         try {
             if (search.isEmpty()) {
                 System.out.println(" prepare the query...");
-                
+
                 command = conObj.prepareStatement("SELECT BUGID, BUGNAME, SEVERITY FROM BUGS WHERE TESTERID = ? AND STATUS = ? ORDER BY BUGID ASC");
                 command.setInt(1, CurrentUser.id);
                 command.setString(2, "T");
             } else {
                 if (search.matches("[0-9]+")) {
                     System.out.println(" prepare the query...");
-                    
+
                     command = conObj.prepareStatement("SELECT BUGID, BUGNAME, SEVERITY FROM BUGS WHERE BUGID = ?");
                     command.setInt(1, Integer.parseInt(search));
                 } else {
                     System.out.println(" prepare the query...");
-                    
+
                     command = conObj.prepareStatement("SELECT BUGID, BUGNAME, SEVERITY FROM BUGS WHERE (TESTERID = ? AND STATUS = ?) AND (BUGNAME LIKE ? OR SEVERITY LIKE ?)");
                     command.setInt(1, CurrentUser.id);
                     command.setString(2, "T");
@@ -94,61 +91,54 @@ public class TesterController extends dataConnection {
                 }
             }
             System.out.println(" excute the query...");
-            
+
             resObj = command.executeQuery();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
     }
-    
+
     //SELECT BUG FROM DASHBOARD --------------------------------------------------------------------------------
-    public String[] selectBug(int id)
-    {
+    public String[] selectBug(int id) {
         String retID = " ";
         String retName = " ";
         String retSeverity = " ";
         String retType = " ";
         String retDescription = " ";
-        
-        try 
-            {
-                getConnected("SELECT * FROM BUGS");
-                
-                 System.out.println(" prepare the query...");
-                 
-                command = conObj.prepareStatement("SELECT * FROM BUGS WHERE BUGID = ?");
-                command.setInt(1, id);
-                
-                 System.out.println(" excute the query...");
-                 
-                resObj = command.executeQuery();
-                resObj.next();
-                
-                retID = Integer.toString(resObj.getInt("BUGID"));
-                retName = resObj.getString("BUGNAME");
-                retSeverity = resObj.getString("SEVERITY");
-                retType = resObj.getString("TYPE");
-                retDescription = resObj.getString("DESCRIPTION");
-            } 
-        catch (SQLException ex)
-        {
+
+        try {
+            getConnected("SELECT * FROM BUGS");
+
+            System.out.println(" prepare the query...");
+
+            command = conObj.prepareStatement("SELECT * FROM BUGS WHERE BUGID = ?");
+            command.setInt(1, id);
+
+            System.out.println(" excute the query...");
+
+            resObj = command.executeQuery();
+            resObj.next();
+
+            retID = Integer.toString(resObj.getInt("BUGID"));
+            retName = resObj.getString("BUGNAME");
+            retSeverity = resObj.getString("SEVERITY");
+            retType = resObj.getString("TYPE");
+            retDescription = resObj.getString("DESCRIPTION");
+        } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        return new String[] {retID, retName, retSeverity, retType, retDescription};
+        return new String[]{retID, retName, retSeverity, retType, retDescription};
     }
-    
+
     //EDIT BUG STATUS   --------------------------------------------------------------------------------
-    public int editBug(int Status)
-    {
-        try
-        {
+    public int editBug(int Status) {
+        try {
             String status = " ";
             getConnected("SELECT * FROM BUGS");
-            
+
             command = conObj.prepareStatement("UPDATE BUGS SET STATUS = ? WHERE BUGID = ?");
             command.setInt(2, CurrentBug.BugId);
-            switch (Status)
-            {
+            switch (Status) {
                 case 0:
                     status = "T";
                     break;
@@ -159,42 +149,38 @@ public class TesterController extends dataConnection {
                     break;
             }
             command.setString(1, status);
-            
+
             System.out.println(" excute the query...");
-            
+
             command.executeUpdate();
-        }
-        catch (SQLException ex)
-        {
+        } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
         return 1;
     }
-    
-    
-    
-    
-    
-    
-    
-    //view projectsTable 
+
+    //VIEW PROJECTTABLE  ----------------------------------------------------------------------------------------------------------------------
     public void ViewProjectsTable() {
         try {
+            getConnected("SELECT * FROM ASSIGNMENTS");
             System.out.println(" prepare the query...");
+
             command = conObj.prepareStatement("SELECT PROJECTS.PROJECTID , PROJECTS.PROJECTNAME , PROJECTS.CREATIONDATE FROM ASSIGNMENTS INNER JOIN PROJECTS ON ASSIGNMENTS.PROJECTID = PROJECTS.PROJECTID WHERE ASSIGNMENTS.USERID = ? ORDER BY PROJECTID ASC");
             command.setInt(1, CurrentUser.id);
 
             System.out.println(" excute the query...");
+
             resObj = command.executeQuery();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
     }
-    
-    //view number of Assigned projects in the card
-    public int ViewProjectCard() {
-        try {
 
+    //VIEW NUMBER OF ASSIGNED PROJECTS --------------------------------------------------------------------
+    public int ViewProjectCard() {
+        int counter2 = 0;
+        try {
+            getConnected("SELECT * FROM ASSIGNMENTS");
             System.out.println(" prepare the query...");
 
             command = conObj.prepareStatement("SELECT *FROM ASSIGNMENTS WHERE USERID = ?");
@@ -203,7 +189,7 @@ public class TesterController extends dataConnection {
             System.out.println(" excute the query...");
 
             resObj = command.executeQuery();
-            while(resObj.next()) {
+            while (resObj.next()) {
                 counter2++;
             }
         } catch (SQLException ex) {
@@ -212,6 +198,55 @@ public class TesterController extends dataConnection {
         return counter2;
     }
     
+    //SEARCH IN ASSIGNED PROJECTS IN PRJECTS PANEL --------------------------------------------------------------------------------
+    public void searchProjects(String search) {
+        try {
+            if (search.isEmpty()) {
+                System.out.println(" prepare the query...");
+
+                command = conObj.prepareStatement("SELECT PROJECTS.PROJECTID , PROJECTS.PROJECTNAME , PROJECTS.CREATIONDATE FROM ASSIGNMENTS INNER JOIN PROJECTS ON ASSIGNMENTS.PROJECTID = PROJECTS.PROJECTID WHERE ASSIGNMENTS.USERID = ? ORDER BY PROJECTID ASC");
+                command.setInt(1, CurrentUser.id);
+            } else {
+                if (search.matches("[0-9]+")) {
+                    System.out.println(" prepare the query...");
+
+                    command = conObj.prepareStatement("SELECT PROJECTS.PROJECTID , PROJECTS.PROJECTNAME , PROJECTS.CREATIONDATE FROM ASSIGNMENTS INNER JOIN PROJECTS ON ASSIGNMENTS.PROJECTID = PROJECTS.PROJECTID WHERE ASSIGNMENTS.USERID = ?  AND ASSIGNMENTS.PROJECTID = ? ORDER BY PROJECTID ASC");
+                    command.setInt(1, CurrentUser.id);
+                    command.setInt(2, Integer.parseInt(search));
+                }else{
+                System.out.println(" prepare the query...");
+
+                    command = conObj.prepareStatement("SELECT PROJECTS.PROJECTID , PROJECTS.PROJECTNAME , PROJECTS.CREATIONDATE FROM ASSIGNMENTS INNER JOIN PROJECTS ON ASSIGNMENTS.PROJECTID = PROJECTS.PROJECTID WHERE ASSIGNMENTS.USERID = ?  AND PROJECTS.PROJECTNAME LIKE ? ORDER BY PROJECTID ASC");
+                    command.setInt(1, CurrentUser.id);
+                    command.setString(2, "%" + search + "%");
+                }
+            }
+            System.out.println(" excute the query...");
+
+            resObj = command.executeQuery();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    //VIEW USERSTABLE  ----------------------------------------------------------------------------------------------------------------------
+    public void ViewUsersTable() {
+        try {
+            getConnected("SELECT * FROM ASSIGNMENTS");
+            System.out.println(" prepare the query...");
+
+            command = conObj.prepareStatement("SELECT USERS.USERID, USERS.USERNAME, USERS.ROLE FROM ASSIGNMENTS INNER JOIN USERS ON ASSIGNMENTS.USERID = USERS.USERID WHERE ASSIGNMENTS.PROJECTID = ? ORDER BY PROJECTID ASC");
+            command.setInt(1, CurrentProject.projectId);
+
+            System.out.println(" excute the query...");
+
+            resObj = command.executeQuery();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+***************************************
     //------------------------------------------------------BUGTRIAL CODES-----------------------------------------------------------------------------------------
     //View BugTable for specific project
     public void ViewBugTable2() {

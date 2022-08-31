@@ -22,7 +22,7 @@ public class BugInformation extends javax.swing.JFrame implements Colors {
      */
     
     //CONTROLLER
-    TesterController info = new TesterController();
+    TesterController BugInfo = new TesterController();
     
     public BugInformation(int choice) {
         initComponents();
@@ -32,7 +32,7 @@ public class BugInformation extends javax.swing.JFrame implements Colors {
         
         //GETCONNECTED
         confirmButton.setEnabled(false);
-        String[] arr = info.selectBug(choice);
+        String[] arr = BugInfo.selectBug(choice);
         idField.setText(arr[0]);
         nameField.setText(arr[1]);
         severityField.setText(arr[2]);
@@ -319,7 +319,7 @@ public class BugInformation extends javax.swing.JFrame implements Colors {
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
         int result ;
 
-        result = info.editBug(StatusBox.getSelectedIndex());
+        result = BugInfo.editBug(StatusBox.getSelectedIndex());
         if (result == 1) {
             this.dispose();
             JOptionPane.showMessageDialog(null, "Information updated successfully, Please update the table!");
