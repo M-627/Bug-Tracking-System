@@ -8,16 +8,12 @@ package bugtrackingsystem;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import javax.swing.UIManager;
 import java.sql.*;
 import net.proteanit.sql.DbUtils;
 import static bugtrackingsystem.dataConnection.host;
 import static bugtrackingsystem.dataConnection.pass;
 import static bugtrackingsystem.dataConnection.uname;
 import com.formdev.flatlaf.FlatDarkLaf;
-import java.awt.Color;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.RowFilter;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
@@ -29,7 +25,7 @@ import javax.swing.table.TableRowSorter;
 
   //DB connection objects
    
-public class Devoloper extends javax.swing.JFrame {
+public class Devoloper extends javax.swing.JFrame implements Colors {
 
     public Devoloper() {
         this.counter = 0;
@@ -621,15 +617,12 @@ public class Devoloper extends javax.swing.JFrame {
  int choose=1;
     private void ProjectLogoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProjectLogoMouseClicked
     jTabbedPane1.setSelectedIndex(1);
-    Color black =Color.decode("#323232");
-    Color green =Color.decode("#6DB193");
-    Color pink =Color.decode("#9659A5");
-    Dashlogo.setBackground(black);
-    Dashlogo.setForeground(green);
-    BugLogo.setBackground(black);
-    BugLogo.setForeground(green);
-    ProjectLogo.setBackground(pink);
-    ProjectLogo.setForeground(black);
+    Dashlogo.setBackground(Black);
+    Dashlogo.setForeground(Green);
+    BugLogo.setBackground(Black);
+    BugLogo.setForeground(Green);
+    ProjectLogo.setBackground(Purple);
+    ProjectLogo.setForeground(Black);
     choose=2;
     try
         {
@@ -651,30 +644,24 @@ public class Devoloper extends javax.swing.JFrame {
 
     private void DashlogoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DashlogoMouseClicked
     jTabbedPane1.setSelectedIndex(0);
-    Color black =Color.decode("#323232");
-    Color green =Color.decode("#6DB193");
-    Color pink =Color.decode("#9659A5");
-    Dashlogo.setBackground(pink);
-    Dashlogo.setForeground(black);
-    BugLogo.setBackground(black);
-    BugLogo.setForeground(green);
-    ProjectLogo.setBackground(black);
-    ProjectLogo.setForeground(green);
+    Dashlogo.setBackground(Purple);
+    Dashlogo.setForeground(Black);
+    BugLogo.setBackground(Black);
+    BugLogo.setForeground(Green);
+    ProjectLogo.setBackground(Black);
+    ProjectLogo.setForeground(Green);
     choose=1;
 // TODO add your handling code here:
     }//GEN-LAST:event_DashlogoMouseClicked
 
     private void BugLogoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BugLogoMouseClicked
        jTabbedPane1.setSelectedIndex(2);
-    Color black =Color.decode("#323232");
-    Color green =Color.decode("#6DB193");
-    Color pink =Color.decode("#9659A5");
-    Dashlogo.setBackground(black);
-    Dashlogo.setForeground(green);
-    BugLogo.setBackground(pink);
-    BugLogo.setForeground(black);
-    ProjectLogo.setBackground(black);
-    ProjectLogo.setForeground(green);
+    Dashlogo.setBackground(Black);
+    Dashlogo.setForeground(Green);
+    BugLogo.setBackground(Purple);
+    BugLogo.setForeground(Black);
+    ProjectLogo.setBackground(Black);
+    ProjectLogo.setForeground(Green);
     choose=3;
         try
         {
@@ -695,8 +682,7 @@ public class Devoloper extends javax.swing.JFrame {
     private void ProjectLogoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProjectLogoMouseEntered
        if(choose==2){}
        else{
-           Color haver =Color.decode("#3B3B3B");
-           ProjectLogo.setBackground(haver);
+           ProjectLogo.setBackground(Gray);
        }
         // TODO add your handling code here:
     }//GEN-LAST:event_ProjectLogoMouseEntered
@@ -704,8 +690,7 @@ public class Devoloper extends javax.swing.JFrame {
     private void ProjectLogoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProjectLogoMouseExited
         if (choose==2){}
         else{
-        Color black =Color.decode("#323232");
-       ProjectLogo.setBackground(black);
+       ProjectLogo.setBackground(Black);
         }
 // TODO add your handling code here:
     }//GEN-LAST:event_ProjectLogoMouseExited
@@ -713,8 +698,7 @@ public class Devoloper extends javax.swing.JFrame {
     private void DashlogoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DashlogoMouseEntered
        if(choose==1){}
        else{
-           Color haver =Color.decode("#3B3B3B");
-           Dashlogo.setBackground(haver);
+           Dashlogo.setBackground(Gray);
        }
         // TODO add your handling code here:
     }//GEN-LAST:event_DashlogoMouseEntered
@@ -722,8 +706,7 @@ public class Devoloper extends javax.swing.JFrame {
     private void DashlogoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DashlogoMouseExited
     if (choose==1){}
     else{
-        Color black =Color.decode("#323232");
-        Dashlogo.setBackground(black);
+        Dashlogo.setBackground(Black);
         }
 // TODO add your handling code here:
     }//GEN-LAST:event_DashlogoMouseExited
@@ -731,8 +714,7 @@ public class Devoloper extends javax.swing.JFrame {
     private void BugLogoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BugLogoMouseEntered
        if(choose==3){}
        else{
-           Color haver =Color.decode("#3B3B3B");
-          BugLogo.setBackground(haver);
+          BugLogo.setBackground(Gray);
        }
         // TODO add your handling code here:
     }//GEN-LAST:event_BugLogoMouseEntered
@@ -740,8 +722,7 @@ public class Devoloper extends javax.swing.JFrame {
     private void BugLogoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BugLogoMouseExited
        if (choose==3){}
     else{
-        Color black =Color.decode("#323232");
-        BugLogo.setBackground(black);
+        BugLogo.setBackground(Black);
         }
         // TODO add your handling code here:
     }//GEN-LAST:event_BugLogoMouseExited
@@ -754,14 +735,12 @@ public class Devoloper extends javax.swing.JFrame {
     }//GEN-LAST:event_LogoutLogoMouseClicked
 
     private void LogoutLogoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LogoutLogoMouseEntered
-        Color haver =Color.decode("#3B3B3B");
-        LogoutLogo.setBackground(haver);
+        LogoutLogo.setBackground(Gray);
 // TODO add your handling code here:
     }//GEN-LAST:event_LogoutLogoMouseEntered
 
     private void LogoutLogoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LogoutLogoMouseExited
-       Color black =Color.decode("#323232");
-        LogoutLogo.setBackground(black);
+        LogoutLogo.setBackground(Black);
         // TODO add your handling code here:
     }//GEN-LAST:event_LogoutLogoMouseExited
 

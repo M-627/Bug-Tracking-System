@@ -16,5 +16,5 @@ public interface Colors {
      Color Black =Color.decode("#323232");
     Color Green =Color.decode("#6DB193");
     Color Purple =Color.decode("#9659A5");
-    Color Grey =Color.decode("#3B3B3B");
+    Color Gray =Color.decode("#3B3B3B");
 }

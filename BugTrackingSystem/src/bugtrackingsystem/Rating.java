@@ -9,7 +9,6 @@ import static bugtrackingsystem.dataConnection.host;
 import static bugtrackingsystem.dataConnection.pass;
 import static bugtrackingsystem.dataConnection.uname;
 import com.formdev.flatlaf.FlatDarkLaf;
-import java.awt.Color;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -18,19 +17,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
-import net.proteanit.sql.DbUtils;
 
 /**
  *
  * @author mariam
  */
-public class Rating extends javax.swing.JFrame {
+public class Rating extends javax.swing.JFrame implements Colors{
 
-   // Colors  global variables
-    Color Black =Color.decode("#323232");
-    Color Green =Color.decode("#6DB193");
-    Color Purple =Color.decode("#9659A5");
-    Color Grey =Color.decode("#3B3B3B");
     
     // DB connection objects
     public Connection con = null;

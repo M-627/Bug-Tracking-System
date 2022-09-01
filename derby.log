@@ -1,20 +1,16 @@
-Thu Sep 01 11:54:04 EET 2022 : Apache Derby Network Server - 10.14.2.0 - (1828579) started and ready to accept connections on port 1527
+Thu Sep 01 14:30:09 EET 2022 : Apache Derby Network Server - 10.11.1.2 - (1629631) started and ready to accept connections on port 1527
 ----------------------------------------------------------------
-Thu Sep 01 11:54:04 EET 2022:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0182-f878-d4d8-fffff977df84 
-on database directory C:\Users\m639a\OneDrive\Documents\Personal Documents\Learning\Programming\Java\Java Projects\Bug-Tracking-System\Bug Tracker System with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
-Loaded from file:/C:/Program%20Files/Java/jdk1.8.0_202/lib/derby.jar
+Thu Sep 01 14:30:09 EET 2022:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-0182-f907-b9ea-000056395d73 
+on database directory G:\material kolya\level 3\summer\software engineering\project\Bug-Tracking-System\Bug Tracker System with class loader sun.misc.Launcher$AppClassLoader@266474c2 
+Loaded from file:/C:/Program%20Files/Java/jdk1.8.0_162/db/lib/derby.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_202-b08
-user.dir=C:\Program Files\Java\jdk1.8.0_202
+java.runtime.version=1.8.0_162-b12
+user.dir=C:\Program Files\Java\jdk1.8.0_162\db
 os.name=Windows 10
 os.arch=amd64
 os.version=10.0
-derby.system.home=C:\Users\m639a\OneDrive\Documents\Personal Documents\Learning\Programming\Java\Java Projects\Bug-Tracking-System
+derby.system.home=G:\material kolya\level 3\summer\software engineering\project\Bug-Tracking-System
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
-Thu Sep 01 12:02:22 EET 2022: Shutting down Derby engine
-----------------------------------------------------------------
-Thu Sep 01 12:02:22 EET 2022:
-Shutting down instance a816c00e-0182-f878-d4d8-fffff977df84 on database directory C:\Users\m639a\OneDrive\Documents\Personal Documents\Learning\Programming\Java\Java Projects\Bug-Tracking-System\Bug Tracker System with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
-----------------------------------------------------------------
+Thu Sep 01 16:13:39 EET 2022: Shutting down Derby engine

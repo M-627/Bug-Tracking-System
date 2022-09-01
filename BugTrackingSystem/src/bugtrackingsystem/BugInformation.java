@@ -394,6 +394,7 @@ public class BugInformation extends javax.swing.JFrame implements Colors {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                 new BugInformation(12).setVisible(true);
             }
         });
     }

@@ -614,5 +614,17 @@ public class AdminController extends dataConnection
             System.out.println(ex.getMessage());
         }
     }
-// Bugs Screen Operations    
+// Bugs Screen Operations 
+    
+// Rating Info Operations
+    public void ViewRating() {
+        try {
+            getConnected("SELECT * FROM RATINGS");
+            command = conObj.prepareStatement("SELECT * FROM RATINGS ORDER BY ID ASC");
+            resObj = command.executeQuery();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+// Rating Info Operations
 }

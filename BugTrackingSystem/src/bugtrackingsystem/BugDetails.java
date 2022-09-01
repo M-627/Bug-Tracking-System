@@ -22,25 +22,23 @@ import org.jfree.data.general.DefaultPieDataset;
  *
  * @author mariam
  */
-public class BugTrial extends javax.swing.JFrame implements Colors{
+public class BugDetails extends javax.swing.JFrame implements Colors {
 
-     //CONTROLLER
+    //CONTROLLER
     TesterController BugDetail = new TesterController();
-    
-    
-    
+
     //IMPORTANT VALUES
     int BugId = 0;  //FOR STORING THE BUGID  
     int edit = 0; // USED AS AN INDICATOR FOR UPDATE OPERATION
-    int add = 0 ; //USED AS AN INDICATOR FOR INSERT OPERATION
-    
-    public BugTrial() {
+    int add = 0; //USED AS AN INDICATOR FOR INSERT OPERATION
+
+    public BugDetails() {
         initComponents();
-        
+
         //VIEW BUGTABLE FOR SPECIFIC PROJECT 
         BugDetail.ViewProjectBugsTable();
         BugTable.setModel(DbUtils.resultSetToTableModel(BugDetail.getResObj()));
-        
+
         //LET SOME FIELDS AND BUTTONS TO BE UNENABLED
         IDOfProject.setEnabled(false);
         IDOfProject.setText(String.valueOf(CurrentProject.projectId));
@@ -54,42 +52,64 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
         TypeBox.setEnabled(false);
         ConfirmButton.setEnabled(false);
         EditButton.setVisible(false);
-         DeleteButton.setEnabled(false);
-        
-        
+        DeleteButton.setEnabled(false);
+
+        //VIEW BUG CARD 
+        OP.setText(String.valueOf(BugDetail.ViewOpenedCard()));
+        IPB.setText(String.valueOf(BugDetail.ViewInProgressCard()));
+        TBT.setText(String.valueOf(BugDetail.ViewToBeTestedCard()));
+        CB.setText(String.valueOf(BugDetail.ViewClosedCard()));
+
+        //SHOW PIE CHART
         showPieChart();
+        
         // SET THE JFRAME TO BE IN THE CENTER 
         this.setLocationRelativeTo(null);
-       
+
     }
-    
-     public void showPieChart(){
-        
+
+    public void showPieChart() {
+
         //create dataset (percentage should be changed auto from table to another one)
-      DefaultPieDataset barDataset = new DefaultPieDataset( );
-      barDataset.setValue( "in progress" , new Double( 20 ) );  
-      barDataset.setValue( "to be tested" , new Double( 20 ) );
-      barDataset.setValue( "closed" , new Double( 10 ) ); 
-      barDataset.setValue( "open" , new Double( 40 ) ); 
-      
-      //create chart
-       JFreeChart piechart = ChartFactory.createPieChart("Bug Status",barDataset, false,true,false);
-        PiePlot piePlot =(PiePlot) piechart.getPlot();
-      
-       //changing pie chart blocks colors
+        DefaultPieDataset barDataset = new DefaultPieDataset();
+        double count = BugDetail.CountBugs();
+        System.out.println(count);
+        
+        double o = (BugDetail.ViewOpenedCard()/count) * 100;
+        System.out.println(o);
+        
+        double c = (BugDetail.ViewClosedCard() / count) * 100;
+        System.out.println(c);
+        
+        double t = (BugDetail.ViewToBeTestedCard()  / count) * 100;
+        System.out.println(t);
+        
+        double i = (BugDetail.ViewInProgressCard()  / count) * 100;
+        System.out.println(i);
+        
+        barDataset.setValue("in progress", new Double(i));
+        barDataset.setValue("to be tested", new Double(t));
+        barDataset.setValue("closed", new Double(c));
+        barDataset.setValue("open", new Double(o));
+
+        //create chart
+        JFreeChart piechart = ChartFactory.createPieChart("Bug Status", barDataset, false, true, false);
+        PiePlot piePlot = (PiePlot) piechart.getPlot();
+
+        //changing pie chart blocks colors
         piePlot.setSectionPaint("in progress", new Color(150, 89, 165));
         piePlot.setSectionPaint("to be tested", new Color(109, 177, 147));
         piePlot.setSectionPaint("closed", new Color(217, 217, 217));
         piePlot.setSectionPaint("open", new Color(50, 50, 50));
         piePlot.setBackgroundPaint(Color.white);
-        
+
         //create chartPanel to display chart(graph)
         ChartPanel barChartPanel = new ChartPanel(piechart);
         panelBarChart.removeAll();
         panelBarChart.add(barChartPanel, BorderLayout.CENTER);
         panelBarChart.validate();
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -149,6 +169,7 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
 
         jTabbedPane1.setBackground(new java.awt.Color(50, 50, 50));
         jTabbedPane1.setForeground(new java.awt.Color(217, 217, 217));
+        jTabbedPane1.setTabPlacement(javax.swing.JTabbedPane.BOTTOM);
         jTabbedPane1.setPreferredSize(new java.awt.Dimension(1000, 740));
 
         TableOfBugs.setBackground(new java.awt.Color(50, 50, 50));
@@ -406,6 +427,11 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
         NameOfBug.setBackground(new java.awt.Color(50, 50, 50));
         NameOfBug.setForeground(new java.awt.Color(217, 217, 217));
         NameOfBug.setPreferredSize(new java.awt.Dimension(219, 45));
+        NameOfBug.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                NameOfBugFocusLost(evt);
+            }
+        });
 
         TesterIdLabel.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         TesterIdLabel.setForeground(new java.awt.Color(109, 177, 147));
@@ -583,7 +609,7 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
         OverView.setPreferredSize(new java.awt.Dimension(915, 600));
 
         OpenBugLabel.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        OpenBugLabel.setForeground(new java.awt.Color(217, 217, 217));
+        OpenBugLabel.setForeground(new java.awt.Color(133, 89, 165));
         OpenBugLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         OpenBugLabel.setText("Number of opened bugs");
 
@@ -592,9 +618,9 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
 
         OP.setBackground(new java.awt.Color(50, 50, 50));
         OP.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
-        OP.setForeground(new java.awt.Color(217, 217, 217));
+        OP.setForeground(new java.awt.Color(133, 89, 165));
         OP.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        OP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/bugs.png"))); // NOI18N
+        OP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/opened-small.png"))); // NOI18N
         OP.setText("0");
         OP.setOpaque(true);
 
@@ -605,18 +631,18 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
             .addGroup(noOfOpenedBugsLayout.createSequentialGroup()
                 .addGap(56, 56, 56)
                 .addComponent(OP, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         noOfOpenedBugsLayout.setVerticalGroup(
             noOfOpenedBugsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(noOfOpenedBugsLayout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(OP)
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addGap(25, 25, 25)
+                .addComponent(OP, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
+                .addGap(23, 23, 23))
         );
 
         InprogressLabel.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        InprogressLabel.setForeground(new java.awt.Color(217, 217, 217));
+        InprogressLabel.setForeground(new java.awt.Color(133, 89, 165));
         InprogressLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         InprogressLabel.setText("Number of in progress bugs");
 
@@ -625,9 +651,9 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
 
         IPB.setBackground(new java.awt.Color(50, 50, 50));
         IPB.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
-        IPB.setForeground(new java.awt.Color(217, 217, 217));
+        IPB.setForeground(new java.awt.Color(133, 89, 165));
         IPB.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        IPB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/bugs.png"))); // NOI18N
+        IPB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/in progress-small.png"))); // NOI18N
         IPB.setText("0");
         IPB.setOpaque(true);
 
@@ -643,13 +669,13 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
         noOfInProgressBugsLayout.setVerticalGroup(
             noOfInProgressBugsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(noOfInProgressBugsLayout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addComponent(IPB)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addGap(30, 30, 30)
+                .addComponent(IPB, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
+                .addGap(20, 20, 20))
         );
 
         ToBeTestedLabel.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        ToBeTestedLabel.setForeground(new java.awt.Color(217, 217, 217));
+        ToBeTestedLabel.setForeground(new java.awt.Color(133, 89, 165));
         ToBeTestedLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         ToBeTestedLabel.setText("Number of to be tested bugs");
 
@@ -658,9 +684,9 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
 
         TBT.setBackground(new java.awt.Color(50, 50, 50));
         TBT.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
-        TBT.setForeground(new java.awt.Color(217, 217, 217));
+        TBT.setForeground(new java.awt.Color(133, 89, 165));
         TBT.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        TBT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/bugs.png"))); // NOI18N
+        TBT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/to be tested-small.png"))); // NOI18N
         TBT.setText(" 0");
         TBT.setOpaque(true);
 
@@ -669,20 +695,20 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
         noOfToBeTestedBugsLayout.setHorizontalGroup(
             noOfToBeTestedBugsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(noOfToBeTestedBugsLayout.createSequentialGroup()
-                .addGap(50, 50, 50)
+                .addGap(49, 49, 49)
                 .addComponent(TBT, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
         noOfToBeTestedBugsLayout.setVerticalGroup(
             noOfToBeTestedBugsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(noOfToBeTestedBugsLayout.createSequentialGroup()
-                .addGap(40, 40, 40)
+                .addGap(30, 30, 30)
                 .addComponent(TBT)
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         closeBugLabel.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        closeBugLabel.setForeground(new java.awt.Color(217, 217, 217));
+        closeBugLabel.setForeground(new java.awt.Color(133, 89, 165));
         closeBugLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         closeBugLabel.setText("Number of closed bugs");
 
@@ -691,9 +717,9 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
 
         CB.setBackground(new java.awt.Color(50, 50, 50));
         CB.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
-        CB.setForeground(new java.awt.Color(217, 217, 217));
+        CB.setForeground(new java.awt.Color(133, 89, 165));
         CB.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        CB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/bugs.png"))); // NOI18N
+        CB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/closed-small.png"))); // NOI18N
         CB.setText("0");
         CB.setOpaque(true);
 
@@ -709,9 +735,9 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
         noOfCloseBugsLayout.setVerticalGroup(
             noOfCloseBugsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(noOfCloseBugsLayout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(CB)
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addGap(25, 25, 25)
+                .addComponent(CB, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         panelBarChart.setBackground(new java.awt.Color(50, 50, 50));
@@ -852,7 +878,7 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
         SeverityBox.setSelectedIndex(0);
         TypeBox.setEnabled(true);
         TypeBox.setSelectedIndex(0);
-        
+
         add = 1;
         BugId = BugDetail.GenerateBugID();
         System.out.println("bugid = " + BugId);
@@ -903,7 +929,7 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
     }//GEN-LAST:event_CancelButton2ActionPerformed
 
     private void BugTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BugTableMouseClicked
-       try {
+        try {
             System.out.println("storing the value of row choosen...");
 
             int selectedID = (int) BugTable.getValueAt(BugTable.getSelectedRow(), 0);
@@ -924,112 +950,109 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
             System.out.println("check if the status of this bug is closed or not to  make add&update&delete buttons to be unvisible...");
             String status = arr[6];
             System.out.println("status = " + arr[6]);
-            
-            if (status == null)
-            {
+
+            if (status == null) {
                 status = "---";
             }
-            
+
             if (status.equals("C")) {
                 ConfirmButton.setEnabled(false);
                 EditButton.setVisible(false);
                 DeleteButton.setEnabled(false);
-            } else if (!"C".equals(status) && Integer.parseInt(arr[3])!= CurrentUser.id) {
+            } else if (!"C".equals(status) && Integer.parseInt(arr[3]) != CurrentUser.id) {
                 ConfirmButton.setEnabled(false);
                 EditButton.setVisible(false);
                 DeleteButton.setEnabled(false);
-            }else if (!"C".equals(status) && Integer.parseInt(arr[3])== CurrentUser.id) {
+            } else if (!"C".equals(status) && Integer.parseInt(arr[3]) == CurrentUser.id) {
                 ConfirmButton.setEnabled(false);
                 EditButton.setVisible(true);
                 DeleteButton.setEnabled(true);
             }
-             
-             System.out.println("storing data in its place in text fields...");
-             
-           System.out.println("Name = " + arr[0]);
-           NameOfBug.setText(arr[0]);
-           
-           System.out.println("PID = " + arr[1]);
-           IDOfProject.setText(arr[1]);
-           
-           System.out.println("TNAME = " + arr[2]);
-           IDOfTester.setText(arr[2]);
-           
-           System.out.println("DNAME = " + arr[4]);
-           IdOfDeveloper.setText(arr[4]);
-           
-           System.out.println("Description = " + arr[5]);
-           Description.setText(arr[5]);
-           
-           switch (status) {
-            case "O":
-                StatusBox.setSelectedIndex(1);
-                break;
-            case "I":
-                StatusBox.setSelectedIndex(2);
-                break;
-            case "T":
-                StatusBox.setSelectedIndex(3);
-                break;
-            case "C":
-                StatusBox.setSelectedIndex(4);
-                break;
-            default:
-                StatusBox.setSelectedIndex(0);
-                break;
-        }
-        
-           String Severity = arr[7];
-           System.out.println("severity = " + Severity);
-          
-           if (Severity == null)
-            {
+
+            System.out.println("storing data in its place in text fields...");
+
+            System.out.println("Name = " + arr[0]);
+            NameOfBug.setText(arr[0]);
+
+            System.out.println("PID = " + arr[1]);
+            IDOfProject.setText(arr[1]);
+
+            System.out.println("TNAME = " + arr[2]);
+            IDOfTester.setText(arr[2]);
+
+            System.out.println("DNAME = " + arr[4]);
+            IdOfDeveloper.setText(arr[4]);
+
+            System.out.println("Description = " + arr[5]);
+            Description.setText(arr[5]);
+
+            switch (status) {
+                case "O":
+                    StatusBox.setSelectedIndex(1);
+                    break;
+                case "I":
+                    StatusBox.setSelectedIndex(2);
+                    break;
+                case "T":
+                    StatusBox.setSelectedIndex(3);
+                    break;
+                case "C":
+                    StatusBox.setSelectedIndex(4);
+                    break;
+                default:
+                    StatusBox.setSelectedIndex(0);
+                    break;
+            }
+
+            String Severity = arr[7];
+            System.out.println("severity = " + Severity);
+
+            if (Severity == null) {
                 Severity = "---";
             }
-           
+
             switch (Severity) {
-            case "Critical":
-                SeverityBox.setSelectedIndex(1);
-                break;
-            case "Major":
-                SeverityBox.setSelectedIndex(2);
-                break;
-            case "Moderate":
-                SeverityBox.setSelectedIndex(3);
-                break;
-            case "Minor":
-                SeverityBox.setSelectedIndex(4);
-                break;
-            case "Cosmitic":
-                SeverityBox.setSelectedIndex(5);
-                break;
-            default:
-                SeverityBox.setSelectedIndex(0);
-                break;
-        }
-            
-            String  Type = arr[8];
-        System.out.println("Type = " + Type);
-        
-        if (Type == null)
-            {
+                case "Critical":
+                    SeverityBox.setSelectedIndex(1);
+                    break;
+                case "Major":
+                    SeverityBox.setSelectedIndex(2);
+                    break;
+                case "Moderate":
+                    SeverityBox.setSelectedIndex(3);
+                    break;
+                case "Minor":
+                    SeverityBox.setSelectedIndex(4);
+                    break;
+                case "Cosmitic":
+                    SeverityBox.setSelectedIndex(5);
+                    break;
+                default:
+                    SeverityBox.setSelectedIndex(0);
+                    break;
+            }
+
+            String Type = arr[8];
+            System.out.println("Type = " + Type);
+
+            if (Type == null) {
                 Type = "---";
             }
-        
-         switch (Type) {
-            case "Content":
-                TypeBox.setSelectedIndex(1);
-                break;
-            case "Functional":
-                TypeBox.setSelectedIndex(2);
-                break;
-            case "Visual":
-                TypeBox.setSelectedIndex(3);
-                break;
-            default:
-                TypeBox.setSelectedIndex(0);
-                break;
-        }
+
+            switch (Type) {
+                case "Content":
+                    TypeBox.setSelectedIndex(1);
+                    break;
+                case "Functional":
+                    TypeBox.setSelectedIndex(2);
+                    break;
+                case "Visual":
+                    TypeBox.setSelectedIndex(3);
+                    break;
+                default:
+                    TypeBox.setSelectedIndex(0);
+                    break;
+            }
 
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
@@ -1037,8 +1060,8 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
     }//GEN-LAST:event_BugTableMouseClicked
 
     private void SearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_SearchKeyReleased
-       BugDetail.searchBugDetails(Search.getText());
-       BugTable.setModel(DbUtils.resultSetToTableModel(BugDetail.getResObj()));
+        BugDetail.searchBugDetails(Search.getText());
+        BugTable.setModel(DbUtils.resultSetToTableModel(BugDetail.getResObj()));
     }//GEN-LAST:event_SearchKeyReleased
 
     private void IdOfDeveloperActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IdOfDeveloperActionPerformed
@@ -1085,7 +1108,7 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
     }//GEN-LAST:event_ConfirmButtonMouseEntered
 
     private void ConfirmButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ConfirmButtonMouseExited
-         ConfirmButton.setBackground(Purple);
+        ConfirmButton.setBackground(Purple);
     }//GEN-LAST:event_ConfirmButtonMouseExited
 
     private void ConfirmButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ConfirmButtonMouseClicked
@@ -1094,12 +1117,12 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
         String Severity;
         String Type;
         int done;
+
         if (add == 1) {
-            if (IDOfProject.getText().isEmpty() || NameOfBug.getText().isEmpty() || IDOfTester.getText().isEmpty() || Description.getText().isEmpty() || StatusBox.getSelectedIndex() == 0 || SeverityBox.getSelectedIndex() == 0 || TypeBox.getSelectedIndex() == 0) 
-            {
-                    JOptionPane.showMessageDialog(this, "missing information");
-            }else{
-                
+            if (IDOfProject.getText().isEmpty() || NameOfBug.getText().isEmpty() || IDOfTester.getText().isEmpty() || Description.getText().isEmpty() || StatusBox.getSelectedIndex() == 0 || SeverityBox.getSelectedIndex() == 0 || TypeBox.getSelectedIndex() == 0) {
+                JOptionPane.showMessageDialog(this, "missing information");
+            } else {
+
                 //FINDING THE STATUS OF BUG
                 switch (StatusBox.getSelectedIndex()) {
                     case 1:
@@ -1117,43 +1140,66 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
                     default:
                         break;
                 }
-                
+
                 //FINDING THE ID OF TESTER
-               TID = BugDetail.getTesterId(IDOfTester.getText());
+                TID = BugDetail.getTesterId(IDOfTester.getText());
 
-                 Severity = SeverityBox.getSelectedItem().toString();
+                Severity = SeverityBox.getSelectedItem().toString();
 
-                 Type = TypeBox.getSelectedItem().toString();
+                Type = TypeBox.getSelectedItem().toString();
 
-               done = BugDetail.addBug(BugId, NameOfBug.getText(), IDOfProject.getText(), TID, Description.getText(), status, Severity, Type);
-               if (done == 1)
-               {
-                   JOptionPane.showMessageDialog(this, "Information added succesfully");
-                   jTabbedPane1.setSelectedIndex(0);
-                   BugDetail.ViewProjectBugsTable();
-                BugTable.setModel(DbUtils.resultSetToTableModel(BugDetail.getResObj()));
-               }
+                done = BugDetail.addBug(BugId, NameOfBug.getText(), IDOfProject.getText(), TID, Description.getText(), status, Severity, Type);
+                if (done == 1) {
+                    JOptionPane.showMessageDialog(this, "Information added succesfully");
+                    jTabbedPane1.setSelectedIndex(0);
+
+                    // RELOAD TABLE
+                    BugDetail.ViewProjectBugsTable();
+                    BugTable.setModel(DbUtils.resultSetToTableModel(BugDetail.getResObj()));
+
+                    //RELOAD BUG CARD 
+                    OP.setText(String.valueOf(BugDetail.ViewOpenedCard()));
+                    IPB.setText(String.valueOf(BugDetail.ViewInProgressCard()));
+                    TBT.setText(String.valueOf(BugDetail.ViewToBeTestedCard()));
+                    CB.setText(String.valueOf(BugDetail.ViewClosedCard()));
+                }
             }
         } else if (edit == 1) {
             done = BugDetail.UpdateBug(Description.getText(), SeverityBox.getSelectedItem().toString(), TypeBox.getSelectedItem().toString(), BugId);
             if (done == 1) {
                 JOptionPane.showMessageDialog(this, "Information Updated succesfully");
                 jTabbedPane1.setSelectedIndex(0);
+
+                // RELOAD TABLE
                 BugDetail.ViewProjectBugsTable();
                 BugTable.setModel(DbUtils.resultSetToTableModel(BugDetail.getResObj()));
+
+                //RELOAD BUG CARD 
+                OP.setText(String.valueOf(BugDetail.ViewOpenedCard()));
+                IPB.setText(String.valueOf(BugDetail.ViewInProgressCard()));
+                TBT.setText(String.valueOf(BugDetail.ViewToBeTestedCard()));
+                CB.setText(String.valueOf(BugDetail.ViewClosedCard()));
             }
 
         }
+
     }//GEN-LAST:event_ConfirmButtonMouseClicked
 
     private void DeleteButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DeleteButtonMouseClicked
-       int done = BugDetail.deleteBug(BugId, NameOfBug.getText());
-        if (done == 1)
-        {
+        int done = BugDetail.deleteBug(BugId, NameOfBug.getText());
+        if (done == 1) {
             JOptionPane.showMessageDialog(null, "Information Deleted Succesfully");
             jTabbedPane1.setSelectedIndex(0);
+
+            //RELOAD TABLE
             BugDetail.ViewProjectBugsTable();
             BugTable.setModel(DbUtils.resultSetToTableModel(BugDetail.getResObj()));
+
+            //RELOAD BUG CARD 
+            OP.setText(String.valueOf(BugDetail.ViewOpenedCard()));
+            IPB.setText(String.valueOf(BugDetail.ViewInProgressCard()));
+            TBT.setText(String.valueOf(BugDetail.ViewToBeTestedCard()));
+            CB.setText(String.valueOf(BugDetail.ViewClosedCard()));
         }
     }//GEN-LAST:event_DeleteButtonMouseClicked
 
@@ -1170,12 +1216,19 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
     }//GEN-LAST:event_CancelButton2MouseEntered
 
     private void CancelButton2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CancelButton2MouseExited
-       CancelButton2.setBackground(Purple);
+        CancelButton2.setBackground(Purple);
     }//GEN-LAST:event_CancelButton2MouseExited
 
     private void CancelButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CancelButton2MouseClicked
         this.dispose();
     }//GEN-LAST:event_CancelButton2MouseClicked
+
+    private void NameOfBugFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_NameOfBugFocusLost
+        if (BugDetail.ChechDuplicity(NameOfBug.getText())) {
+            JOptionPane.showMessageDialog(this, " Sorry this name is exist , please choose another name");
+            NameOfBug.setText("");
+        }
+    }//GEN-LAST:event_NameOfBugFocusLost
 
     /**
      * @param args the command line arguments
@@ -1186,12 +1239,9 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try 
-        {
-                UIManager.setLookAndFeel(new FlatDarkLaf());
-        } 
-        catch (Exception e)
-        {
+        try {
+            UIManager.setLookAndFeel(new FlatDarkLaf());
+        } catch (Exception e) {
             e.printStackTrace();
         }
         //</editor-fold>
@@ -1199,7 +1249,7 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new BugTrial().setVisible(true);
+                new BugDetails().setVisible(true);
             }
         });
     }

@@ -17,13 +17,12 @@ import net.proteanit.sql.DbUtils;
  * @author mariam
  */
 public class Tester extends javax.swing.JFrame implements Colors {
-    
+
     //CONTROLLER
     TesterController Tester = new TesterController();
 
     //SOURCE CODE GLOBAL VARIABLES
     private int choose = 1;    // USED IN SPECIFY WHICH PANEL SHOULD BE VIEWD 
-   
 
     public Tester() {
         initComponents();
@@ -40,19 +39,17 @@ public class Tester extends javax.swing.JFrame implements Colors {
         // SET THE JFRAME TO BE IN THE CENTER 
         this.setLocationRelativeTo(null);
     }
-    
-     //"Relad table" FONT CHANGER 
+
+    //"Relad table" FONT CHANGER 
     Font orgFont;
-    private void getFont(java.awt.event.MouseEvent evt)
-    {
+
+    private void getFont(java.awt.event.MouseEvent evt) {
         orgFont = evt.getComponent().getFont();
         Map attributes = orgFont.getAttributes();
         attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
         evt.getComponent().setFont(orgFont.deriveFont(attributes));
     }
-    
-    
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -671,10 +668,10 @@ public class Tester extends javax.swing.JFrame implements Colors {
         setSize(new java.awt.Dimension(1371, 804));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-       
+
     private void DashlogoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DashlogoMouseClicked
         jTabbedPane1.setSelectedIndex(0);
-        choose=1;
+        choose = 1;
         Dashlogo.setBackground(Purple);
         Dashlogo.setForeground(Black);
         BugLogoMouseExited(evt);
@@ -682,49 +679,49 @@ public class Tester extends javax.swing.JFrame implements Colors {
     }//GEN-LAST:event_DashlogoMouseClicked
 
     private void DashlogoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DashlogoMouseEntered
-        if(choose==1){}
-        else{
-            Dashlogo.setBackground(Grey);
+        if (choose == 1) {
+        } else {
+            Dashlogo.setBackground(Gray);
         }
     }//GEN-LAST:event_DashlogoMouseEntered
 
     private void DashlogoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DashlogoMouseExited
-        if (choose==1){}
-        else{
+        if (choose == 1) {
+        } else {
             Dashlogo.setBackground(Black);
-             Dashlogo.setForeground(Green);
+            Dashlogo.setForeground(Green);
         }
 
     }//GEN-LAST:event_DashlogoMouseExited
 
     private void ProjectLogoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProjectLogoMouseClicked
-       jTabbedPane1.setSelectedIndex(1);
-        choose=2;
+        jTabbedPane1.setSelectedIndex(1);
+        choose = 2;
         ProjectLogo.setBackground(Purple);
         ProjectLogo.setForeground(Black);
         DashlogoMouseExited(evt);
         BugLogoMouseExited(evt);
-        
+
         System.out.println("View projects table...");
-        
+
         Tester.ViewProjectsTable();
         projects.setModel(DbUtils.resultSetToTableModel(Tester.getResObj()));
-        
+
         System.out.println("View number of projects...");
-        
+
         PN.setText(String.valueOf(Tester.ViewProjectCard()));
     }//GEN-LAST:event_ProjectLogoMouseClicked
 
     private void ProjectLogoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProjectLogoMouseEntered
-        if(choose==2){}
-        else{
-            ProjectLogo.setBackground(Grey);
+        if (choose == 2) {
+        } else {
+            ProjectLogo.setBackground(Gray);
         }
     }//GEN-LAST:event_ProjectLogoMouseEntered
 
     private void ProjectLogoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProjectLogoMouseExited
-        if (choose==2){}
-        else{
+        if (choose == 2) {
+        } else {
             ProjectLogo.setBackground(Black);
             ProjectLogo.setForeground(Green);
         }
@@ -732,44 +729,44 @@ public class Tester extends javax.swing.JFrame implements Colors {
 
     private void BugLogoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BugLogoMouseClicked
         jTabbedPane1.setSelectedIndex(2);
-        choose=3;
+        choose = 3;
         BugLogo.setBackground(Purple);
         BugLogo.setForeground(Black);
         DashlogoMouseExited(evt);
         ProjectLogoMouseExited(evt);
-        
+
         System.out.println("View projects table...");
         Tester.ViewProjectsTable();
         projects1.setModel(DbUtils.resultSetToTableModel(Tester.getResObj()));
     }//GEN-LAST:event_BugLogoMouseClicked
 
     private void BugLogoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BugLogoMouseEntered
-        if(choose==3){}
-        else{
-            BugLogo.setBackground(Grey);
+        if (choose == 3) {
+        } else {
+            BugLogo.setBackground(Gray);
         }
     }//GEN-LAST:event_BugLogoMouseEntered
 
     private void BugLogoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BugLogoMouseExited
-        if (choose==3){}
-        else{
+        if (choose == 3) {
+        } else {
             BugLogo.setBackground(Black);
             BugLogo.setForeground(Green);
         }
     }//GEN-LAST:event_BugLogoMouseExited
 
     private void LogoutLogoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LogoutLogoMouseClicked
-         new Rating().setVisible(true);
-         this.dispose();
+        new Rating().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_LogoutLogoMouseClicked
 
     private void LogoutLogoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LogoutLogoMouseEntered
-         LogoutLogo.setBackground(Grey);
+        LogoutLogo.setBackground(Gray);
     }//GEN-LAST:event_LogoutLogoMouseEntered
 
     private void LogoutLogoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LogoutLogoMouseExited
-          LogoutLogo.setBackground(Black);
-          LogoutLogo.setForeground(Green);
+        LogoutLogo.setBackground(Black);
+        LogoutLogo.setForeground(Green);
     }//GEN-LAST:event_LogoutLogoMouseExited
 
     private void Search1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Search1MouseClicked
@@ -791,17 +788,14 @@ public class Tester extends javax.swing.JFrame implements Colors {
     }//GEN-LAST:event_SearchKeyReleased
 
     private void projectsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_projectsMouseClicked
-         try
-        {   
+        try {
             System.out.println("storing the value of row choosen...");
-            
-            int selectedID = (int) projects.getValueAt(projects.getSelectedRow(),0);
+
+            int selectedID = (int) projects.getValueAt(projects.getSelectedRow(), 0);
             CurrentProject Project = new CurrentProject((selectedID));
             ProjectDetails add = new ProjectDetails();
             add.setVisible(true);
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
     }//GEN-LAST:event_projectsMouseClicked
@@ -811,7 +805,7 @@ public class Tester extends javax.swing.JFrame implements Colors {
     }//GEN-LAST:event_noOfBugsMouseClicked
 
     private void PNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PNMouseClicked
-       noOfProjectsMouseClicked(evt);
+        noOfProjectsMouseClicked(evt);
     }//GEN-LAST:event_PNMouseClicked
 
     private void BNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BNMouseClicked
@@ -827,17 +821,14 @@ public class Tester extends javax.swing.JFrame implements Colors {
     }//GEN-LAST:event_SearchMouseClicked
 
     private void projects1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_projects1MouseClicked
-         try
-        {   
+        try {
             System.out.println("storing the value of row choosen...");
-            
-            int selectedID = (int) projects1.getValueAt(projects1.getSelectedRow(),0);
+
+            int selectedID = (int) projects1.getValueAt(projects1.getSelectedRow(), 0);
             CurrentProject Project = new CurrentProject((selectedID));
-            BugTrial add = new BugTrial();
+            BugDetails add = new BugDetails();
             add.setVisible(true);
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
     }//GEN-LAST:event_projects1MouseClicked
@@ -848,17 +839,14 @@ public class Tester extends javax.swing.JFrame implements Colors {
     }//GEN-LAST:event_Search2KeyReleased
 
     private void bugTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bugTableMouseClicked
-        try
-        {   
+        try {
             System.out.println("storing the value of row choosen...");
-            
-            int selectedID = (int) bugTable.getValueAt(bugTable.getSelectedRow(),0);
+
+            int selectedID = (int) bugTable.getValueAt(bugTable.getSelectedRow(), 0);
             CurrentBug Bug = new CurrentBug((selectedID));
             BugInformation add = new BugInformation(selectedID);
             add.setVisible(true);
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
     }//GEN-LAST:event_bugTableMouseClicked
@@ -868,7 +856,7 @@ public class Tester extends javax.swing.JFrame implements Colors {
     }//GEN-LAST:event_ReloadLabelMouseEntered
 
     private void ReloadLabelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ReloadLabelMouseExited
-         evt.getComponent().setFont(orgFont);
+        evt.getComponent().setFont(orgFont);
     }//GEN-LAST:event_ReloadLabelMouseExited
 
     private void ReloadLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ReloadLabelMouseClicked
@@ -893,13 +881,10 @@ public class Tester extends javax.swing.JFrame implements Colors {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        
-            try 
-        {
-                UIManager.setLookAndFeel(new FlatDarkLaf());
-        } 
-        catch (Exception e)
-        {
+
+        try {
+            UIManager.setLookAndFeel(new FlatDarkLaf());
+        } catch (Exception e) {
             e.printStackTrace();
         }
         //</editor-fold>
