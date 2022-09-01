@@ -9,6 +9,7 @@ package bugtrackingsystem;
 import com.formdev.flatlaf.FlatDarkLaf;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import net.proteanit.sql.DbUtils;
 import org.jfree.chart.ChartFactory;
@@ -30,7 +31,8 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
     
     //IMPORTANT VALUES
     int BugId = 0;  //FOR STORING THE BUGID  
-    int edit = 0; // USED TO DETECT IF WE WILL ADD OR UPDATE
+    int edit = 0; // USED AS AN INDICATOR FOR UPDATE OPERATION
+    int add = 0 ; //USED AS AN INDICATOR FOR INSERT OPERATION
     
     public BugTrial() {
         initComponents();
@@ -42,12 +44,17 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
         //LET SOME FIELDS AND BUTTONS TO BE UNENABLED
         IDOfProject.setEnabled(false);
         IDOfProject.setText(String.valueOf(CurrentProject.projectId));
+        NameOfBug.setEnabled(false);
         IDOfTester.setEnabled(false);
         IDOfTester.setText(String.valueOf(CurrentUser.id));
-        EditButton.setVisible(false);
-        ConfirmButton.setEnabled(true);
-        DeleteButton.setEnabled(false);
         IdOfDeveloper.setEnabled(false);
+        Description.setEnabled(false);
+        StatusBox.setEnabled(false);
+        SeverityBox.setEnabled(false);
+        TypeBox.setEnabled(false);
+        ConfirmButton.setEnabled(false);
+        EditButton.setVisible(false);
+         DeleteButton.setEnabled(false);
         
         
         showPieChart();
@@ -120,20 +127,20 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
         TypeLabel = new javax.swing.JLabel();
         TypeBox = new javax.swing.JComboBox<>();
         OverView = new javax.swing.JPanel();
-        OpenBug = new javax.swing.JLabel();
+        OpenBugLabel = new javax.swing.JLabel();
         noOfOpenedBugs = new javax.swing.JPanel();
         OP = new javax.swing.JLabel();
-        Inprogress = new javax.swing.JLabel();
+        InprogressLabel = new javax.swing.JLabel();
         noOfInProgressBugs = new javax.swing.JPanel();
         IPB = new javax.swing.JLabel();
-        panelBarChart = new javax.swing.JPanel();
-        noOfCloseBugs = new javax.swing.JPanel();
-        CB = new javax.swing.JLabel();
-        ToBeTested = new javax.swing.JLabel();
+        ToBeTestedLabel = new javax.swing.JLabel();
         noOfToBeTestedBugs = new javax.swing.JPanel();
         TBT = new javax.swing.JLabel();
-        closeBug = new javax.swing.JLabel();
-        cancel2 = new javax.swing.JButton();
+        closeBugLabel = new javax.swing.JLabel();
+        noOfCloseBugs = new javax.swing.JPanel();
+        CB = new javax.swing.JLabel();
+        panelBarChart = new javax.swing.JPanel();
+        CancelButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -311,6 +318,17 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
         DeleteButton.setForeground(new java.awt.Color(50, 50, 50));
         DeleteButton.setText("Delete");
         DeleteButton.setPreferredSize(new java.awt.Dimension(150, 45));
+        DeleteButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                DeleteButtonMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                DeleteButtonMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                DeleteButtonMouseExited(evt);
+            }
+        });
         DeleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 DeleteButtonActionPerformed(evt);
@@ -392,7 +410,7 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
         TesterIdLabel.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         TesterIdLabel.setForeground(new java.awt.Color(109, 177, 147));
         TesterIdLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        TesterIdLabel.setText("Reporter Id:");
+        TesterIdLabel.setText("Reporter Name:");
         TesterIdLabel.setPreferredSize(new java.awt.Dimension(150, 45));
 
         IDOfTester.setBackground(new java.awt.Color(50, 50, 50));
@@ -564,19 +582,20 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
         OverView.setToolTipText("");
         OverView.setPreferredSize(new java.awt.Dimension(915, 600));
 
-        OpenBug.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        OpenBug.setForeground(new java.awt.Color(217, 217, 217));
-        OpenBug.setText("Number of opened bugs:");
+        OpenBugLabel.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        OpenBugLabel.setForeground(new java.awt.Color(217, 217, 217));
+        OpenBugLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        OpenBugLabel.setText("Number of opened bugs");
 
         noOfOpenedBugs.setBackground(new java.awt.Color(50, 50, 50));
-        noOfOpenedBugs.setBorder(javax.swing.BorderFactory.createMatteBorder(20, 0, 0, 0, new java.awt.Color(133, 89, 165)));
         noOfOpenedBugs.setPreferredSize(new java.awt.Dimension(260, 140));
 
         OP.setBackground(new java.awt.Color(50, 50, 50));
         OP.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
         OP.setForeground(new java.awt.Color(217, 217, 217));
+        OP.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         OP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/bugs.png"))); // NOI18N
-        OP.setText("10");
+        OP.setText("0");
         OP.setOpaque(true);
 
         javax.swing.GroupLayout noOfOpenedBugsLayout = new javax.swing.GroupLayout(noOfOpenedBugs);
@@ -591,24 +610,25 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
         noOfOpenedBugsLayout.setVerticalGroup(
             noOfOpenedBugsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(noOfOpenedBugsLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
+                .addGap(36, 36, 36)
                 .addComponent(OP)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
-        Inprogress.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        Inprogress.setForeground(new java.awt.Color(217, 217, 217));
-        Inprogress.setText("Number of in progress bugs:");
+        InprogressLabel.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        InprogressLabel.setForeground(new java.awt.Color(217, 217, 217));
+        InprogressLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        InprogressLabel.setText("Number of in progress bugs");
 
         noOfInProgressBugs.setBackground(new java.awt.Color(50, 50, 50));
-        noOfInProgressBugs.setBorder(javax.swing.BorderFactory.createMatteBorder(20, 0, 0, 0, new java.awt.Color(133, 89, 165)));
         noOfInProgressBugs.setPreferredSize(new java.awt.Dimension(260, 140));
 
         IPB.setBackground(new java.awt.Color(50, 50, 50));
         IPB.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
         IPB.setForeground(new java.awt.Color(217, 217, 217));
+        IPB.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         IPB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/bugs.png"))); // NOI18N
-        IPB.setText("10");
+        IPB.setText("0");
         IPB.setOpaque(true);
 
         javax.swing.GroupLayout noOfInProgressBugsLayout = new javax.swing.GroupLayout(noOfInProgressBugs);
@@ -623,25 +643,58 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
         noOfInProgressBugsLayout.setVerticalGroup(
             noOfInProgressBugsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(noOfInProgressBugsLayout.createSequentialGroup()
-                .addGap(27, 27, 27)
+                .addGap(38, 38, 38)
                 .addComponent(IPB)
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
-        panelBarChart.setBackground(new java.awt.Color(50, 50, 50));
-        panelBarChart.setForeground(new java.awt.Color(217, 217, 217));
-        panelBarChart.setPreferredSize(new java.awt.Dimension(540, 346));
-        panelBarChart.setLayout(new java.awt.BorderLayout());
+        ToBeTestedLabel.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        ToBeTestedLabel.setForeground(new java.awt.Color(217, 217, 217));
+        ToBeTestedLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ToBeTestedLabel.setText("Number of to be tested bugs");
+
+        noOfToBeTestedBugs.setBackground(new java.awt.Color(50, 50, 50));
+        noOfToBeTestedBugs.setPreferredSize(new java.awt.Dimension(260, 140));
+
+        TBT.setBackground(new java.awt.Color(50, 50, 50));
+        TBT.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
+        TBT.setForeground(new java.awt.Color(217, 217, 217));
+        TBT.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        TBT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/bugs.png"))); // NOI18N
+        TBT.setText(" 0");
+        TBT.setOpaque(true);
+
+        javax.swing.GroupLayout noOfToBeTestedBugsLayout = new javax.swing.GroupLayout(noOfToBeTestedBugs);
+        noOfToBeTestedBugs.setLayout(noOfToBeTestedBugsLayout);
+        noOfToBeTestedBugsLayout.setHorizontalGroup(
+            noOfToBeTestedBugsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(noOfToBeTestedBugsLayout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addComponent(TBT, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(54, Short.MAX_VALUE))
+        );
+        noOfToBeTestedBugsLayout.setVerticalGroup(
+            noOfToBeTestedBugsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(noOfToBeTestedBugsLayout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addComponent(TBT)
+                .addContainerGap(39, Short.MAX_VALUE))
+        );
+
+        closeBugLabel.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        closeBugLabel.setForeground(new java.awt.Color(217, 217, 217));
+        closeBugLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        closeBugLabel.setText("Number of closed bugs");
 
         noOfCloseBugs.setBackground(new java.awt.Color(50, 50, 50));
-        noOfCloseBugs.setBorder(javax.swing.BorderFactory.createMatteBorder(20, 0, 0, 0, new java.awt.Color(109, 177, 147)));
         noOfCloseBugs.setPreferredSize(new java.awt.Dimension(260, 140));
 
         CB.setBackground(new java.awt.Color(50, 50, 50));
         CB.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
         CB.setForeground(new java.awt.Color(217, 217, 217));
+        CB.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         CB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/bugs.png"))); // NOI18N
-        CB.setText(" 10");
+        CB.setText("0");
         CB.setOpaque(true);
 
         javax.swing.GroupLayout noOfCloseBugsLayout = new javax.swing.GroupLayout(noOfCloseBugs);
@@ -661,50 +714,30 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
                 .addContainerGap(37, Short.MAX_VALUE))
         );
 
-        ToBeTested.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        ToBeTested.setForeground(new java.awt.Color(217, 217, 217));
-        ToBeTested.setText("Number of to be tested bugs:");
+        panelBarChart.setBackground(new java.awt.Color(50, 50, 50));
+        panelBarChart.setForeground(new java.awt.Color(217, 217, 217));
+        panelBarChart.setPreferredSize(new java.awt.Dimension(540, 346));
+        panelBarChart.setLayout(new java.awt.BorderLayout());
 
-        noOfToBeTestedBugs.setBackground(new java.awt.Color(50, 50, 50));
-        noOfToBeTestedBugs.setBorder(javax.swing.BorderFactory.createMatteBorder(20, 0, 0, 0, new java.awt.Color(109, 177, 147)));
-        noOfToBeTestedBugs.setPreferredSize(new java.awt.Dimension(260, 140));
-
-        TBT.setBackground(new java.awt.Color(50, 50, 50));
-        TBT.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
-        TBT.setForeground(new java.awt.Color(217, 217, 217));
-        TBT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/bugs.png"))); // NOI18N
-        TBT.setText(" 10");
-        TBT.setOpaque(true);
-
-        javax.swing.GroupLayout noOfToBeTestedBugsLayout = new javax.swing.GroupLayout(noOfToBeTestedBugs);
-        noOfToBeTestedBugs.setLayout(noOfToBeTestedBugsLayout);
-        noOfToBeTestedBugsLayout.setHorizontalGroup(
-            noOfToBeTestedBugsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(noOfToBeTestedBugsLayout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(TBT, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(54, Short.MAX_VALUE))
-        );
-        noOfToBeTestedBugsLayout.setVerticalGroup(
-            noOfToBeTestedBugsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(noOfToBeTestedBugsLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(TBT)
-                .addContainerGap(39, Short.MAX_VALUE))
-        );
-
-        closeBug.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        closeBug.setForeground(new java.awt.Color(217, 217, 217));
-        closeBug.setText("Number of closed bugs:");
-
-        cancel2.setBackground(new java.awt.Color(133, 89, 165));
-        cancel2.setFont(new java.awt.Font("Times New Roman", 1, 21)); // NOI18N
-        cancel2.setForeground(new java.awt.Color(50, 50, 50));
-        cancel2.setText("Cancel");
-        cancel2.setPreferredSize(new java.awt.Dimension(150, 45));
-        cancel2.addActionListener(new java.awt.event.ActionListener() {
+        CancelButton2.setBackground(new java.awt.Color(133, 89, 165));
+        CancelButton2.setFont(new java.awt.Font("Times New Roman", 1, 21)); // NOI18N
+        CancelButton2.setForeground(new java.awt.Color(50, 50, 50));
+        CancelButton2.setText("Cancel");
+        CancelButton2.setPreferredSize(new java.awt.Dimension(150, 45));
+        CancelButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                CancelButton2MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                CancelButton2MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                CancelButton2MouseExited(evt);
+            }
+        });
+        CancelButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cancel2ActionPerformed(evt);
+                CancelButton2ActionPerformed(evt);
             }
         });
 
@@ -714,57 +747,57 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
             OverViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(OverViewLayout.createSequentialGroup()
                 .addGap(385, 385, 385)
-                .addComponent(cancel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(CancelButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(460, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, OverViewLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(panelBarChart, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
                 .addGroup(OverViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(noOfCloseBugs, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ToBeTestedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(noOfToBeTestedBugs, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ToBeTested, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(closeBug, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addGroup(OverViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(closeBugLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(noOfCloseBugs, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)))
+                .addGap(33, 33, 33))
             .addGroup(OverViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(OverViewLayout.createSequentialGroup()
                     .addContainerGap()
                     .addGroup(OverViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(noOfOpenedBugs, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(noOfInProgressBugs, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
-                        .addComponent(OpenBug, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(Inprogress, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(panelBarChart, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(355, Short.MAX_VALUE)))
+                        .addComponent(noOfOpenedBugs, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
+                        .addComponent(OpenBugLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(InprogressLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
+                        .addComponent(noOfInProgressBugs, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE))
+                    .addContainerGap(744, Short.MAX_VALUE)))
         );
         OverViewLayout.setVerticalGroup(
             OverViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(OverViewLayout.createSequentialGroup()
-                .addGap(69, 69, 69)
-                .addComponent(ToBeTested, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(76, 76, 76)
+                .addComponent(ToBeTestedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(noOfToBeTestedBugs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(123, 123, 123)
-                .addComponent(closeBug, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 122, Short.MAX_VALUE)
+                .addComponent(closeBugLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(noOfCloseBugs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(cancel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(75, 75, 75)
+                .addComponent(CancelButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(57, 57, 57))
+            .addGroup(OverViewLayout.createSequentialGroup()
+                .addGap(195, 195, 195)
+                .addComponent(panelBarChart, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(OverViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(OverViewLayout.createSequentialGroup()
                     .addGap(69, 69, 69)
-                    .addGroup(OverViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(OverViewLayout.createSequentialGroup()
-                            .addComponent(OpenBug, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(noOfOpenedBugs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(126, 126, 126)
-                            .addComponent(Inprogress, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(4, 4, 4)
-                            .addComponent(noOfInProgressBugs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(OverViewLayout.createSequentialGroup()
-                            .addGap(124, 124, 124)
-                            .addComponent(panelBarChart, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(OpenBugLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(noOfOpenedBugs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(126, 126, 126)
+                    .addComponent(InprogressLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(4, 4, 4)
+                    .addComponent(noOfInProgressBugs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(182, Short.MAX_VALUE)))
         );
 
@@ -802,8 +835,27 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
         jTabbedPane1.setSelectedIndex(1);
         EditButton.setVisible(false);
         DeleteButton.setVisible(false);
-        IDOfProject.setEditable(false);
+        ConfirmButton.setEnabled(true);
+        IDOfProject.setEnabled(false);
         IDOfProject.setText(String.valueOf(CurrentProject.projectId));
+        NameOfBug.setEnabled(true);
+        NameOfBug.setText("");
+        IDOfTester.setEnabled(false);
+        IDOfTester.setText(String.valueOf(CurrentUser.user));
+        IdOfDeveloper.setEnabled(false);
+        IdOfDeveloper.setText("");
+        Description.setEnabled(true);
+        Description.setText("");
+        StatusBox.setEnabled(false);
+        StatusBox.setSelectedIndex(1);
+        SeverityBox.setEnabled(true);
+        SeverityBox.setSelectedIndex(0);
+        TypeBox.setEnabled(true);
+        TypeBox.setSelectedIndex(0);
+        
+        add = 1;
+        BugId = BugDetail.GenerateBugID();
+        System.out.println("bugid = " + BugId);
     }//GEN-LAST:event_AddMouseClicked
 
     private void AddMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddMouseEntered
@@ -846,9 +898,9 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
         // TODO add your handling code here:
     }//GEN-LAST:event_EditButtonActionPerformed
 
-    private void cancel2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancel2ActionPerformed
+    private void CancelButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelButton2ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cancel2ActionPerformed
+    }//GEN-LAST:event_CancelButton2ActionPerformed
 
     private void BugTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BugTableMouseClicked
        try {
@@ -856,6 +908,7 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
 
             int selectedID = (int) BugTable.getValueAt(BugTable.getSelectedRow(), 0);
             CurrentBug bug = new CurrentBug((selectedID));
+            BugId = CurrentBug.BugId;
             String[] arr = BugDetail.selectedBug(selectedID);
 
             jTabbedPane1.setSelectedIndex(1);
@@ -872,22 +925,26 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
             String status = arr[6];
             System.out.println("status = " + arr[6]);
             
+            if (status == null)
+            {
+                status = "---";
+            }
+            
             if (status.equals("C")) {
                 ConfirmButton.setEnabled(false);
                 EditButton.setVisible(false);
                 DeleteButton.setEnabled(false);
-            } else {
+            } else if (!"C".equals(status) && Integer.parseInt(arr[3])!= CurrentUser.id) {
+                ConfirmButton.setEnabled(false);
+                EditButton.setVisible(false);
+                DeleteButton.setEnabled(false);
+            }else if (!"C".equals(status) && Integer.parseInt(arr[3])== CurrentUser.id) {
                 ConfirmButton.setEnabled(false);
                 EditButton.setVisible(true);
-                DeleteButton.setEnabled(false);
+                DeleteButton.setEnabled(true);
             }
-             if (status!= "C" && Integer.parseInt(arr[3])!= CurrentUser.id) {
-                 DeleteButton.setEnabled(true);
-                 EditButton.setVisible(false);
-             }
-             System.out.println("storing data in its place in text fields...");
              
-             BugId = CurrentBug.BugId;
+             System.out.println("storing data in its place in text fields...");
              
            System.out.println("Name = " + arr[0]);
            NameOfBug.setText(arr[0]);
@@ -924,6 +981,12 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
         
            String Severity = arr[7];
            System.out.println("severity = " + Severity);
+          
+           if (Severity == null)
+            {
+                Severity = "---";
+            }
+           
             switch (Severity) {
             case "Critical":
                 SeverityBox.setSelectedIndex(1);
@@ -947,6 +1010,12 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
             
             String  Type = arr[8];
         System.out.println("Type = " + Type);
+        
+        if (Type == null)
+            {
+                Type = "---";
+            }
+        
          switch (Type) {
             case "Content":
                 TypeBox.setSelectedIndex(1);
@@ -991,11 +1060,12 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
     private void EditButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EditButtonMouseClicked
         edit = 1;
         Description.setEnabled(true);
-        StatusBox.setEnabled(true);
+        StatusBox.setEnabled(false);
         SeverityBox.setEnabled(true);
         TypeBox.setEnabled(true);
         ConfirmButton.setEnabled(true);
         DeleteButton.setEnabled(true);
+        BugId = CurrentBug.BugId;
     }//GEN-LAST:event_EditButtonMouseClicked
 
     private void CancelButton1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CancelButton1MouseEntered
@@ -1019,19 +1089,17 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
     }//GEN-LAST:event_ConfirmButtonMouseExited
 
     private void ConfirmButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ConfirmButtonMouseClicked
-        int DID;
+        int TID;
         String status = "";
-        if (edit == 0) {
-            if (IDOfProject.getText().isEmpty() || NameOfBug.getText().isEmpty() || IDOfTester.getText().isEmpty() || Description.getText().isEmpty() || StatusBox.getSelectedIndex() == 0 || SeverityBox.getSelectedIndex() == 0 || TypeBox.getSelectedIndex() == 0) {
-                if (IdOfDeveloper.getText().isEmpty()) {
-                    DID = 0;
-                } else {
-                    DID = BugDetail.getDeveloper(IdOfDeveloper.getText());
-                }
-                if (BugId == 0) {
-                    BugId = BugDetail.GenerateBugID();
-                }
-
+        String Severity;
+        String Type;
+        int done;
+        if (add == 1) {
+            if (IDOfProject.getText().isEmpty() || NameOfBug.getText().isEmpty() || IDOfTester.getText().isEmpty() || Description.getText().isEmpty() || StatusBox.getSelectedIndex() == 0 || SeverityBox.getSelectedIndex() == 0 || TypeBox.getSelectedIndex() == 0) 
+            {
+                    JOptionPane.showMessageDialog(this, "missing information");
+            }else{
+                
                 //FINDING THE STATUS OF BUG
                 switch (StatusBox.getSelectedIndex()) {
                     case 1:
@@ -1049,17 +1117,65 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
                     default:
                         break;
                 }
+                
+                //FINDING THE ID OF TESTER
+               TID = BugDetail.getTesterId(IDOfTester.getText());
 
-                String Severity = SeverityBox.getSelectedItem().toString();
+                 Severity = SeverityBox.getSelectedItem().toString();
 
-                String Type = TypeBox.getSelectedItem().toString();
+                 Type = TypeBox.getSelectedItem().toString();
 
-                BugDetail.addBug(BugId, NameOfBug.getText(), IDOfTester.getText(), IDOfTester.getText(), DID, Description.getText(), status, Severity, Type);
+               done = BugDetail.addBug(BugId, NameOfBug.getText(), IDOfProject.getText(), TID, Description.getText(), status, Severity, Type);
+               if (done == 1)
+               {
+                   JOptionPane.showMessageDialog(this, "Information added succesfully");
+                   jTabbedPane1.setSelectedIndex(0);
+                   BugDetail.ViewProjectBugsTable();
+                BugTable.setModel(DbUtils.resultSetToTableModel(BugDetail.getResObj()));
+               }
             }
-        }else{
-        aaaaaaaaaaaa
+        } else if (edit == 1) {
+            done = BugDetail.UpdateBug(Description.getText(), SeverityBox.getSelectedItem().toString(), TypeBox.getSelectedItem().toString(), BugId);
+            if (done == 1) {
+                JOptionPane.showMessageDialog(this, "Information Updated succesfully");
+                jTabbedPane1.setSelectedIndex(0);
+                BugDetail.ViewProjectBugsTable();
+                BugTable.setModel(DbUtils.resultSetToTableModel(BugDetail.getResObj()));
+            }
+
         }
     }//GEN-LAST:event_ConfirmButtonMouseClicked
+
+    private void DeleteButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DeleteButtonMouseClicked
+       int done = BugDetail.deleteBug(BugId, NameOfBug.getText());
+        if (done == 1)
+        {
+            JOptionPane.showMessageDialog(null, "Information Deleted Succesfully");
+            jTabbedPane1.setSelectedIndex(0);
+            BugDetail.ViewProjectBugsTable();
+            BugTable.setModel(DbUtils.resultSetToTableModel(BugDetail.getResObj()));
+        }
+    }//GEN-LAST:event_DeleteButtonMouseClicked
+
+    private void DeleteButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DeleteButtonMouseEntered
+        DeleteButton.setBackground(Green);
+    }//GEN-LAST:event_DeleteButtonMouseEntered
+
+    private void DeleteButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DeleteButtonMouseExited
+        DeleteButton.setBackground(Purple);
+    }//GEN-LAST:event_DeleteButtonMouseExited
+
+    private void CancelButton2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CancelButton2MouseEntered
+        CancelButton2.setBackground(Green);
+    }//GEN-LAST:event_CancelButton2MouseEntered
+
+    private void CancelButton2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CancelButton2MouseExited
+       CancelButton2.setBackground(Purple);
+    }//GEN-LAST:event_CancelButton2MouseExited
+
+    private void CancelButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CancelButton2MouseClicked
+        this.dispose();
+    }//GEN-LAST:event_CancelButton2MouseClicked
 
     /**
      * @param args the command line arguments
@@ -1096,6 +1212,7 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
     private javax.swing.JLabel CB;
     private javax.swing.JButton CancelButton;
     private javax.swing.JButton CancelButton1;
+    private javax.swing.JButton CancelButton2;
     private javax.swing.JButton ConfirmButton;
     private javax.swing.JButton DeleteButton;
     private javax.swing.JTextField Description;
@@ -1107,12 +1224,12 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
     private javax.swing.JTextField IDOfTester;
     private javax.swing.JLabel IPB;
     private javax.swing.JTextField IdOfDeveloper;
-    private javax.swing.JLabel Inprogress;
+    private javax.swing.JLabel InprogressLabel;
     private javax.swing.JLabel LogoOfSearch;
     private javax.swing.JLabel NameLabel;
     private javax.swing.JTextField NameOfBug;
     private javax.swing.JLabel OP;
-    private javax.swing.JLabel OpenBug;
+    private javax.swing.JLabel OpenBugLabel;
     private javax.swing.JPanel OverView;
     private javax.swing.JLabel ProjectIdLabel;
     private app.bolivia.swing.JCTextField Search;
@@ -1123,11 +1240,10 @@ public class BugTrial extends javax.swing.JFrame implements Colors{
     private javax.swing.JLabel TBT;
     private javax.swing.JPanel TableOfBugs;
     private javax.swing.JLabel TesterIdLabel;
-    private javax.swing.JLabel ToBeTested;
+    private javax.swing.JLabel ToBeTestedLabel;
     private javax.swing.JComboBox<String> TypeBox;
     private javax.swing.JLabel TypeLabel;
-    private javax.swing.JButton cancel2;
-    private javax.swing.JLabel closeBug;
+    private javax.swing.JLabel closeBugLabel;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JPanel mainPanel;
