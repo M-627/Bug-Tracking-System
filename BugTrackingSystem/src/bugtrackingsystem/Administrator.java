@@ -863,7 +863,7 @@ public final class Administrator extends javax.swing.JFrame {
     }//GEN-LAST:event_bugsLabelMouseExited
 
     private void logoutLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutLabelMouseClicked
-        new Login().setVisible(true);
+        new Rating().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_logoutLabelMouseClicked
 

@@ -595,7 +595,7 @@ public class AdminController extends dataConnection
         try
         {
             getConnected("SELECT * FROM BUGS");
-            command = conObj.prepareStatement("UPDATE BUGS SET TYBE = ?, SEVERITY = ?, DEVELOPERID = ? WHERE BUGID = ?");
+            command = conObj.prepareStatement("UPDATE BUGS SET TYBE = ?, SEVERITY = ?, DEVELOPERID = ?, DATEASSIGNED = CURRENT_DATE WHERE BUGID = ?");
             command.setString(1, bug[1]);
             command.setString(2, bug[2]);
             if (bug[3] == null)
