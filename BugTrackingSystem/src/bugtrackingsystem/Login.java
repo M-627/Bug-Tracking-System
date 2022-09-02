@@ -1,8 +1,6 @@
 package bugtrackingsystem;
 
-import static bugtrackingsystem.dataConnection.host;
-import static bugtrackingsystem.dataConnection.pass;
-import static bugtrackingsystem.dataConnection.uname;
+import bugtrackingsystem.dataConnection.*;
 import java.awt.Font;
 import java.awt.font.TextAttribute;
 import java.util.Map;
@@ -15,49 +13,18 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class Login extends javax.swing.JFrame {
 
     //DB connection objects
-    Connection conObj = null;
-    Statement smtObj = null;
-    ResultSet resObj = null;
+    dataConnection con = new dataConnection() {};
+    Activity action = new Activity();
     int counter2 = 0;
     
     public Login() {
         initComponents();
-        getConnected();
+        con.getConnected("SELECT * FROM USERS");
         this.setLocationRelativeTo(null);
     }
     
-    //Connection Method
-    public void getConnected()
-    {
-        try
-        {
-            conObj = DriverManager.getConnection(host, uname, pass);
-            smtObj = conObj.createStatement( ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY );
-            resObj = smtObj.executeQuery("SELECT * FROM USERS");
-        }
-        catch (SQLException ex)
-        {
-            System.out.println(ex.getMessage());
-        }
-    }
-    
     //Filling ACTIVITIES table
-    PreparedStatement activity;
-    public void activity(String description)
-    {
-        try
-        {
-            activity = conObj.prepareStatement("INSERT INTO ACTIVITIES VALUES (?, ?, ?, CURRENT_DATE, CURRENT_TIME)");      
-            activity.setString(1, CurrentUser.user);
-            activity.setString(2, CurrentUser.role);
-            activity.setString(3, description);
-            activity.executeUpdate();
-        }
-        catch (SQLException ex)
-        {
-            System.out.print(ex.getMessage());
-        }
-    }
+    
     
     //"Forgot Password?" Font Changer
     Font orgFont;
@@ -243,15 +210,15 @@ int counter=0;
         String frgtnUser = JOptionPane.showInputDialog(rootPane, "Enter your username:");
         try
         {
-            getConnected();
-            while (resObj.next())
+            con.getConnected("SELECT * FROM USERS");
+            while (con.resObj.next())
             {
-                if (frgtnUser.equals(resObj.getString("USERNAME")))
+                if (frgtnUser.equals(con.resObj.getString("USERNAME")))
                 {
-                    String frgtnRole = resObj.getString("ROLE");
-                    int frgtnID = resObj.getInt("USERID");
+                    String frgtnRole = con.resObj.getString("ROLE");
+                    int frgtnID = con.resObj.getInt("USERID");
                     new CurrentUser(frgtnUser, frgtnRole, frgtnID);
-                    activity("Requested password reset");
+                    action.activity("Requested password reset");
                 }
             }
         }
@@ -262,8 +229,8 @@ int counter=0;
         {
             try
             {
-                if(smtObj != null)
-                    smtObj.close();
+                if(con.smtObj != null)
+                    con.smtObj.close();
             }
             catch(SQLException e)
             {
@@ -277,7 +244,7 @@ int counter=0;
         try
         {
             //Connecting to DB
-            getConnected();
+            con.getConnected("SELECT * FROM USERS");
             
             String user = userField.getText();
             String pass = passField.getText();
@@ -287,16 +254,16 @@ int counter=0;
             int passFound = 0;
             
             //Checking credentials
-            while (resObj.next())
+            while (con.resObj.next())
             {
-                if (user.equals(resObj.getString("USERNAME")))
+                if (user.equals(con.resObj.getString("USERNAME")))
                 {
                     userFound = 1;
-                    if (pass.equals(resObj.getString("PASSWORD")))
+                    if (pass.equals(con.resObj.getString("PASSWORD")))
                     {
                         passFound = 1;
-                        role = resObj.getString("ROLE");
-                        id= resObj.getInt("userid");
+                        role = con.resObj.getString("ROLE");
+                        id = con.resObj.getInt("userid");
                         new CurrentUser(user, role,id);
                     }
                     break;
@@ -306,19 +273,19 @@ int counter=0;
             //Redirection
             if (role.equals("A"))
             {
-                activity("Logged in");
+                action.activity("Logged in");
                 new Administrator().setVisible(true);
                 this.dispose();
             }
             else if (role.equals("D"))
             {
-                activity("Logged in");
+                action.activity("Logged in");
                 new Devoloper().setVisible(true);
                 this.dispose();
             }
             else if (role.equals("T"))
             {
-                activity("Logged in");
+                action.activity("Logged in");
                 new Tester().setVisible(true);
                 this.dispose();
             }  
@@ -330,7 +297,7 @@ int counter=0;
             if (userFound == 0 && passFound == 0)
             {
                 JOptionPane.showMessageDialog(rootPane, "Incorrect credentials");
-                add = conObj.prepareStatement("INSERT INTO FAILEDLOGINS VALUES (?, ?, CURRENT_DATE, CURRENT_TIME)");
+                add = con.conObj.prepareStatement("INSERT INTO FAILEDLOGINS VALUES (?, ?, CURRENT_DATE, CURRENT_TIME)");
                 add.setString(1, user);
                 add.setString(2, pass);
                 add.executeUpdate();
@@ -338,14 +305,14 @@ int counter=0;
             else if (userFound == 0)
             {
                 JOptionPane.showMessageDialog(rootPane, "Incorrect credentials");
-                add = conObj.prepareStatement("INSERT INTO FAILEDLOGINS VALUES (' ', ?, CURRENT_DATE, CURRENT_TIME)");
+                add = con.conObj.prepareStatement("INSERT INTO FAILEDLOGINS VALUES (' ', ?, CURRENT_DATE, CURRENT_TIME)");
                 add.setString(2, pass);
                 add.executeUpdate();
             }
             else if (passFound == 0)
             {
                 JOptionPane.showMessageDialog(rootPane, "Incorrect credentials");
-                add = conObj.prepareStatement("INSERT INTO FAILEDLOGINS VALUES (?, ' ', CURRENT_DATE, CURRENT_TIME)");
+                add = con.conObj.prepareStatement("INSERT INTO FAILEDLOGINS VALUES (?, ' ', CURRENT_DATE, CURRENT_TIME)");
                 add.setString(1, user);
                 add.executeUpdate();
             }
@@ -360,8 +327,8 @@ int counter=0;
         {
             try
             {
-                if(smtObj != null)
-                    smtObj.close();
+                if(con.smtObj != null)
+                    con.smtObj.close();
             }
             catch(SQLException e)
             {
