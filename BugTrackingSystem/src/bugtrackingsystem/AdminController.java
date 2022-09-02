@@ -531,13 +531,13 @@ public class AdminController extends dataConnection
         {
             if (search.isEmpty())
             {
-                command = conObj.prepareStatement("SELECT * FROM BUGS ORDER BY BUGID ASC");
+                command = conObj.prepareStatement("SELECT BUGID, BUGNAME, PROJECTID, TESTERID, DEVELOPERID, DATEASSIGNED, DATERESOLVED, TYBE AS TYPE, SEVERITY, STATUS FROM BUGS ORDER BY BUGID ASC");
             }
             else
             {
                 if (search.matches("[0-9]+"))
                 {
-                    command = conObj.prepareStatement("SELECT * FROM BUGS WHERE BUGID = ? OR PROJECTID = ? OR TESTERID = ? OR DEVELOPERID = ?");
+                    command = conObj.prepareStatement("SELECT BUGID, BUGNAME, PROJECTID, TESTERID, DEVELOPERID, DATEASSIGNED, DATERESOLVED, TYBE AS TYPE, SEVERITY, STATUS FROM BUGS WHERE BUGID = ? OR PROJECTID = ? OR TESTERID = ? OR DEVELOPERID = ?");
                     command.setInt(1, Integer.parseInt(search));
                     command.setInt(2, Integer.parseInt(search));
                     command.setInt(3, Integer.parseInt(search));
@@ -545,9 +545,12 @@ public class AdminController extends dataConnection
                 }
                 else
                 {
-                    command = conObj.prepareStatement("SELECT * FROM BUGS WHERE BUGNAME LIKE ? OR DESCRIPTION LIKE ?");
+                    command = conObj.prepareStatement("SELECT BUGID, BUGNAME, PROJECTID, TESTERID, DEVELOPERID, DATEASSIGNED, DATERESOLVED, TYBE AS TYPE, SEVERITY, STATUS FROM BUGS WHERE BUGNAME LIKE ? OR DESCRIPTION LIKE ? OR TYBE LIKE ? OR SEVERITY LIKE ? OR STATUS LIKE ?");
                     command.setString(1, "%"+search+"%");
                     command.setString(2, "%"+search+"%");
+                    command.setString(3, "%"+search+"%");
+                    command.setString(4, "%"+search+"%");
+                    command.setString(5, "%"+search+"%");
                 }
             }
             resObj = command.executeQuery();
@@ -617,12 +620,16 @@ public class AdminController extends dataConnection
 // Bugs Screen Operations 
     
 // Rating Info Operations
-    public void ViewRating() {
-        try {
+    public void ViewRating()
+    {
+        try
+        {
             getConnected("SELECT * FROM RATINGS");
             command = conObj.prepareStatement("SELECT * FROM RATINGS ORDER BY ID ASC");
             resObj = command.executeQuery();
-        } catch (SQLException ex) {
+        }
+        catch (SQLException ex)
+        {
             System.out.println(ex.getMessage());
         }
     }

@@ -1,6 +1,5 @@
 package bugtrackingsystem;
 
-import bugtrackingsystem.dataConnection.*;
 import java.awt.Font;
 import java.awt.font.TextAttribute;
 import java.util.Map;
