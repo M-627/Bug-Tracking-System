@@ -5,16 +5,8 @@
  */
 package bugtrackingsystem;
 
-import static bugtrackingsystem.dataConnection.host;
-import static bugtrackingsystem.dataConnection.pass;
-import static bugtrackingsystem.dataConnection.uname;
+
 import com.formdev.flatlaf.FlatDarkLaf;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
@@ -25,62 +17,16 @@ import javax.swing.UIManager;
 public class Rating extends javax.swing.JFrame implements Colors{
 
     
-    // DB connection objects
-    public Connection con = null;
-    public Statement st = null;
-    public ResultSet rs = null;
-    // prepared statement for queries
-    PreparedStatement command;
-    
-    // counter &ID
+    // COUNTER
     int counter = 0;
-    int id = 0 ;
+    
+    //CONTROLLER 
+    RatingController rate = new RatingController();
     
     public Rating() {
         initComponents();
     }
-
-    //generating BugID automatically
-    private void GenerateID(){
-        
-        try{
-            con = DriverManager.getConnection(host, uname, pass);
-            command = con.prepareStatement("SELECT MAX(ID) FROM BUG.RATINGS");
-            rs = command.executeQuery();
-            rs.next();
-           id = rs.getInt(1)+1;
-        }catch(Exception e){
-        e.printStackTrace();
-        }
-    }
     
-    // save rating
-    public void insertRating(){
-       try
-        {
-             System.out.println("Generating id automatically...");
-            GenerateID();
-            System.out.println("id= " + id);
-            
-            System.out.println("Connecting to database...");
-            con = DriverManager.getConnection(host, uname, pass);
-
-            System.out.println("inserting data...");
-            command = con.prepareStatement("INSERT INTO RATINGS VALUES (?,?,?,?)");
-            command.setInt(1, id);
-            command.setString(2, CurrentUser.user);
-            command.setString(3, CurrentUser.role);
-            command.setInt(4, counter);
-
-            System.out.println("excution process...");
-            command.executeUpdate();
-
-        }
-        catch (SQLException ex)
-        {
-            System.out.println(ex.getMessage());
-        }
-    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -307,53 +253,62 @@ public class Rating extends javax.swing.JFrame implements Colors{
 
     private void L1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_L1MouseClicked
         L1.setBackground(Purple);
+
         counter = 1;
-        insertRating();
-        
+
+        rate.insertRating(counter, CurrentUser.user, CurrentUser.role);
+
         System.out.println("rating added successfully...");
+
         JOptionPane.showMessageDialog(this, "Thank you for your rating");
         this.dispose();
-         new Login().setVisible(true);
+        new Login().setVisible(true);
 
     }//GEN-LAST:event_L1MouseClicked
 
     private void L1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_L1MouseEntered
         L1.setBackground(Purple);
-        
+
     }//GEN-LAST:event_L1MouseEntered
 
     private void L4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_L4MouseClicked
-         L1.setBackground(Purple);
+        L1.setBackground(Purple);
         L2.setBackground(Purple);
         L3.setBackground(Purple);
         L4.setBackground(Purple);
+
         counter = 4;
-        insertRating();
+
+        rate.insertRating(counter, CurrentUser.user, CurrentUser.role);
+
         JOptionPane.showMessageDialog(this, "Thank you for your rating");
         this.dispose();
         new Login().setVisible(true);
     }//GEN-LAST:event_L4MouseClicked
 
     private void L1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_L1MouseExited
-          L1.setBackground(Black);
+        L1.setBackground(Black);
     }//GEN-LAST:event_L1MouseExited
 
     private void L2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_L2MouseEntered
-         L1.setBackground(Purple);
-         L2.setBackground(Purple);
+        L1.setBackground(Purple);
+        L2.setBackground(Purple);
     }//GEN-LAST:event_L2MouseEntered
 
     private void L2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_L2MouseExited
-         L2.setBackground(Black);
+        L2.setBackground(Black);
     }//GEN-LAST:event_L2MouseExited
 
     private void L2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_L2MouseClicked
         L1.setBackground(Purple);
         L2.setBackground(Purple);
+
         counter = 2;
-        insertRating();
-        
+
+        rate.insertRating(counter, CurrentUser.user, CurrentUser.role);
+
         System.out.println("rating added successfully...");
+
         JOptionPane.showMessageDialog(this, "Thank you for your rating");
         this.dispose();
         new Login().setVisible(true);
@@ -363,10 +318,13 @@ public class Rating extends javax.swing.JFrame implements Colors{
         L1.setBackground(Purple);
         L2.setBackground(Purple);
         L3.setBackground(Purple);
+
         counter = 3;
-        insertRating();
-        
+
+        rate.insertRating(counter, CurrentUser.user, CurrentUser.role);
+
         System.out.println("rating added successfully...");
+
         JOptionPane.showMessageDialog(this, "Thank you for your rating");
         this.dispose();
         new Login().setVisible(true);
@@ -379,7 +337,7 @@ public class Rating extends javax.swing.JFrame implements Colors{
     }//GEN-LAST:event_L3MouseEntered
 
     private void L3MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_L3MouseExited
-       L3.setBackground(Black);
+        L3.setBackground(Black);
     }//GEN-LAST:event_L3MouseExited
 
     private void L4MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_L4MouseEntered
@@ -402,19 +360,22 @@ public class Rating extends javax.swing.JFrame implements Colors{
     }//GEN-LAST:event_L5MouseEntered
 
     private void L5MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_L5MouseExited
-         L5.setBackground(Black);
+        L5.setBackground(Black);
     }//GEN-LAST:event_L5MouseExited
 
     private void L5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_L5MouseClicked
-       L1.setBackground(Purple);
+        L1.setBackground(Purple);
         L2.setBackground(Purple);
         L3.setBackground(Purple);
         L4.setBackground(Purple);
         L5.setBackground(Purple);
+
         counter = 5;
-        insertRating();
-        
+
+        rate.insertRating(counter, CurrentUser.user, CurrentUser.role);
+
         System.out.println("rating added successfully...");
+
         JOptionPane.showMessageDialog(this, "Thank you for your rating");
         this.dispose();
         new Login().setVisible(true);
@@ -429,12 +390,9 @@ public class Rating extends javax.swing.JFrame implements Colors{
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try 
-        {
-                UIManager.setLookAndFeel(new FlatDarkLaf());
-        } 
-        catch (Exception e)
-        {
+        try {
+            UIManager.setLookAndFeel(new FlatDarkLaf());
+        } catch (Exception e) {
             e.printStackTrace();
         }
         //</editor-fold>
