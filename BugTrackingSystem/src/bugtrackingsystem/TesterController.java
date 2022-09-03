@@ -122,7 +122,7 @@ public class TesterController extends dataConnection {
             retID = Integer.toString(resObj.getInt("BUGID"));
             retName = resObj.getString("BUGNAME");
             retSeverity = resObj.getString("SEVERITY");
-            retType = resObj.getString("TYPE");
+            retType = resObj.getString("TYBE");
             retDescription = resObj.getString("DESCRIPTION");
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
