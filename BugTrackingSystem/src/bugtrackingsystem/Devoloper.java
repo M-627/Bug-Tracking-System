@@ -37,7 +37,7 @@ public class Devoloper extends javax.swing.JFrame implements Colors {
        DeveloperName.setText(CurrentUser.user);
         
        proj_number.setText(String.valueOf(Card(0)));
-       BUG_number.setText(String.valueOf(Card(1)));
+       BUG_number.setText(String.valueOf(Card(3)));
 
     }
     Connection conObj = null;
@@ -54,12 +54,13 @@ public class Devoloper extends javax.swing.JFrame implements Colors {
         {
             conObj = DriverManager.getConnection(host, uname, pass);
             smtObj = conObj.createStatement( ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY );
-            command=conObj.prepareStatement("select PROJECTS.PROJECTNAME, PROJECTS.CREATIONDATE, BUGS.BUGNAME, BUGS.DATEASSIGNED FROM ASSIGNMENTS INNER JOIN PROJECTS ON PROJECTS.PROJECTID = ASSIGNMENTS.PROJECTID INNER JOIN BUGS ON BUGS.PROJECTID = ASSIGNMENTS.PROJECTID WHERE ASSIGNMENTS.USERID=? " );
+            command=conObj.prepareStatement("select  BUGS.BUGNAME, BUGS.BUGID, PROJECTS.CREATIONDATE, PROJECTS.PROJECTNAME, BUGS.DATEASSIGNED FROM BUGS INNER JOIN PROJECTS ON BUGS.PROJECTID = PROJECTS.PROJECTID WHERE BUGS.DEVELOPERID = ? AND BUGS.STATUS = ? " );
             command.setInt(1,CurrentUser.id);
+            command.setString(2,"I");
             resObj=command.executeQuery();
-//resObj = smtObj.executeQuery("SELECT USERS.USERNAME, PROJECTS.PROJECTNAME, PROJECTS.CREATIONDATE FROM ASSIGNMENTS INNER JOIN PROJECTS ON PROJECTS.PROJECTID = ASSIGNMENTS.PROJECTID RIGHT JOIN USERS ON USERS.USERID = ASSIGNMENTS.USERID where projects.projectid=?");
+            //resObj = smtObj.executeQuery("SELECT USERS.USERNAME, PROJECTS.PROJECTNAME, PROJECTS.CREATIONDATE FROM ASSIGNMENTS INNER JOIN PROJECTS ON PROJECTS.PROJECTID = ASSIGNMENTS.PROJECTID RIGHT JOIN USERS ON USERS.USERID = ASSIGNMENTS.USERID where projects.projectid=?");
             //resObj = smtObj.executeQuery("SELECT DISTINCT USERS.USERNAME, PROJECTS.PROJECTNAME FROM  ASSIGNMENTS INNER JOIN PROJECTS ON PROJECTS.PROJECTID = ASSIGNMENTS.PROJECTID INNER JOIN USERS ON USERS.USERID = ASSIGNMENTS.USERID INNER JOIN BUGS ON BUGS.PROJECTID=ASSIGNMENTS.PROJECTID");
-           // resObj = smtObj.executeQuery("SELECT PROJECTS.PROJECTNAME FROM ASSIGNMENTS INNER JOIN PROJECTS ON PROJECTS.PROJECTID = ASSIGNMENTS.PROJECTID WHERE ASSIGNMENTS.USERID=? ");
+            // resObj = smtObj.executeQuery("SELECT PROJECTS.PROJECTNAME FROM ASSIGNMENTS INNER JOIN PROJECTS ON PROJECTS.PROJECTID = ASSIGNMENTS.PROJECTID WHERE ASSIGNMENTS.USERID=? ");
             
             Dashboard_table.setModel(DbUtils.resultSetToTableModel(resObj));
         }
@@ -121,17 +122,37 @@ public class Devoloper extends javax.swing.JFrame implements Colors {
         NameLabel = new javax.swing.JLabel();
         NameOfBug = new javax.swing.JTextField();
         TesterIdLabel = new javax.swing.JLabel();
-        IDOfTester = new javax.swing.JTextField();
+        SAVERTY = new javax.swing.JTextField();
         DeveloperNameLabel = new javax.swing.JLabel();
-        IdOfDeveloper = new javax.swing.JTextField();
+        TYPE = new javax.swing.JTextField();
         DescriptionLabel = new javax.swing.JLabel();
         Description = new javax.swing.JTextField();
         StatusLabel = new javax.swing.JLabel();
         StatusBox = new javax.swing.JComboBox<>();
         SeverityLabel = new javax.swing.JLabel();
-        SeverityBox = new javax.swing.JComboBox<>();
         TypeLabel = new javax.swing.JLabel();
-        TypeBox = new javax.swing.JComboBox<>();
+        IDOfTester2 = new javax.swing.JTextField();
+        IdOfDeveloper2 = new javax.swing.JTextField();
+        STATUSF = new javax.swing.JTextField();
+        BugDetails1 = new javax.swing.JPanel();
+        CancelButton2 = new javax.swing.JButton();
+        BugDetailsLabel1 = new javax.swing.JLabel();
+        ProjectIdLabel1 = new javax.swing.JLabel();
+        IDOfProject1 = new javax.swing.JTextField();
+        NameLabel1 = new javax.swing.JLabel();
+        NameOfBug1 = new javax.swing.JTextField();
+        TesterIdLabel1 = new javax.swing.JLabel();
+        IDOfTester1 = new javax.swing.JTextField();
+        DeveloperNameLabel1 = new javax.swing.JLabel();
+        IdOfDeveloper1 = new javax.swing.JTextField();
+        DescriptionLabel1 = new javax.swing.JLabel();
+        Description1 = new javax.swing.JTextField();
+        StatusLabel1 = new javax.swing.JLabel();
+        SeverityLabel1 = new javax.swing.JLabel();
+        TypeLabel1 = new javax.swing.JLabel();
+        severity = new javax.swing.JTextField();
+        type = new javax.swing.JTextField();
+        Status = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(217, 217, 217));
@@ -141,12 +162,12 @@ public class Devoloper extends javax.swing.JFrame implements Colors {
         SidePanel.setPreferredSize(new java.awt.Dimension(340, 768));
 
         DeveloperName.setFont(new java.awt.Font("Times New Roman", 1, 30)); // NOI18N
-        DeveloperName.setForeground(new java.awt.Color(133, 89, 165));
+        DeveloperName.setForeground(new java.awt.Color(150, 89, 165));
         DeveloperName.setText("Devoloper Name");
 
         testerLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/person tester.png"))); // NOI18N
 
-        Dashlogo.setBackground(new java.awt.Color(133, 89, 165));
+        Dashlogo.setBackground(new java.awt.Color(150, 89, 165));
         Dashlogo.setFont(new java.awt.Font("Times New Roman", 1, 30)); // NOI18N
         Dashlogo.setForeground(new java.awt.Color(50, 50, 50));
         Dashlogo.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -297,6 +318,11 @@ public class Devoloper extends javax.swing.JFrame implements Colors {
         ));
         Dashboard_table.setPreferredSize(new java.awt.Dimension(535, 1320));
         Dashboard_table.setRowHeight(35);
+        Dashboard_table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Dashboard_tableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(Dashboard_table);
 
         noOfProjects.setBackground(new java.awt.Color(50, 50, 50));
@@ -357,21 +383,21 @@ public class Devoloper extends javax.swing.JFrame implements Colors {
         noOfBugs1Layout.setHorizontalGroup(
             noOfBugs1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(noOfBugs1Layout.createSequentialGroup()
-                .addGap(83, 83, 83)
-                .addComponent(BUG_number, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(141, 141, 141)
+                .addComponent(BUG_number)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         noOfBugs1Layout.setVerticalGroup(
             noOfBugs1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(noOfBugs1Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addGap(26, 26, 26)
                 .addComponent(BUG_number)
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         BugNumber1.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         BugNumber1.setForeground(new java.awt.Color(50, 50, 50));
-        BugNumber1.setText("Number of bugs assigned to you:-");
+        BugNumber1.setText("Number of bugs assigned to you in progress:-");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -383,10 +409,10 @@ public class Devoloper extends javax.swing.JFrame implements Colors {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(noOfProjects, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ProjectNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(281, 281, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(noOfBugs1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                    .addComponent(BugNumber1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))
+                    .addComponent(noOfBugs1, javax.swing.GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
+                    .addComponent(BugNumber1, javax.swing.GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE))
                 .addGap(57, 57, 57))
         );
         jPanel2Layout.setVerticalGroup(
@@ -640,7 +666,7 @@ public class Devoloper extends javax.swing.JFrame implements Colors {
         CancelButton1.setBackground(new java.awt.Color(133, 89, 165));
         CancelButton1.setFont(new java.awt.Font("Times New Roman", 1, 21)); // NOI18N
         CancelButton1.setForeground(new java.awt.Color(50, 50, 50));
-        CancelButton1.setText("Cancel");
+        CancelButton1.setText("Back");
         CancelButton1.setPreferredSize(new java.awt.Dimension(150, 45));
         CancelButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -742,9 +768,9 @@ public class Devoloper extends javax.swing.JFrame implements Colors {
         TesterIdLabel.setText("Reporter Name:");
         TesterIdLabel.setPreferredSize(new java.awt.Dimension(150, 45));
 
-        IDOfTester.setBackground(new java.awt.Color(50, 50, 50));
-        IDOfTester.setForeground(new java.awt.Color(217, 217, 217));
-        IDOfTester.setPreferredSize(new java.awt.Dimension(219, 45));
+        SAVERTY.setBackground(new java.awt.Color(50, 50, 50));
+        SAVERTY.setForeground(new java.awt.Color(217, 217, 217));
+        SAVERTY.setPreferredSize(new java.awt.Dimension(219, 45));
 
         DeveloperNameLabel.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         DeveloperNameLabel.setForeground(new java.awt.Color(109, 177, 147));
@@ -752,12 +778,12 @@ public class Devoloper extends javax.swing.JFrame implements Colors {
         DeveloperNameLabel.setText("Developer Name:");
         DeveloperNameLabel.setPreferredSize(new java.awt.Dimension(150, 45));
 
-        IdOfDeveloper.setBackground(new java.awt.Color(50, 50, 50));
-        IdOfDeveloper.setForeground(new java.awt.Color(217, 217, 217));
-        IdOfDeveloper.setPreferredSize(new java.awt.Dimension(219, 45));
-        IdOfDeveloper.addActionListener(new java.awt.event.ActionListener() {
+        TYPE.setBackground(new java.awt.Color(50, 50, 50));
+        TYPE.setForeground(new java.awt.Color(217, 217, 217));
+        TYPE.setPreferredSize(new java.awt.Dimension(219, 45));
+        TYPE.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                IdOfDeveloperActionPerformed(evt);
+                TYPEActionPerformed(evt);
             }
         });
 
@@ -784,7 +810,12 @@ public class Devoloper extends javax.swing.JFrame implements Colors {
 
         StatusBox.setBackground(new java.awt.Color(50, 50, 50));
         StatusBox.setForeground(new java.awt.Color(217, 217, 217));
-        StatusBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-----", "Open", "In progress", "To be tested", "Closed" }));
+        StatusBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "In progress", "To be tested" }));
+        StatusBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                StatusBoxActionPerformed(evt);
+            }
+        });
 
         SeverityLabel.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         SeverityLabel.setForeground(new java.awt.Color(109, 177, 147));
@@ -792,19 +823,28 @@ public class Devoloper extends javax.swing.JFrame implements Colors {
         SeverityLabel.setText("Severity:");
         SeverityLabel.setPreferredSize(new java.awt.Dimension(150, 45));
 
-        SeverityBox.setBackground(new java.awt.Color(50, 50, 50));
-        SeverityBox.setForeground(new java.awt.Color(217, 217, 217));
-        SeverityBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-----", "Critical", "Major", "Moderate", "Minor", "Cosmitic" }));
-
         TypeLabel.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         TypeLabel.setForeground(new java.awt.Color(109, 177, 147));
         TypeLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         TypeLabel.setText("Type:");
         TypeLabel.setPreferredSize(new java.awt.Dimension(150, 45));
 
-        TypeBox.setBackground(new java.awt.Color(50, 50, 50));
-        TypeBox.setForeground(new java.awt.Color(217, 217, 217));
-        TypeBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-----", "Content", "Functional", "Visual", " " }));
+        IDOfTester2.setBackground(new java.awt.Color(50, 50, 50));
+        IDOfTester2.setForeground(new java.awt.Color(217, 217, 217));
+        IDOfTester2.setPreferredSize(new java.awt.Dimension(219, 45));
+
+        IdOfDeveloper2.setBackground(new java.awt.Color(50, 50, 50));
+        IdOfDeveloper2.setForeground(new java.awt.Color(217, 217, 217));
+        IdOfDeveloper2.setPreferredSize(new java.awt.Dimension(219, 45));
+        IdOfDeveloper2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                IdOfDeveloper2ActionPerformed(evt);
+            }
+        });
+
+        STATUSF.setBackground(new java.awt.Color(50, 50, 50));
+        STATUSF.setForeground(new java.awt.Color(217, 217, 217));
+        STATUSF.setPreferredSize(new java.awt.Dimension(219, 45));
 
         javax.swing.GroupLayout BugDetailsLayout = new javax.swing.GroupLayout(BugDetails);
         BugDetails.setLayout(BugDetailsLayout);
@@ -815,7 +855,8 @@ public class Devoloper extends javax.swing.JFrame implements Colors {
                 .addGroup(BugDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(BugDetailsLayout.createSequentialGroup()
                         .addComponent(BugDetailsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(420, 420, 420)
+                        .addComponent(STATUSF, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(BugDetailsLayout.createSequentialGroup()
                         .addGroup(BugDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(DescriptionLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
@@ -834,40 +875,53 @@ public class Devoloper extends javax.swing.JFrame implements Colors {
                                     .addGroup(BugDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addComponent(NameOfBug, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(IDOfProject, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(IDOfTester, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(IdOfDeveloper, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(IDOfTester2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(IdOfDeveloper2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(BugDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(BugDetailsLayout.createSequentialGroup()
-                                        .addGap(42, 42, 42)
-                                        .addGroup(BugDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(TypeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(StatusLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(SeverityLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(38, 38, 38)
                                         .addGroup(BugDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(SeverityBox, 0, 1, Short.MAX_VALUE)
+                                            .addGroup(BugDetailsLayout.createSequentialGroup()
+                                                .addGap(62, 62, 62)
+                                                .addGroup(BugDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                    .addComponent(SeverityLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(StatusLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(18, 18, 18))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BugDetailsLayout.createSequentialGroup()
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(TypeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                        .addGroup(BugDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(StatusBox, 0, 0, Short.MAX_VALUE)
-                                            .addComponent(TypeBox, javax.swing.GroupLayout.Alignment.TRAILING, 0, 1, Short.MAX_VALUE)))
+                                            .addComponent(SAVERTY, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(TYPE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BugDetailsLayout.createSequentialGroup()
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(EditButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(93, 93, 93))))
-                            .addComponent(Description, javax.swing.GroupLayout.DEFAULT_SIZE, 773, Short.MAX_VALUE))
-                        .addGap(42, 42, 42))))
+                            .addComponent(Description, javax.swing.GroupLayout.DEFAULT_SIZE, 773, Short.MAX_VALUE))))
+                .addGap(42, 42, 42))
         );
         BugDetailsLayout.setVerticalGroup(
             BugDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(BugDetailsLayout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(BugDetailsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(BugDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(ProjectIdLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
-                    .addComponent(StatusBox)
-                    .addGroup(BugDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(IDOfProject, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(StatusLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(30, 30, 30)
+                .addGroup(BugDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(BugDetailsLayout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(BugDetailsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(BugDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(ProjectIdLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
+                            .addComponent(IDOfProject, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(38, 38, 38))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BugDetailsLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(BugDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(StatusLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(BugDetailsLayout.createSequentialGroup()
+                                .addComponent(STATUSF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(StatusBox, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(BugDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(NameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(NameOfBug, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -875,15 +929,15 @@ public class Devoloper extends javax.swing.JFrame implements Colors {
                 .addGap(30, 30, 30)
                 .addGroup(BugDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TesterIdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(IDOfTester, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(SAVERTY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(SeverityLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(SeverityBox, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(IDOfTester2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30)
                 .addGroup(BugDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(DeveloperNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(IdOfDeveloper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TypeBox, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TypeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(TYPE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TypeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(IdOfDeveloper2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30)
                 .addGroup(BugDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(DescriptionLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -892,10 +946,227 @@ public class Devoloper extends javax.swing.JFrame implements Colors {
                 .addGroup(BugDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(CancelButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ConfirmButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(87, Short.MAX_VALUE))
+                .addContainerGap(79, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Bug Details", BugDetails);
+
+        BugDetails1.setBackground(new java.awt.Color(50, 50, 50));
+        BugDetails1.setForeground(new java.awt.Color(217, 217, 217));
+        BugDetails1.setToolTipText("");
+        BugDetails1.setMaximumSize(new java.awt.Dimension(3700, 3700));
+        BugDetails1.setPreferredSize(new java.awt.Dimension(1025, 733));
+
+        CancelButton2.setBackground(new java.awt.Color(133, 89, 165));
+        CancelButton2.setFont(new java.awt.Font("Times New Roman", 1, 21)); // NOI18N
+        CancelButton2.setForeground(new java.awt.Color(50, 50, 50));
+        CancelButton2.setText("Back");
+        CancelButton2.setPreferredSize(new java.awt.Dimension(150, 45));
+        CancelButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                CancelButton2MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                CancelButton2MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                CancelButton2MouseExited(evt);
+            }
+        });
+        CancelButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CancelButton2ActionPerformed(evt);
+            }
+        });
+
+        BugDetailsLabel1.setFont(new java.awt.Font("Times New Roman", 1, 27)); // NOI18N
+        BugDetailsLabel1.setForeground(new java.awt.Color(133, 89, 165));
+        BugDetailsLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        BugDetailsLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/bugs.png"))); // NOI18N
+        BugDetailsLabel1.setText("Bug Details:");
+        BugDetailsLabel1.setPreferredSize(new java.awt.Dimension(800, 90));
+
+        ProjectIdLabel1.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        ProjectIdLabel1.setForeground(new java.awt.Color(109, 177, 147));
+        ProjectIdLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ProjectIdLabel1.setText("Project ID:");
+        ProjectIdLabel1.setPreferredSize(new java.awt.Dimension(150, 45));
+
+        IDOfProject1.setBackground(new java.awt.Color(50, 50, 50));
+        IDOfProject1.setForeground(new java.awt.Color(217, 217, 217));
+        IDOfProject1.setPreferredSize(new java.awt.Dimension(219, 45));
+
+        NameLabel1.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        NameLabel1.setForeground(new java.awt.Color(109, 177, 147));
+        NameLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        NameLabel1.setText("Bug Name:");
+        NameLabel1.setToolTipText("");
+        NameLabel1.setPreferredSize(new java.awt.Dimension(150, 45));
+
+        NameOfBug1.setBackground(new java.awt.Color(50, 50, 50));
+        NameOfBug1.setForeground(new java.awt.Color(217, 217, 217));
+        NameOfBug1.setPreferredSize(new java.awt.Dimension(219, 45));
+        NameOfBug1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                NameOfBug1FocusLost(evt);
+            }
+        });
+
+        TesterIdLabel1.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        TesterIdLabel1.setForeground(new java.awt.Color(109, 177, 147));
+        TesterIdLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        TesterIdLabel1.setText("Reporter Name:");
+        TesterIdLabel1.setPreferredSize(new java.awt.Dimension(150, 45));
+
+        IDOfTester1.setBackground(new java.awt.Color(50, 50, 50));
+        IDOfTester1.setForeground(new java.awt.Color(217, 217, 217));
+        IDOfTester1.setPreferredSize(new java.awt.Dimension(219, 45));
+
+        DeveloperNameLabel1.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        DeveloperNameLabel1.setForeground(new java.awt.Color(109, 177, 147));
+        DeveloperNameLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        DeveloperNameLabel1.setText("Developer Name:");
+        DeveloperNameLabel1.setPreferredSize(new java.awt.Dimension(150, 45));
+
+        IdOfDeveloper1.setBackground(new java.awt.Color(50, 50, 50));
+        IdOfDeveloper1.setForeground(new java.awt.Color(217, 217, 217));
+        IdOfDeveloper1.setPreferredSize(new java.awt.Dimension(219, 45));
+        IdOfDeveloper1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                IdOfDeveloper1ActionPerformed(evt);
+            }
+        });
+
+        DescriptionLabel1.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        DescriptionLabel1.setForeground(new java.awt.Color(109, 177, 147));
+        DescriptionLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        DescriptionLabel1.setText("Description:");
+        DescriptionLabel1.setPreferredSize(new java.awt.Dimension(150, 45));
+
+        Description1.setBackground(new java.awt.Color(50, 50, 50));
+        Description1.setForeground(new java.awt.Color(217, 217, 217));
+        Description1.setPreferredSize(new java.awt.Dimension(743, 89));
+        Description1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Description1ActionPerformed(evt);
+            }
+        });
+
+        StatusLabel1.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        StatusLabel1.setForeground(new java.awt.Color(109, 177, 147));
+        StatusLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        StatusLabel1.setText("Status:");
+        StatusLabel1.setPreferredSize(new java.awt.Dimension(150, 45));
+
+        SeverityLabel1.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        SeverityLabel1.setForeground(new java.awt.Color(109, 177, 147));
+        SeverityLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        SeverityLabel1.setText("Severity:");
+        SeverityLabel1.setPreferredSize(new java.awt.Dimension(150, 45));
+
+        TypeLabel1.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        TypeLabel1.setForeground(new java.awt.Color(109, 177, 147));
+        TypeLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        TypeLabel1.setText("Type:");
+        TypeLabel1.setPreferredSize(new java.awt.Dimension(150, 45));
+
+        severity.setBackground(new java.awt.Color(50, 50, 50));
+        severity.setForeground(new java.awt.Color(217, 217, 217));
+        severity.setPreferredSize(new java.awt.Dimension(219, 45));
+
+        type.setBackground(new java.awt.Color(50, 50, 50));
+        type.setForeground(new java.awt.Color(217, 217, 217));
+        type.setPreferredSize(new java.awt.Dimension(219, 45));
+
+        Status.setBackground(new java.awt.Color(50, 50, 50));
+        Status.setForeground(new java.awt.Color(217, 217, 217));
+        Status.setPreferredSize(new java.awt.Dimension(219, 45));
+
+        javax.swing.GroupLayout BugDetails1Layout = new javax.swing.GroupLayout(BugDetails1);
+        BugDetails1.setLayout(BugDetails1Layout);
+        BugDetails1Layout.setHorizontalGroup(
+            BugDetails1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(BugDetails1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(BugDetails1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(BugDetails1Layout.createSequentialGroup()
+                        .addComponent(BugDetailsLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(BugDetails1Layout.createSequentialGroup()
+                        .addGroup(BugDetails1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(DescriptionLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
+                            .addComponent(DeveloperNameLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(TesterIdLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(NameLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ProjectIdLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(BugDetails1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(BugDetails1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(CancelButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(BugDetails1Layout.createSequentialGroup()
+                                .addGroup(BugDetails1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(BugDetails1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(NameOfBug1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(IDOfProject1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(IDOfTester1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(IdOfDeveloper1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(BugDetails1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(BugDetails1Layout.createSequentialGroup()
+                                        .addGap(85, 85, 85)
+                                        .addGroup(BugDetails1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(StatusLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(SeverityLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BugDetails1Layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(TypeLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(BugDetails1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(type, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(severity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(Status, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(Description1, javax.swing.GroupLayout.DEFAULT_SIZE, 773, Short.MAX_VALUE))
+                        .addGap(42, 42, 42))))
+        );
+        BugDetails1Layout.setVerticalGroup(
+            BugDetails1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(BugDetails1Layout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addComponent(BugDetailsLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(BugDetails1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(ProjectIdLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
+                    .addGroup(BugDetails1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(IDOfProject1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(StatusLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Status, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(30, 30, 30)
+                .addGroup(BugDetails1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(NameLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(NameOfBug1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30)
+                .addGroup(BugDetails1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(TesterIdLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(IDOfTester1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(SeverityLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(severity, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30)
+                .addGroup(BugDetails1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(DeveloperNameLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(IdOfDeveloper1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TypeLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(type, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30)
+                .addGroup(BugDetails1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(DescriptionLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(Description1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(65, 65, 65)
+                .addComponent(CancelButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(87, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Bug Details", BugDetails1);
 
         getContentPane().add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 10, 1030, 760));
 
@@ -931,6 +1202,7 @@ public class Devoloper extends javax.swing.JFrame implements Colors {
     }//GEN-LAST:event_ProjectLogoMouseClicked
 
     private void DashlogoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DashlogoMouseClicked
+    getConnected();
     jTabbedPane1.setSelectedIndex(0);
     Dashlogo.setBackground(Purple);
     Dashlogo.setForeground(Black);
@@ -953,7 +1225,7 @@ public class Devoloper extends javax.swing.JFrame implements Colors {
     choose=3;
         try
         {
-           command=conObj.prepareStatement("select bugs.bugname, bugs.description, bugs.dateassigned , bugs.dateresolved FROM BUGS WHERE DEVELOPERID = ?" );
+           command=conObj.prepareStatement("select BUGS.BUGID, bugs.bugname, bugs.description, bugs.dateassigned , bugs.dateresolved FROM BUGS WHERE DEVELOPERID = ?" );
            command.setInt(1,CurrentUser.id);
            resObj=command.executeQuery();
             Bugs_table.setModel(DbUtils.resultSetToTableModel(resObj));
@@ -1016,7 +1288,7 @@ public class Devoloper extends javax.swing.JFrame implements Colors {
     }//GEN-LAST:event_BugLogoMouseExited
 
     private void LogoutLogoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LogoutLogoMouseClicked
-        Login y = new Login();
+        Rating y = new Rating();
         y.show();
         dispose();
 // TODO add your handling code here:
@@ -1061,34 +1333,49 @@ public class Devoloper extends javax.swing.JFrame implements Colors {
             String[] arr = selectedBug(selectedID);
 
             jTabbedPane1.setSelectedIndex(3);
+            STATUSF.setVisible(true);
             NameOfBug.setEnabled(false);
             IDOfProject.setEnabled(false);
-            IDOfTester.setEnabled(false);
-            IdOfDeveloper.setEnabled(false);
+            IdOfDeveloper2.setEnabled(false);
+            IDOfTester2.setEnabled(false);
+            SAVERTY.setEnabled(false);
+            TYPE.setEnabled(false);
             Description.setEnabled(false);
-            StatusBox.setEnabled(false);
-            SeverityBox.setEnabled(false);
-            TypeBox.setEnabled(false);
+            StatusBox.setVisible(false);
+            SAVERTY.setEnabled(false);
+            TYPE.setEnabled(false);
+            ConfirmButton.setEnabled(false);
+            STATUSF.setEnabled(false);
+            EditButton.setVisible(true);
 
             System.out.println("check if the status of this bug is closed or not to  make add&update&delete buttons to be unvisible...");
-            String status = arr[6];
-            System.out.println("status = " + arr[6]);
+            String status = arr[5];
+            System.out.println("status = " + arr[5]);
 
-            if (status == null) {
-                status = "---";
-            }
-
-            if (status.equals("C")) {
-                ConfirmButton.setEnabled(false);
+            switch (status) {
+            case "O":
+                STATUSF.setText("Open");
                 EditButton.setVisible(false);
-            } else if (!"C".equals(status) && Integer.parseInt(arr[3]) != CurrentUser.id) {
-                ConfirmButton.setEnabled(false);
+                break;
+            case "T":
+                STATUSF.setText("To be tested");
+                StatusBox.setSelectedIndex(1);
+                break;
+            case "I":
+                STATUSF.setText("In progress");
+                StatusBox.setSelectedIndex(0);
+                break;
+            case "C":
+                STATUSF.setText("Closed");
                 EditButton.setVisible(false);
-            } else if (!"C".equals(status) && Integer.parseInt(arr[3]) == CurrentUser.id) {
-                ConfirmButton.setEnabled(false);
-                EditButton.setVisible(true);
-            }
+                break;
 
+            default:
+                break;
+        }
+            
+            
+           
             System.out.println("storing data in its place in text fields...");
 
             System.out.println("Name = " + arr[0]);
@@ -1098,82 +1385,22 @@ public class Devoloper extends javax.swing.JFrame implements Colors {
             IDOfProject.setText(arr[1]);
 
             System.out.println("TNAME = " + arr[2]);
-            IDOfTester.setText(arr[2]);
+            IDOfTester2.setText(arr[2]);
 
-            System.out.println("DNAME = " + arr[4]);
-            IdOfDeveloper.setText(arr[4]);
+            System.out.println("DNAME = " + arr[3]);
+            IdOfDeveloper2.setText(arr[3]);
 
-            System.out.println("Description = " + arr[5]);
-            Description.setText(arr[5]);
+            System.out.println("Description = " + arr[4]);
+            Description.setText(arr[4]);
 
-            switch (status) {
-                case "O":
-                StatusBox.setSelectedIndex(1);
-                break;
-                case "I":
-                StatusBox.setSelectedIndex(2);
-                break;
-                case "T":
-                StatusBox.setSelectedIndex(3);
-                break;
-                case "C":
-                StatusBox.setSelectedIndex(4);
-                break;
-                default:
-                StatusBox.setSelectedIndex(0);
-                break;
-            }
-
-            String Severity = arr[7];
+            String Severity = arr[6];
             System.out.println("severity = " + Severity);
+            SAVERTY.setText(arr[6]);
 
-            if (Severity == null) {
-                Severity = "---";
-            }
-
-            switch (Severity) {
-                case "Critical":
-                SeverityBox.setSelectedIndex(1);
-                break;
-                case "Major":
-                SeverityBox.setSelectedIndex(2);
-                break;
-                case "Moderate":
-                SeverityBox.setSelectedIndex(3);
-                break;
-                case "Minor":
-                SeverityBox.setSelectedIndex(4);
-                break;
-                case "Cosmitic":
-                SeverityBox.setSelectedIndex(5);
-                break;
-                default:
-                SeverityBox.setSelectedIndex(0);
-                break;
-            }
-
-            String Type = arr[8];
+            String Type = arr[7];
             System.out.println("Type = " + Type);
-
-            if (Type == null) {
-                Type = "---";
-            }
-
-            switch (Type) {
-                case "Content":
-                TypeBox.setSelectedIndex(1);
-                break;
-                case "Functional":
-                TypeBox.setSelectedIndex(2);
-                break;
-                case "Visual":
-                TypeBox.setSelectedIndex(3);
-                break;
-                default:
-                TypeBox.setSelectedIndex(0);
-                break;
-            }
-
+            TYPE.setText(arr[7]);
+            
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
@@ -1194,16 +1421,8 @@ public class Devoloper extends javax.swing.JFrame implements Colors {
         // TODO add your handling code here:
     }//GEN-LAST:event_Search2ActionPerformed
 
-    private void noOfBugs1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_noOfBugs1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_noOfBugs1MouseClicked
-
-    private void BUG_numberMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BUG_numberMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BUG_numberMouseClicked
-
     private void CancelButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CancelButton1MouseClicked
-        this.dispose();
+        jTabbedPane1.setSelectedIndex(2);
     }//GEN-LAST:event_CancelButton1MouseClicked
 
     private void CancelButton1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CancelButton1MouseEntered
@@ -1219,40 +1438,40 @@ public class Devoloper extends javax.swing.JFrame implements Colors {
     }//GEN-LAST:event_CancelButton1ActionPerformed
 
     private void ConfirmButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ConfirmButtonMouseClicked
-        int TID;
-        String status;
-        String Severity = "";
-        String Type = "";
         int done;
         
-        if (edit == 1) {
-            done =UpdateStatus((int) StatusBox.getSelectedItem());
+        
+            done =UpdateStatus(BugId , StatusBox.getSelectedIndex());
             if (done == 1) {
                 JOptionPane.showMessageDialog(this, "Information Updated succesfully");
-                jTabbedPane1.setSelectedIndex(0);
-
-                // RELOAD TABLE
-                ViewProjectBugsTable();
-                 Bugs_table.setModel(DbUtils.resultSetToTableModel(getResObj()));
-
-                jTabbedPane1.setSelectedIndex(2);
-            }
-
+                BUG_number.setText(String.valueOf(Card(3)));
+                DashlogoMouseClicked(evt);                
+              
         }
     }//GEN-LAST:event_ConfirmButtonMouseClicked
   public ResultSet getResObj() {
         return resObj;
     }
-    public int UpdateStatus(int Status) {
+    public int UpdateStatus(int ID,int status) {
         try {
-           // String status = " ";
+            String Status = " ";
             conObj = DriverManager.getConnection(host, uname, pass);
             smtObj = conObj.createStatement( ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY );
             command=conObj.prepareStatement("SELECT * FROM BUGS" );
-
-            command = conObj.prepareStatement("UPDATE BUGS SET STATUS = ?");
-            command.setInt(1,Status);
-
+            switch (status) {
+                case 0:
+                    Status = "I";
+                    break;
+                case 1:
+                    Status = "T";
+                    break;
+                default:
+                    
+                    break;
+            }
+            command = conObj.prepareStatement("UPDATE BUGS SET STATUS =? where bugid=?");
+            command.setString(1,Status);
+            command.setInt (2,ID);
 
             System.out.println(" excute the query...");
 
@@ -1293,13 +1512,14 @@ public class Devoloper extends javax.swing.JFrame implements Colors {
     }//GEN-LAST:event_ConfirmButtonActionPerformed
 
     private void EditButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EditButtonMouseClicked
-        edit = 1;
+        STATUSF.setVisible(false);
+        StatusBox.setVisible(true);
         Description.setEnabled(false);
-        StatusBox.setEnabled(true);
-        SeverityBox.setEnabled(false);
-        TypeBox.setEnabled(false);
-        ConfirmButton.setEnabled(false);
+        SAVERTY.setEnabled(false);
+        TYPE.setEnabled(false);
+        ConfirmButton.setEnabled(true);
         BugId = CurrentBug.BugId;
+        
     }//GEN-LAST:event_EditButtonMouseClicked
 
     private void EditButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EditButtonMouseEntered
@@ -1321,13 +1541,101 @@ public class Devoloper extends javax.swing.JFrame implements Colors {
        // }
     }//GEN-LAST:event_NameOfBugFocusLost
 
-    private void IdOfDeveloperActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IdOfDeveloperActionPerformed
+    private void TYPEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TYPEActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_IdOfDeveloperActionPerformed
+    }//GEN-LAST:event_TYPEActionPerformed
 
     private void DescriptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DescriptionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_DescriptionActionPerformed
+
+    private void noOfBugs1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_noOfBugs1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_noOfBugs1MouseClicked
+
+    private void BUG_numberMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BUG_numberMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BUG_numberMouseClicked
+
+    private void StatusBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StatusBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_StatusBoxActionPerformed
+
+    private void CancelButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CancelButton2MouseClicked
+            jTabbedPane1.setSelectedIndex(0);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CancelButton2MouseClicked
+
+    private void CancelButton2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CancelButton2MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CancelButton2MouseEntered
+
+    private void CancelButton2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CancelButton2MouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CancelButton2MouseExited
+
+    private void CancelButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CancelButton2ActionPerformed
+
+    private void NameOfBug1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_NameOfBug1FocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_NameOfBug1FocusLost
+
+    private void IdOfDeveloper1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IdOfDeveloper1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_IdOfDeveloper1ActionPerformed
+
+    private void Description1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Description1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Description1ActionPerformed
+
+    private void Dashboard_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Dashboard_tableMouseClicked
+         System.out.println("storing the value of row choosen...");
+
+            int selectedID = (int) Dashboard_table.getValueAt(Dashboard_table.getSelectedRow(), 1);
+            CurrentBug bug = new CurrentBug((selectedID));
+           // BugId = CurrentBug.BugId;
+            String[] arr = selectedBug(selectedID);    
+            jTabbedPane1.setSelectedIndex(4);
+            IDOfProject1.setText(arr[1]);
+            IDOfProject1.setEnabled(false);
+            NameOfBug1.setText(arr[0]);
+            NameOfBug1.setEnabled(false);
+            IDOfTester1.setText(arr[2]);
+            IDOfTester1.setEnabled(false);
+            IdOfDeveloper1.setText(arr[3]);
+            IdOfDeveloper1.setEnabled(false);
+            Description1.setText(arr[4]);
+            Description1.setEnabled(false);
+             switch (arr[5]) {
+            case "O":
+                Status.setText("Open");
+                break;
+            case "T":
+                Status.setText("TO BE TESTED");
+                break;
+            case "I":
+                Status.setText("IN PROGRESS");
+                break;
+            case "C":
+                Status.setText("CLOSED");
+                break;
+
+            default:
+                break;
+        }
+            Status.setEnabled(false);
+            severity.setText(arr[6]);
+            severity.setEnabled(false);
+            type.setText(arr[7]);
+            type.setEnabled(false);
+// TODO add your handling code here:
+    }//GEN-LAST:event_Dashboard_tableMouseClicked
+
+    private void IdOfDeveloper2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IdOfDeveloper2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_IdOfDeveloper2ActionPerformed
     int BugId = 0;  //FOR STORING THE BUGID  
     int edit = 0; // USED AS AN INDICATOR FOR UPDATE OPERATION
     int add = 0; //USED AS AN INDICATOR FOR INSERT OPERATION
@@ -1411,7 +1719,7 @@ public class Devoloper extends javax.swing.JFrame implements Colors {
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        return new String[]{retName, retPID, retTNAME, retTID, retDNAME, retDescription, retStatus, retSeverity, retType};
+        return new String[]{retName, retPID, retTNAME, retDNAME, retDescription, retStatus, retSeverity, retType};
     }
     
     
@@ -1429,10 +1737,18 @@ public class Devoloper extends javax.swing.JFrame implements Colors {
             command = conObj.prepareStatement("SELECT * FROM BUGS WHERE DEVELOPERID =?");
             command.setInt(1, CurrentUser.id);
             }
+            
+            else if (A==3){
+            command = conObj.prepareStatement("SELECT * FROM BUGS WHERE DEVELOPERID =? AND STATUS=?");
+            command.setInt(1, CurrentUser.id);
+            command.setString(2,"I");
+            }
             resObj = command.executeQuery();
             while (resObj.next()) {
                 counter++;
             }
+            
+            
         } catch (SQLException ex) {
            
         }
@@ -1477,43 +1793,61 @@ public class Devoloper extends javax.swing.JFrame implements Colors {
     private javax.swing.JLabel BUG_number;
     private javax.swing.JLabel BUG_number_all;
     private javax.swing.JPanel BugDetails;
+    private javax.swing.JPanel BugDetails1;
     private javax.swing.JLabel BugDetailsLabel;
+    private javax.swing.JLabel BugDetailsLabel1;
     private javax.swing.JLabel BugLogo;
     private javax.swing.JLabel BugNumber;
     private javax.swing.JLabel BugNumber1;
     private javax.swing.JTable Bugs_table;
     private javax.swing.JButton CancelButton1;
+    private javax.swing.JButton CancelButton2;
     private javax.swing.JButton ConfirmButton;
     private javax.swing.JTable Dashboard_table;
     private javax.swing.JLabel Dashlogo;
     private javax.swing.JTextField Description;
+    private javax.swing.JTextField Description1;
     private javax.swing.JLabel DescriptionLabel;
+    private javax.swing.JLabel DescriptionLabel1;
     private javax.swing.JLabel DeveloperName;
     private javax.swing.JLabel DeveloperNameLabel;
+    private javax.swing.JLabel DeveloperNameLabel1;
     private javax.swing.JButton EditButton;
     private javax.swing.JTextField IDOfProject;
-    private javax.swing.JTextField IDOfTester;
-    private javax.swing.JTextField IdOfDeveloper;
+    private javax.swing.JTextField IDOfProject1;
+    private javax.swing.JTextField IDOfTester1;
+    private javax.swing.JTextField IDOfTester2;
+    private javax.swing.JTextField IdOfDeveloper1;
+    private javax.swing.JTextField IdOfDeveloper2;
     private javax.swing.JLabel LogoOfSearch;
     private javax.swing.JLabel LogoOfSearch1;
     private javax.swing.JLabel LogoutLogo;
     private javax.swing.JLabel NameLabel;
+    private javax.swing.JLabel NameLabel1;
     private javax.swing.JTextField NameOfBug;
+    private javax.swing.JTextField NameOfBug1;
     private javax.swing.JLabel ProjectIdLabel;
+    private javax.swing.JLabel ProjectIdLabel1;
     private javax.swing.JLabel ProjectLogo;
     private javax.swing.JLabel ProjectNumber;
     private javax.swing.JLabel ProjectNumber2;
     private javax.swing.JTable Projects_table;
+    private javax.swing.JTextField SAVERTY;
+    private javax.swing.JTextField STATUSF;
     private app.bolivia.swing.JCTextField Search2;
     private app.bolivia.swing.JCTextField Search3;
-    private javax.swing.JComboBox<String> SeverityBox;
     private javax.swing.JLabel SeverityLabel;
+    private javax.swing.JLabel SeverityLabel1;
     private javax.swing.JPanel SidePanel;
+    private javax.swing.JTextField Status;
     private javax.swing.JComboBox<String> StatusBox;
     private javax.swing.JLabel StatusLabel;
+    private javax.swing.JLabel StatusLabel1;
+    private javax.swing.JTextField TYPE;
     private javax.swing.JLabel TesterIdLabel;
-    private javax.swing.JComboBox<String> TypeBox;
+    private javax.swing.JLabel TesterIdLabel1;
     private javax.swing.JLabel TypeLabel;
+    private javax.swing.JLabel TypeLabel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -1528,6 +1862,8 @@ public class Devoloper extends javax.swing.JFrame implements Colors {
     private javax.swing.JPanel noOfProjects1;
     private javax.swing.JLabel proj_number;
     private javax.swing.JLabel proj_number_all;
+    private javax.swing.JTextField severity;
     private javax.swing.JLabel testerLogo;
+    private javax.swing.JTextField type;
     // End of variables declaration//GEN-END:variables
 }
