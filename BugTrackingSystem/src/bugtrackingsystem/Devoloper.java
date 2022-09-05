@@ -86,6 +86,7 @@ public class Devoloper extends javax.swing.JFrame implements Colors {
         BugLogo = new javax.swing.JLabel();
         LogoutLogo = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
+        updateUsersButton = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -287,15 +288,33 @@ public class Devoloper extends javax.swing.JFrame implements Colors {
         jPanel8.setBackground(new java.awt.Color(50, 50, 50));
         jPanel8.setPreferredSize(new java.awt.Dimension(1026, 60));
 
+        updateUsersButton.setBackground(new java.awt.Color(133, 89, 165));
+        updateUsersButton.setFont(new java.awt.Font("Times New Roman", 0, 21)); // NOI18N
+        updateUsersButton.setForeground(new java.awt.Color(50, 50, 50));
+        updateUsersButton.setText("Reset Password");
+        updateUsersButton.setToolTipText("Reset your password");
+        updateUsersButton.setPreferredSize(new java.awt.Dimension(190, 40));
+        updateUsersButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateUsersButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1026, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                .addContainerGap(802, Short.MAX_VALUE)
+                .addComponent(updateUsersButton, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 60, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(updateUsersButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
         );
 
         getContentPane().add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 0, -1, -1));
@@ -1636,6 +1655,40 @@ public class Devoloper extends javax.swing.JFrame implements Colors {
     private void IdOfDeveloper2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IdOfDeveloper2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_IdOfDeveloper2ActionPerformed
+
+    private void updateUsersButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateUsersButtonActionPerformed
+        String pwd = JOptionPane.showInputDialog(rootPane, "Enter the new password:");
+        String pwdConfirm;
+        if (!pwd.isEmpty())
+        {
+            pwdConfirm = JOptionPane.showInputDialog(rootPane, "Confirm passwrd:");
+            
+            if (pwdConfirm.equals(pwd))
+            {
+                try
+                {
+                    dataConnection obj = new dataConnection() {};
+                    obj.getConnected("SELECT * FROM USERS");
+                    command = conObj.prepareStatement("UPDATE USERS SET PASSWORD = ? WHERE USERID = ?");
+                    command.setString(1, pwd);
+                    command.setInt(2, CurrentUser.id);
+                    command.executeUpdate();
+                }
+                catch (SQLException ex)
+                {
+                    System.out.println(ex.getMessage());
+                }
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "Inputs do not match");
+            }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Password cannot be empty");
+        }
+    }//GEN-LAST:event_updateUsersButtonActionPerformed
     int BugId = 0;  //FOR STORING THE BUGID  
     int edit = 0; // USED AS AN INDICATOR FOR UPDATE OPERATION
     int add = 0; //USED AS AN INDICATOR FOR INSERT OPERATION
@@ -1865,5 +1918,6 @@ public class Devoloper extends javax.swing.JFrame implements Colors {
     private javax.swing.JTextField severity;
     private javax.swing.JLabel testerLogo;
     private javax.swing.JTextField type;
+    private javax.swing.JButton updateUsersButton;
     // End of variables declaration//GEN-END:variables
 }
