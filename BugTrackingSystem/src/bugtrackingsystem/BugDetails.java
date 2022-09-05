@@ -26,6 +26,7 @@ public class BugDetails extends javax.swing.JFrame implements Colors {
 
     //CONTROLLER
     TesterController BugDetail = new TesterController();
+    Activity tester = new Activity();
 
     //IMPORTANT VALUES
     int BugId = 0;  //FOR STORING THE BUGID  
@@ -879,7 +880,6 @@ public class BugDetails extends javax.swing.JFrame implements Colors {
         SeverityBox.setSelectedIndex(0);
         TypeBox.setEnabled(true);
         TypeBox.setSelectedIndex(0);
-
         add = 1;
         BugId = BugDetail.GenerateBugID();
         System.out.println("bugid = " + BugId);
@@ -947,6 +947,9 @@ public class BugDetails extends javax.swing.JFrame implements Colors {
             StatusBox.setEnabled(false);
             SeverityBox.setEnabled(false);
             TypeBox.setEnabled(false);
+            DeleteButton.setVisible(true);
+            ConfirmButton.setVisible(true);
+            EditButton.setVisible(true);
 
             System.out.println("check if the status of this bug is closed or not to  make add&update&delete buttons to be unvisible...");
             String status = arr[6];
@@ -1152,6 +1155,7 @@ public class BugDetails extends javax.swing.JFrame implements Colors {
                 done = BugDetail.addBug(BugId, NameOfBug.getText(), IDOfProject.getText(), TID, Description.getText(), status, Severity, Type);
                 if (done == 1) {
                     JOptionPane.showMessageDialog(this, "Information added succesfully");
+                    tester.activity("New bug is added");
                     jTabbedPane1.setSelectedIndex(0);
 
                     // RELOAD TABLE
@@ -1169,6 +1173,7 @@ public class BugDetails extends javax.swing.JFrame implements Colors {
             done = BugDetail.UpdateBug(Description.getText(), SeverityBox.getSelectedItem().toString(), TypeBox.getSelectedItem().toString(), BugId);
             if (done == 1) {
                 JOptionPane.showMessageDialog(this, "Information Updated succesfully");
+                tester.activity("bug is updated");
                 jTabbedPane1.setSelectedIndex(0);
 
                 // RELOAD TABLE
@@ -1190,6 +1195,7 @@ public class BugDetails extends javax.swing.JFrame implements Colors {
         int done = BugDetail.deleteBug(BugId, NameOfBug.getText());
         if (done == 1) {
             JOptionPane.showMessageDialog(null, "Information Deleted Succesfully");
+            tester.activity("bug is deleted");
             jTabbedPane1.setSelectedIndex(0);
 
             //RELOAD TABLE
@@ -1225,7 +1231,7 @@ public class BugDetails extends javax.swing.JFrame implements Colors {
     }//GEN-LAST:event_CancelButton2MouseClicked
 
     private void NameOfBugFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_NameOfBugFocusLost
-        if (BugDetail.ChechDuplicity(NameOfBug.getText())) {
+        if (BugDetail.ChechDuplicity(NameOfBug.getText()) && NameOfBug.isEnabled()) {
             JOptionPane.showMessageDialog(this, " Sorry this name is exist , please choose another name");
             NameOfBug.setText("");
         }

@@ -20,6 +20,7 @@ public class Tester extends javax.swing.JFrame implements Colors {
 
     //CONTROLLER
     TesterController Tester = new TesterController();
+    Activity tester = new Activity();
 
     //SOURCE CODE GLOBAL VARIABLES
     private int choose = 1;    // USED IN SPECIFY WHICH PANEL SHOULD BE VIEWD 
@@ -756,6 +757,7 @@ public class Tester extends javax.swing.JFrame implements Colors {
     }//GEN-LAST:event_BugLogoMouseExited
 
     private void LogoutLogoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LogoutLogoMouseClicked
+       tester.activity ("Logged out");
         new Rating().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_LogoutLogoMouseClicked

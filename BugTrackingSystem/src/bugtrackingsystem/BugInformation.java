@@ -23,6 +23,7 @@ public class BugInformation extends javax.swing.JFrame implements Colors {
     
     //CONTROLLER
     TesterController BugInfo = new TesterController();
+    Activity tester = new Activity();
     
     public BugInformation(int choice) {
         initComponents();
@@ -76,7 +77,6 @@ public class BugInformation extends javax.swing.JFrame implements Colors {
         DescriptionField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(800, 700));
         setResizable(false);
 
         BugInfojPanel.setBackground(new java.awt.Color(50, 50, 50));
@@ -90,6 +90,9 @@ public class BugInformation extends javax.swing.JFrame implements Colors {
         confirmButton.setText("Confirm");
         confirmButton.setPreferredSize(new java.awt.Dimension(150, 45));
         confirmButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                confirmButtonMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 confirmButtonMouseEntered(evt);
             }
@@ -323,6 +326,7 @@ public class BugInformation extends javax.swing.JFrame implements Colors {
         if (result == 1) {
             this.dispose();
             JOptionPane.showMessageDialog(null, "Information updated successfully, Please update the table!");
+            tester.activity("Bug status is updated");
         }
     }//GEN-LAST:event_confirmButtonActionPerformed
 
@@ -372,6 +376,10 @@ public class BugInformation extends javax.swing.JFrame implements Colors {
         // TODO add your handling code here:
     }//GEN-LAST:event_editButtonMouseClicked
 
+    private void confirmButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_confirmButtonMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_confirmButtonMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -412,13 +420,10 @@ public class BugInformation extends javax.swing.JFrame implements Colors {
     private javax.swing.JLabel StatusLabel;
     private javax.swing.JTextField TypeField;
     private javax.swing.JLabel TypeLabel;
-    private javax.swing.JButton cancelButton;
     private javax.swing.JButton confirmButton;
     private javax.swing.JButton editButton;
     private javax.swing.JTextField idField;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField nameField;
-    private javax.swing.JLabel passwordLabel;
     private javax.swing.JTextField severityField;
     // End of variables declaration//GEN-END:variables
 }
