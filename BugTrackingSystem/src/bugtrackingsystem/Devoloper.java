@@ -162,12 +162,12 @@ public class Devoloper extends javax.swing.JFrame implements Colors {
         SidePanel.setPreferredSize(new java.awt.Dimension(340, 768));
 
         DeveloperName.setFont(new java.awt.Font("Times New Roman", 1, 30)); // NOI18N
-        DeveloperName.setForeground(new java.awt.Color(150, 89, 165));
+        DeveloperName.setForeground(new java.awt.Color(133, 89, 165));
         DeveloperName.setText("Devoloper Name");
 
         testerLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bugtrackingsystem/icons/images/person tester.png"))); // NOI18N
 
-        Dashlogo.setBackground(new java.awt.Color(150, 89, 165));
+        Dashlogo.setBackground(new java.awt.Color(133, 89, 165));
         Dashlogo.setFont(new java.awt.Font("Times New Roman", 1, 30)); // NOI18N
         Dashlogo.setForeground(new java.awt.Color(50, 50, 50));
         Dashlogo.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
